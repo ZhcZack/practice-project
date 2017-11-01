@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>date picker</title>
+	<style>
+		#picker {
+			width: 400px;
+		}
+
+		.datepicker-dialog-nav .datepicker-dialog-nav-control {
+			display: inline-block;
+			padding: 10px;
+			cursor: pointer;
+		}
+
+		.datepicker-dialog-nav .datepicker-dialog-nav-control:hover {
+			background-color: rgba(200, 200, 200, 0.5);
+		}
+
+		.datepicker-dialog-datezone {
+			width: 100%;
+			text-align: center;
+		}
+
+		.datepicker-dialog-datezone td {
+			padding: 10px 5px;
+		}
+
+		.datepicker-dialog-datezone td.has-value {
+			cursor: pointer;
+		}
+
+		.datepicker-dialog-datezone td.has-value:hover {
+			background-color: rgba(200, 200, 200, 0.5);
+		}
+
+		.datepicker-dialog-text {
+			margin: 0;
+			padding: 10px;
+		}
+	</style>
+</head>
+
+<body>
+	<input type="text" id="picker">
+	<!-- <input type="text" id="picker-clone"> -->
+	<script src="datepicker.js" data-type="picker-js"></script>
+</body>
+
+</html>
