@@ -1,0 +1,13 @@
+.about-card-wide.mdl-card {
+	width: 512px;
+}
+
+.about-card-wide>.mdl-card__title {
+	color: #fff;
+	height: 176px;
+	background: url('http://img.t.sinajs.cn/t5/skin/public/profile_cover/040.jpg') center / cover;
+}
+
+.about-card-wide>.mdl-card__menu {
+	color: #fff;
+}
