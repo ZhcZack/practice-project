@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>提示框效果</title>
+	<style>
+		.container {
+			border: 1px solid black;
+			text-align: center;
+			width: 650px;
+		}
+
+		#imgList {
+			padding: 0;
+			margin: 0;
+			list-style: none;
+			font-size: 0;
+		}
+
+		#imgList li {
+			border: 1px solid black;
+			background-color: lightgray;
+			width: 80px;
+			height: 80px;
+			padding: 10px;
+			margin: 10px;
+			position: relative;
+			font-size: 12px;
+			color: gray;
+			display: inline-block;
+			cursor: crosshair;
+		}
+
+		#imgList li:hover img {
+			display: block;
+			left: -14px;
+			top: -14px;
+			border: 2px solid lightgray;
+		}
+
+		#imgList .name {
+			font-weight: bold;
+		}
+
+		#imgList li img {
+			position: absolute;
+			display: none;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="container">
+		<h3>名车车标展示-鼠标移过显示车标</h3>
+		<ul id="imgList">
+			<li>
+				<div><span class="name">BMW</span><br><span>宝马汽车</span></div><img src="http://www.fgm.cc/learn/lesson2/img/1.jpg" /></li>
+			<li>
+				<div><span class="name">Alfa Romeo</span><br><span>阿尔法-罗米欧</span></div><img src="http://www.fgm.cc/learn/lesson2/img/2.jpg"
+				/></li>
+			<li>
+				<div><span class="name">Skoda</span><br><span>斯柯达</span></div><img src="http://www.fgm.cc/learn/lesson2/img/3.jpg" /></li>
+			<li>
+				<div><span class="name">Volkswagen</span><br><span>大众汽车</span></div><img src="http://www.fgm.cc/learn/lesson2/img/4.jpg" /></li>
+			<li>
+				<div><span class="name">Saab</span><br><span>萨布牌汽车</span></div><img src="http://www.fgm.cc/learn/lesson2/img/5.jpg" /></li>
+			<li>
+				<div><span class="name">Lamborghini</span><br><span>兰博基尼</span></div><img src="http://www.fgm.cc/learn/lesson2/img/6.jpg"
+				/></li>
+			<li>
+				<div><span class="name">Porsche</span><br><span>保时捷</span></div><img src="http://www.fgm.cc/learn/lesson2/img/7.jpg" /></li>
+			<li>
+				<div><span class="name">Peugeot</span><br><span>标志</span></div><img src="http://www.fgm.cc/learn/lesson2/img/8.jpg" /></li>
+			<li>
+				<div><span class="name">Mercedes1</span><br><span>梅赛德斯 奔驰</span></div><img src="http://www.fgm.cc/learn/lesson2/img/9.jpg"
+				/></li>
+			<li>
+				<div><span class="name">Buick</span><br><span>别克汽车</span></div><img src="http://www.fgm.cc/learn/lesson2/img/10.jpg" /></li>
+		</ul>
+	</div>
+</body>
+
+</html>

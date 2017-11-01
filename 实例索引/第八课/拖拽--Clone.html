@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>拖拽--Clone</title>
+    <style>
+        html,
+        body {
+            background-color: #3E3E3E;
+        }
+
+        .item {
+            width: 100px;
+            height: 100px;
+            border: 1px solid gray;
+            background-color: black;
+            position: absolute;
+            z-index: 0;
+        }
+
+        .item-clone {
+            opacity: 0.3;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="item"></div>
+    <div class="item"></div>
+    <script>
+        window.addEventListener('load', function (e) {
+            main()
+        })
+
+        var get = document.querySelector.bind(document)
+        var getAll = document.querySelectorAll.bind(document)
+        var log = console.log.bind(console)
+
+        function main() {
+            var items = getAll('.item')
+            dragAndDrop(items[0])
+            dragAndDrop(items[1])
+            setup()
+        }
+
+        function setup() {
+            var items = getAll('.item')
+            items[0].style.left = '50px'
+            items[1].style.left = '200px'
+        }
+
+        function dragAndDrop(item) {
+            var isDrag = false
+            var dx = 0
+            var dy = 0
+            var clone = null
+            item.addEventListener('mousedown', function (e) {
+                isDrag = true
+                dx = e.clientX - this.offsetLeft
+                dy = e.clientY - this.offsetTop
+                clone = this.cloneNode(true)
+                clone.classList.add('item-clone')
+                document.body.appendChild(clone)
+                // log('dx: ' + dx + ', dy: ' + dy)
+                this.setCapture()
+            })
+            window.addEventListener('mousemove', function (e) {
+                if (!isDrag) {
+                    return
+                }
+                clone.style.left = e.clientX - dx + 'px'
+                clone.style.top = e.clientY - dy + 'px'
+            })
+            item.addEventListener('mouseup', function (e) {
+                isDrag = false
+                var index = this.style.zIndex ? parseInt(this.style.zIndex) : 0
+                this.style.left = clone.offsetLeft + 'px'
+                this.style.top = clone.offsetTop + 'px'
+                this.style.zIndex = index + 1
+                clone.parentNode.removeChild(clone)
+                this.releaseCapture()
+            })
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>单一按钮显示隐藏</title>
+	<style>
+		.container {
+			width: 200px;
+			border: 1px solid gray;
+			background-color: lightgray;
+		}
+
+		h2 {
+			margin: 0;
+			cursor: pointer;
+			font-size: 0.8em;
+			padding: 5px 10px;
+			font-weight: normal;
+		}
+
+		.list {
+			display: none;
+		}
+
+		.display {
+			display: block;
+		}
+
+		.list ul {
+			list-style: none;
+			padding: 0;
+			margin: 0;
+		}
+
+		.list ul li {
+			font-size: 0.8em;
+			padding: 5px 8px;
+			cursor: pointer;
+		}
+
+		.list ul li:hover {
+			background-color: white;
+			text-decoration: underline;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="container">
+		<h2>播放列表...</h2>
+		<div class="list">
+			<ul>
+				<li>玩家之徒-蔡依林</li>
+				<li>原谅我是这样的女生-戴佩妮</li>
+				<li>猜不透-丁当</li>
+				<li>自导自演-周杰伦</li>
+				<li>浪漫窝-玹子</li>
+				<li>流年-王菲</li>
+			</ul>
+		</div>
+	</div>
+	<script>
+		var btn = document.querySelector('h2')
+		var list = document.querySelector('.list')
+		btn.addEventListener('click', function (e) {
+			list.classList.toggle('display')
+		})
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>数组练习：各种数组方法的使用</title>
+	<style>
+		.code {
+			font-family: monospace;
+			border: 1px dotted black;
+			background-color: lightgray;
+			padding: 10px;
+			color: green;
+			word-wrap: break-word;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="code">January(1),February(2),March(3),April(4),May(5),June(6),July(7),Aguest(8),September(9),October(10),November(11),December(12)</div>
+	<p class="first">
+		<button>删除January(1)</button>
+		<button>删除December(12)</button>
+	</p>
+	<div class="code">0, 1, 2, 3, 4, 5, 6, 7, 8, 9</div>
+	<p class="second">
+		<button>复制</button>
+		<button>还原</button>
+	</p>
+	<div class="code">red, green, blue, white, yellow, black, brown</div>
+	<p class="third">
+		<button>还原</button>
+		<button>删除前三项</button>
+		<button>删除第二至三项</button>
+		<button>在第二项后插入(orange, purple)</button>
+		<button>替换第二项和第三项</button>
+	</p>
+	<script>
+		var get = document.querySelector.bind(document)
+		var getAll = document.querySelectorAll.bind(document)
+		var log = console.log.bind(console)
+
+		function main() {
+			var codes = getAll('.code')
+			var fbs = getAll('.first button')
+			var sbs = getAll('.second button')
+			var tbs = getAll('.third button')
+
+			bind(codes, [fbs, sbs, tbs])
+		}
+
+		function bind(areas, buttons) {
+			var arr1 = areas[0].textContent.split(/\s*,\s*/)
+			var arr2 = areas[1].textContent.split(/\s*,\s*/)
+			var arr3 = areas[2].textContent.split(/\s*,\s*/)
+
+			bindAreaOne(areas[0], arr1, buttons[0])
+			bindAreaTwo(areas[1], arr2, buttons[1])
+			bindAreaThree(areas[2], arr3, buttons[2])
+		}
+
+		function bindAreaOne(area, arr, buttons) {
+			buttons[0].addEventListener('click', function (e) {
+				var index = arr.indexOf('January(1)')
+				if (index > -1) {
+					arr.splice(index, 1)
+					this.textContent = '添加January(1)'
+				} else {
+					arr.unshift('January(1)')
+					this.textContent = '删除January(1)'
+				}
+				updateContentWithArray(area, arr)
+			})
+			buttons[1].addEventListener('click', function (e) {
+				var index = arr.indexOf('December(12)')
+				if (index > -1) {
+					arr.splice(index, 1)
+					this.textContent = '添加December(12)'
+				} else {
+					arr.push('December(12)')
+					this.textContent = '删除December(12)'
+				}
+				updateContentWithArray(area, arr)
+			})
+		}
+
+		function bindAreaTwo(area, arr, buttons) {
+			buttons[0].addEventListener('click', function (e) {
+				arr = arr.concat(arr)
+				updateContentWithArray(area, arr)
+			})
+			buttons[1].addEventListener('click', function (e) {
+				var t = []
+				arr.forEach(function (elem) {
+					if (t.indexOf(elem) < 0) {
+						t.push(elem)
+					}
+				})
+				arr = t
+				updateContentWithArray(area, arr)
+			})
+		}
+
+		function bindAreaThree(area, arr, buttons) {
+			area.dataset.content = arr.join(', ')
+			buttons[0].addEventListener('click', function (e) {
+				arr = area.dataset.content.split(/\s*,\s*/)
+				updateContentWithArray(area, arr)
+			})
+			buttons[1].addEventListener('click', function (e) {
+				arr.splice(0, 3)
+				updateContentWithArray(area, arr)
+			})
+			buttons[2].addEventListener('click', function (e) {
+				arr.splice(1, 2)
+				updateContentWithArray(area, arr)
+			})
+			buttons[3].addEventListener('click', function (e) {
+				arr.splice(1, 0, ['orange', 'purple'])
+				updateContentWithArray(area, arr)
+			})
+			buttons[4].addEventListener('click', function (e) {
+				arr.splice(1, 2, ['#009900', '#0000ff'])
+				updateContentWithArray(area, arr)
+			})
+		}
+
+		function updateContentWithArray(area, arr) {
+			area.textContent = arr.join(', ')
+		}
+
+		main()
+	</script>
+</body>
+
+</html>

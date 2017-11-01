@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>延时加载</title>
+    <style>
+        .imglist {
+            width: 770px;
+            list-style-type: none;
+            margin: 0;
+            padding: 10px 0 0 10px;
+            background-color: red;
+            font-size: 0;
+        }
+
+        .imglist::after {
+            content: '';
+            display: block;
+            height: 0;
+            visibility: hidden;
+            clear: both;
+        }
+
+        .imglist li {
+            background-color: black;
+            padding: 10px;
+            margin: 0 10px 10px 0;
+            float: left;
+        }
+
+        .imglist li img {
+            width: 353px;
+            height: 225px;
+        }
+    </style>
+</head>
+
+<body>
+    <ul class="imglist">
+        <li>
+            <img src="http://www.fgm.cc/learn/lesson10/img/lazy/none.gif">
+        </li>
+        <li>
+            <img src="http://www.fgm.cc/learn/lesson10/img/lazy/none.gif">
+        </li>
+        <li>
+            <img src="http://www.fgm.cc/learn/lesson10/img/lazy/none.gif">
+        </li>
+        <li>
+            <img src="http://www.fgm.cc/learn/lesson10/img/lazy/none.gif">
+        </li>
+        <li>
+            <img src="http://www.fgm.cc/learn/lesson10/img/lazy/none.gif">
+        </li>
+        <li>
+            <img src="http://www.fgm.cc/learn/lesson10/img/lazy/none.gif">
+        </li>
+        <li>
+            <img src="http://www.fgm.cc/learn/lesson10/img/lazy/none.gif">
+        </li>
+        <li>
+            <img src="http://www.fgm.cc/learn/lesson10/img/lazy/none.gif">
+        </li>
+        <li>
+            <img src="http://www.fgm.cc/learn/lesson10/img/lazy/none.gif">
+        </li>
+        <li>
+            <img src="http://www.fgm.cc/learn/lesson10/img/lazy/none.gif">
+        </li>
+        <li>
+            <img src="http://www.fgm.cc/learn/lesson10/img/lazy/none.gif">
+        </li>
+        <li>
+            <img src="http://www.fgm.cc/learn/lesson10/img/lazy/none.gif">
+        </li>
+        <li>
+            <img src="http://www.fgm.cc/learn/lesson10/img/lazy/none.gif">
+        </li>
+        <li>
+            <img src="http://www.fgm.cc/learn/lesson10/img/lazy/none.gif">
+        </li>
+        <li>
+            <img src="http://www.fgm.cc/learn/lesson10/img/lazy/none.gif">
+        </li>
+        <li>
+            <img src="http://www.fgm.cc/learn/lesson10/img/lazy/none.gif">
+        </li>
+        <li>
+            <img src="http://www.fgm.cc/learn/lesson10/img/lazy/none.gif">
+        </li>
+        <li>
+            <img src="http://www.fgm.cc/learn/lesson10/img/lazy/none.gif">
+        </li>
+        <li>
+            <img src="http://www.fgm.cc/learn/lesson10/img/lazy/none.gif">
+        </li>
+        <li>
+            <img src="http://www.fgm.cc/learn/lesson10/img/lazy/none.gif">
+        </li>
+    </ul>
+    <script>
+        var get = document.querySelector.bind(document)
+        var getAll = document.querySelectorAll.bind(document)
+        var log = console.log.bind(console)
+
+        // first try to use MVC in code
+
+        // this is the M?
+
+        /**
+         * rely `images` property stored in object to represent images' loading status
+         *
+         * images:
+         *  top: distance between image's top border to window's top edge
+         *  bottom: distance between image's bottom border to window's top edge
+         *  load: boolean value represent if image should be loaded
+         */
+        function LazyLoadImage(id) {
+            var o = {
+                id: id
+            }
+
+            o.setup = function () {
+                var imgs = getAll(this.id + ' img')
+                this.numberOfImages = imgs.length
+                this.images = []
+                var scrollTop = document.documentElement.scrollTop
+                for (var i = 0; i < this.numberOfImages; i++) {
+                    var rect = imgs[i].getBoundingClientRect()
+                    this.images.push({
+                        top: rect.top + scrollTop,
+                        bottom: rect.bottom + scrollTop,
+                        load: false,
+                    })
+                }
+            }
+
+            o.load = function () {
+                var scrollTop = document.documentElement.scrollTop
+                var height = window.innerHeight
+
+                for (var i = 0; i < this.images.length; i++) {
+                    var img = this.images[i]
+                    if (img.top > scrollTop && img.bottom < scrollTop + height) {
+                        img.load = true
+                    }
+                }
+            }
+
+            // computed property
+            // return value is an `Array`, represents each img's status--should load or should not load
+            o.tobeLoad = function () {
+                this.load()
+                var result = []
+                var imagesAllLoaded = true
+                for (var i = 0; i < this.images.length; i++) {
+                    imagesAllLoaded = this.images[i].load
+                    result.push(this.images[i].load)
+                }
+                return result
+            }
+
+            o.setup()
+            return o
+        }
+
+        window.addEventListener('load', main)
+
+        var loader = LazyLoadImage('.imglist')
+
+        function main() {
+            startUp()
+            window.addEventListener('scroll', refreshImageStatus)
+        }
+
+        // some method like `viewDidLoad` is iOS
+        function startUp() {
+            var imgs = getAll('.imglist img')
+            var baseHref = 'http://www.fgm.cc/learn/lesson10/img/lazy/'
+            var lazyHref = baseHref + 'loading.gif'
+            var result = loader.tobeLoad()
+
+            for (var i = 0; i < imgs.length; i++) {
+                imgs[i].src = lazyHref
+            }
+            refreshImageStatus()
+        }
+
+        function refreshImageStatus(e) {
+            var baseHref = 'http://www.fgm.cc/learn/lesson10/img/lazy/'
+            var imgs = getAll('.imglist img')
+            var result = loader.tobeLoad()
+
+            for (var i = 0; i < result.length; i++) {
+                if (!imgs[i].classList.contains('loaded') && result[i]) {
+                    // img should load
+                    imgs[i].src = baseHref + (i + 1) + '.jpg'
+                    imgs[i].classList.add('loaded')
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>

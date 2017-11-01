@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>网页计算器</title>
+	<style>
+		.input {
+			width: 200px;
+			height: 50px;
+			border: 1px solid lightgray;
+			text-align: right;
+			font-size: 2em;
+		}
+
+		table td {
+			width: 50px;
+			height: 50px;
+			text-align: center;
+			line-height: 50px;
+			cursor: pointer;
+		}
+
+		table td:hover {
+			background-color: lightgray;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="container>">
+		<input type="text" class="input" placeholder="">
+		<table>
+			<tr>
+				<td class="operator">C</td>
+				<td class="operator">%</td>
+				<td class="operator">÷</td>
+				<td class="operator">×</td>
+			</tr>
+			<tr>
+				<td class="operation">7</td>
+				<td class="operation">8</td>
+				<td class="operation">9</td>
+				<td class="operator">-</td>
+			</tr>
+			<tr>
+				<td class="operation">4</td>
+				<td class="operation">5</td>
+				<td class="operation">6</td>
+				<td class="operator">+</td>
+			</tr>
+			<tr>
+				<td class="operation">1</td>
+				<td class="operation">2</td>
+				<td class="operation">3</td>
+				<td rowspan="2" class="operator">=</td>
+			</tr>
+			<tr>
+				<td colspan="2" class="operation">0</td>
+				<td class="operation dot">.</td>
+				<!-- <td></td>
+			<td></td> -->
+			</tr>
+		</table>
+	</div>
+	<script>
+		const log = console.log.bind(console)
+		var ops = document.querySelectorAll('.operation')
+		var opts = document.querySelectorAll('.operator')
+		var input = document.querySelector('.input')
+
+		var nums = []
+		var result = undefined
+		var operator = null
+		var isInput = true
+		var isCalcDone = false
+
+		ops.forEach(function (op) {
+			op.addEventListener('click', function (e) {
+				var value = input.value
+				var v = this.textContent
+				if (isInput) {
+					if (v === '.') {
+						var index = value.indexOf('.')
+						if (index !== -1) {
+							return
+						}
+					}
+					input.value = value + v
+				} else {
+					isInput = true
+					input.value = v
+				}
+			})
+		})
+
+		opts.forEach(function (opt) {
+			opt.addEventListener('click', function (e) {
+				var value = input.value
+				var v = opt.textContent
+
+				isInput = false
+				nums.push(Number(value))
+				switch (v) {
+					case 'C':
+						nums.pop()
+						clear()
+						break
+					case '=':
+						isCalcDone = true
+						calc()
+						break
+					case '+':
+						calc()
+						operator = function (a, b) {
+							return a + b
+						}
+						break
+					case '-':
+						calc()
+						operator = function (a, b) {
+							return a - b
+						}
+						break
+					case '×':
+						calc()
+						operator = function (a, b) {
+							return a * b
+						}
+						break
+					case '÷':
+						calc()
+						operator = function (a, b) {
+							return a / b
+						}
+						break
+					case '%':
+						calc()
+						operator = function (a, b) {
+							return a % b
+						}
+						break
+					default:
+						break
+				}
+			})
+		})
+
+		function clear() {
+			input.value = ''
+			operator = null
+			nums = []
+		}
+
+		function calc() {
+			if (nums.length < 2) {
+				return
+			}
+			result = operator(nums[0], nums[1])
+			nums.splice(0, 2)
+			nums.unshift(result)
+
+			input.value = result
+
+			if (isCalcDone) {
+				operator = null
+				nums = []
+				isCalcDone = false
+			}
+		}
+	</script>
+</body>
+
+</html>

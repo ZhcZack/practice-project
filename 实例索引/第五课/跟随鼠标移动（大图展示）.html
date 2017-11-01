@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>跟随鼠标移动（大图展示）</title>
+	<style>
+		#imglist {
+			padding: 0;
+			margin: 0;
+			list-style: none;
+		}
+
+		#imglist li {
+			display: inline-block;
+			width: 200px;
+			height: 200px;
+			border: 1px solid lightgray;
+			margin-right: 10px;
+		}
+
+		#imglist li img {
+			width: 100%;
+		}
+
+		#big {
+			display: none;
+			width: 400px;
+			height: 400px;
+			position: absolute;
+			border: 2px solid lightgray;
+		}
+
+		#big img {
+			width: 100%;
+		}
+	</style>
+</head>
+
+<body>
+	<ul id="imglist">
+		<li>
+			<img src="http://www.fgm.cc/learn/lesson5/img/shirt_1.jpg" alt="">
+		</li>
+		<li>
+			<img src="http://www.fgm.cc/learn/lesson5/img/shirt_2.jpg" alt="">
+		</li>
+		<li>
+			<img src="http://www.fgm.cc/learn/lesson5/img/shirt_3.jpg" alt="">
+		</li>
+		<li>
+			<img src="http://www.fgm.cc/learn/lesson5/img/shirt_4.jpg" alt="">
+		</li>
+	</ul>
+	<div id="big">
+		<img src="" alt="">
+	</div>
+	<script>
+		var get = document.querySelector.bind(document)
+		var getAll = document.querySelectorAll.bind(document)
+		var log = console.log.bind(console)
+
+		function main() {
+			var list = getAll('#imglist li img')
+			listActions(list)
+		}
+
+		function listActions(list) {
+			var b = get('#big')
+			list.forEach(function (li) {
+				li.addEventListener('mouseover', function (e) {
+					var href = this.getAttribute('src').replace(/\.jpg/, '_big.jpg')
+					var x = e.clientX
+					var y = e.clientY
+					showBigImage(b, x, y, href)
+				})
+				li.addEventListener('mousemove', function (e) {
+					var x = e.clientX
+					var y = e.clientY
+					showBigImage(b, x, y)
+
+				})
+				li.addEventListener('mouseout', function (e) {
+					hideBigImage(b)
+				})
+			})
+		}
+
+		function setBigImageHref(image, href) {
+			image.querySelector('img').setAttribute('src', href)
+		}
+
+		function showBigImage(image, x, y, href) {
+			if (href) {
+				setBigImageHref(image, href)
+			}
+			image.style.display = 'block'
+			var w = image.offsetWidth
+			if (w + x <= window.innerWidth) {
+				image.style.left = x + 20 + 'px'
+			} else {
+				image.style.left = x - w - 10 + 'px'
+			}
+			image.style.top = y + 20 + 'px'
+		}
+
+		function hideBigImage(image) {
+			image.style.display = 'none'
+		}
+
+		main()
+	</script>
+</body>
+
+</html>

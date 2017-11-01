@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>记住密码提示框</title>
+	<style>
+		.container {
+			width: 500px;
+			margin: auto;
+		}
+
+		.label {
+			display: inline-block;
+		}
+
+		.label:hover .warning {
+			display: block;
+		}
+
+		.warning {
+			width: 200px;
+			border: 1px solid orange;
+			background-color: yellow;
+			display: none;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="container">
+		<div class="label">
+			<input type="checkbox" id="input"><label for="input">两周内自动登陆</label><br>
+			<span class="warning">为了您的信息安全，请不要在网吧或公用电脑上使用此功能！</span>
+		</div>
+
+	</div>
+</body>
+
+</html>

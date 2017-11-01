@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>函数接收参数并弹出</title>
+</head>
+
+<body>
+	<input type="text">
+	<input type="text">
+	<button>传参</button>
+	<script>
+		var inputs = document.querySelectorAll('input')
+		var in1 = inputs[0]
+		var in2 = inputs[1]
+		var btn = document.querySelector('button')
+
+		btn.addEventListener('click', function (e) {
+			var v1 = in1.value
+			var v2 = in2.value
+			alert(v1)
+			alert(v2)
+		})
+	</script>
+</body>
+
+</html>

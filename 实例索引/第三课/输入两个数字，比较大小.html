@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>输入两个数字，比较大小</title>
+	<style>
+		.input {
+			width: 50px;
+			border: 1px solid #ccc;
+			background-color: #f0f0f0;
+			padding: 3px;
+		}
+
+		.vesus {
+			margin: 0 10px;
+		}
+
+		button {
+			margin: 0 10px;
+		}
+
+		.result {
+			color: red;
+		}
+	</style>
+</head>
+
+<body>
+	<input type="text" class="input"><span class="vesus">vs</span><input type="text" class="input"><button>最大的数是⋙</button>
+	<span class="result"></span>
+	<script>
+		function main() {
+			var inputs = document.querySelectorAll('input')
+			inputs.forEach(function (input) {
+				input.addEventListener('keyup', function (e) {
+					this.value = this.value.replace(/[^0-9]/, '')
+				})
+			})
+
+			var result = document.querySelector('.result')
+			var button = document.querySelector('button')
+
+			button.addEventListener('click', function (e) {
+				var v1 = parseInt(inputs[0].value, 10)
+				var v2 = parseInt(inputs[1].value, 10)
+				result.textContent = v1 >= v2 ? v1 : v2
+			})
+
+		}
+
+		main()
+	</script>
+</body>
+
+</html>

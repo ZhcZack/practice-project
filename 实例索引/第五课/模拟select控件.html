@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>模拟select控件</title>
+	<style>
+		#search {
+			position: relative;
+		}
+
+		#search a {
+			width: 60px;
+			height: 30px;
+			line-height: 30px;
+			text-decoration: none;
+			text-align: center;
+			border: 1px dotted black;
+			display: inline-block;
+			padding: 0 10px;
+			font-size: 0.8em;
+			color: black;
+			background: linear-gradient(to bottom, #FFFFFF, #E7E7E7);
+		}
+
+		#search .name {
+			width: 200px;
+			height: 30px;
+			line-height: 30px;
+			display: inline-block;
+			font-size: 0.8em;
+			color: white;
+			border: 1px solid silver;
+			border-radius: 5px;
+			padding: 0 5px;
+			position: relative;
+			background: linear-gradient(to bottom, #505050, #9B9B9B);
+			cursor: pointer;
+		}
+
+		#search .name::after {
+			content: '';
+			display: block;
+			position: absolute;
+			right: 3%;
+			top: 40%;
+			clear: both;
+			width: 0;
+			height: 0;
+			border: 10px solid transparent;
+			border-top: 10px solid lightgray;
+		}
+
+		#search .name.list::after {
+			content: '';
+			display: block;
+			position: absolute;
+			right: 3%;
+			top: 0;
+			clear: both;
+			width: 0;
+			height: 0;
+			border: 10px solid transparent;
+			border-bottom: 10px solid lightgray;
+		}
+
+		#list {
+			margin: 0;
+			padding: 0;
+			list-style: none;
+			border: 1px solid white;
+			background-color: #2B2B2B;
+			position: absolute;
+			display: none;
+		}
+
+		#list li {
+			color: white;
+			border-bottom: 1px dotted white;
+			padding: 5px;
+			font-size: 0.8em;
+			cursor: pointer;
+		}
+
+		#list li:hover {
+			background-color: lightgray;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="search">
+		<form action="#">
+			<span class="name">请选择游戏名称</span>
+			<a href="#">搜索</a>
+		</form>
+		<ul id="list">
+			<li>地下城与勇士</li>
+			<li>魔兽世界（国服）</li>
+			<li>魔兽世界（台服）</li>
+			<li>热血江湖</li>
+			<li>神鬼传奇</li>
+			<li>大话西游Ⅱ</li>
+			<li>QQ幻想世界</li>
+		</ul>
+	</div>
+	<script>
+		var get = document.querySelector.bind(document)
+		var getAll = document.querySelectorAll.bind(document)
+		var log = console.log.bind(console)
+
+		function main() {
+			var select = get('#search .name')
+			selectActions(select)
+		}
+
+		function selectActions(s) {
+			var list = get('#list')
+			s.addEventListener('click', function (e) {
+				if (this.classList.contains('list')) {
+					toggleSelect(s)
+					hideList(list)
+				} else {
+					var rect = this.getBoundingClientRect()
+					var w = rect.width
+					var y = rect.height
+					toggleSelect(s)
+					showList(list, w, y)
+				}
+			})
+		}
+
+		function toggleSelect(select) {
+			select.classList.toggle('list')
+		}
+
+		function hideList(l) {
+			l.style.display = 'none'
+		}
+
+		function showList(l, w, y) {
+			l.style.display = 'block'
+			l.style.width = w + 'px'
+			l.style.left = 0
+			l.style.top = y + 'px'
+
+			if (l.dataset.bind !== 'true') {
+				listActions(l)
+			}
+
+		}
+
+		function listActions(l) {
+			var lis = getAll('#list li')
+			var select = get('#search .name')
+			lis.forEach(function (li) {
+				li.addEventListener('click', function (e) {
+					var text = this.textContent
+					select.textContent = text
+					toggleSelect(select)
+					hideList(l)
+				})
+			})
+			l.dataset.bind = true
+		}
+
+		main()
+	</script>
+</body>
+
+</html>

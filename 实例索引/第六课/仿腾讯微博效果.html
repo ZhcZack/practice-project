@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>仿腾讯微博效果</title>
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+		}
+
+		html,
+		body {
+			background-color: #3C3A3B;
+		}
+
+		.wb {
+			width: 500px;
+			margin: auto;
+			margin-top: 20px;
+			background-color: white;
+			border-radius: 5px;
+			overflow: hidden;
+		}
+
+		.wb .wb-static>* {
+			margin-bottom: 10px;
+		}
+
+		.wb .wb-static {
+			padding: 10px;
+			background: linear-gradient(to bottom, #FFFFFF, #F0F0F0);
+		}
+
+		.wb .wb-static .title {
+			font-size: 1em;
+		}
+
+		.wb .wb-static .user {
+			height: 30px;
+			line-height: 30px;
+			position: relative;
+		}
+
+		.wb .wb-static .username {
+			width: 180px;
+			height: 28px;
+			line-height: 28px;
+			padding: 0 5px;
+			border: 1px solid lightgray;
+			border-radius: 5px;
+		}
+
+		.wb .wb-static .userimage {
+			list-style: none;
+			display: inline-block;
+			font-size: 0;
+			/* width: 60%; */
+			height: 30px;
+			position: absolute;
+			right: 0;
+			text-align: right;
+		}
+
+		.wb .wb-static .userimage li {
+			display: inline-block;
+			width: 28px;
+			height: 28px;
+			opacity: 0.5;
+			margin: 0 2px;
+			border: 1px solid transparent;
+			border-radius: 5px;
+			cursor: pointer;
+			overflow: hidden;
+		}
+
+		.wb .wb-static .userimage li.current {
+			opacity: 1;
+			border-color: red;
+		}
+
+		.wb .wb-static .userimage li:hover {
+			border-color: red;
+			opacity: 1;
+		}
+
+		.wb .wb-static .userimage li img {
+			width: 100%;
+		}
+
+		.wb .wb-content {
+			width: 470px;
+			height: 80px;
+			border: 1px solid lightgray;
+			border-radius: 5px;
+			padding: 5px;
+		}
+
+		.wb .wb-post {
+			text-align: right;
+			color: gray;
+			font-size: 0.8em;
+		}
+
+		.wb .wb-post .wb-post-numbers {
+			font-family: Georgia, 'Times New Roman', Times, serif;
+			font-size: 1.8em;
+		}
+
+		.wb .wb-post .wb-post-numbers.wb-post-numbers-warning {
+			color: orange;
+		}
+
+		.wb .wb-post .wb-post-button {
+			padding: 5px 40px;
+			border: 1px solid lightgreen;
+			background: linear-gradient(to bottom, #98D10C, #73B533);
+			border-radius: 5px;
+			color: white;
+			font-size: 1.4em;
+			cursor: pointer;
+		}
+
+		.wb .wb-display {
+			padding: 10px;
+		}
+
+		.wb .wb-display .wb-display-tab {
+			background-color: #E3EAEC;
+			padding: 10px 10px 0 10px;
+			height: 30px;
+			line-height: 25px;
+		}
+
+		.wb .wb-display .wb-display-tab span {
+			background-color: white;
+			padding: 5px 20px 0 20px;
+			display: inline-block;
+			font-size: 0.8em;
+		}
+
+		.wb .wb-display .wb-display-area {
+			list-style: none;
+		}
+
+		.wb .wb-display .wb-display-area li {
+			padding: 10px;
+			clear: both;
+			position: relative;
+			border-bottom: 1px dashed lightgray;
+			overflow: hidden;
+		}
+
+		.wb .wb-display .wb-display-area li:hover {
+			background-color: rgba(0, 0, 0, 0.1);
+		}
+
+		.wb .wb-display .wb-display-area li:hover .wb-delete-button {
+			visibility: visible;
+		}
+
+		.wb .wb-display .wb-display-area li img {
+			width: 48px;
+			height: 48px;
+			border: 1px solid lightgray;
+			border-radius: 5px;
+			position: absolute;
+			left: 10px;
+		}
+
+		.wb .wb-display .wb-display-area .wb-info {
+			padding: 0 10px;
+			margin-left: 50px;
+		}
+
+		.wb .wb-display .wb-display-area .username {
+			text-decoration: none;
+			color: #2b4a78;
+			font-size: 0.8em;
+		}
+
+		.wb .wb-display .wb-display-area .wb-content {
+			font-size: 0.8em;
+		}
+
+		.wb .wb-display .wb-display-area .wb-posttime {
+			font-size: 0.6em;
+			color: #889db6;
+			padding: 10px 0;
+			display: block;
+		}
+
+		.wb .wb-display .wb-display-area .wb-delete-button {
+			visibility: hidden;
+			position: absolute;
+			right: 10px;
+			bottom: 10px;
+			color: #889db6;
+			cursor: pointer;
+			font-size: 0.6em;
+		}
+
+		.wb .wb-display .wb-display-area .wb-display-template {
+			display: none;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="wb" class="wb">
+		<div class="wb-static">
+			<p class="title">来，说说你在做什么，想什么</p>
+			<div class="user">
+				<input type="text" class="username">
+				<ul class="userimage">
+					<li class="current">
+						<img src="http://www.fgm.cc/learn/lesson6/img/face1.gif" alt="">
+					</li>
+					<li>
+						<img src="http://www.fgm.cc/learn/lesson6/img/face2.gif" alt="">
+					</li>
+					<li>
+						<img src="http://www.fgm.cc/learn/lesson6/img/face3.gif" alt="">
+					</li>
+					<li>
+						<img src="http://www.fgm.cc/learn/lesson6/img/face4.gif" alt="">
+					</li>
+					<li>
+						<img src="http://www.fgm.cc/learn/lesson6/img/face5.gif" alt="">
+					</li>
+					<li>
+						<img src="http://www.fgm.cc/learn/lesson6/img/face6.gif" alt="">
+					</li>
+					<li>
+						<img src="http://www.fgm.cc/learn/lesson6/img/face7.gif" alt="">
+					</li>
+					<li>
+						<img src="http://www.fgm.cc/learn/lesson6/img/face8.gif" alt="">
+					</li>
+				</ul>
+			</div>
+			<textarea class="wb-content"></textarea>
+			<div class="wb-post">
+				<span>还能输入</span>
+				<span class="wb-post-numbers">140</span>个字
+				<span class="wb-post-button">广 播</span>
+			</div>
+		</div>
+		<div class="wb-display">
+			<div class="wb-display-tab">
+				<span>大家在说</span>
+			</div>
+			<ul class="wb-display-area">
+				<li class="wb-display-template">
+					<img src="" alt="">
+					<div class="wb-info">
+						<a class="username" href=""> adfas123</a>
+						<span class="content">aaaaaaaaaaaaa</span>
+						<span class="wb-posttime">10月12日 11:30</span>
+					</div>
+					<span class="wb-delete-button">删除</span>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<script>
+		function get(selector) {
+			return document.querySelector(selector)
+		}
+		function getAll(selector) {
+			return document.querySelectorAll(selector)
+		}
+		function log(msg) {
+			console.log(msg)
+		}
+
+		function weiboPostAction() {
+			var button = get('#wb .wb-post-button')
+			var content = get('#wb .wb-content')
+			var numbers = get('#wb .wb-post-numbers')
+			var warning = numbers.previousElementSibling
+
+			if (!button || !content) {
+				return
+			}
+
+			content.addEventListener('keyup', function (e) {
+				// log('hi')
+				var length = this.value.length
+				if (length <= 140) {
+					numbers.classList.remove('wb-post-numbers-warning')
+					numbers.textContent = 140 - length
+					warning.textContent = '还能输入'
+				} else {
+					numbers.classList.add('wb-post-numbers-warning')
+					numbers.textContent = length - 140
+					warning.textContent = '已超出'
+				}
+			})
+
+			button.addEventListener('click', postWeibo)
+		}
+
+		function postWeibo(e) {
+			var b = e.target
+			var username = get('#wb .user .username')
+			var image = get('#wb .user .userimage .current img')
+			var content = get('#wb .wb-content')
+			var numbers = get('#wb .wb-post-numbers')
+			var warning = numbers.previousElementSibling
+
+			var result = judgeQualifiedWeibo(username, content)
+			if (!result) {
+				return
+			}
+
+			var href = image.getAttribute('src')
+			var text = content.value
+			var name = username.value
+			postWeiboAnimated(href, name, text)
+		}
+
+		function postWeiboAnimated(src, name, text) {
+			var temp = get('#wb .wb-display-area .wb-display-template')
+			var wb = temp.cloneNode(true)
+			var list = temp.parentNode
+			var target = list.firstElementChild
+
+			updateWeiboContent(wb, src, name, text)
+			wb.classList.remove('wb-display-template')
+			list.insertBefore(wb, target)
+
+			var opacityTimer = null
+			var heightTimer = null
+			var h = wb.offsetHeight - 20 // box-sizing: content-box; 这就是内容盒模型的弊端，妈的
+			var o = 0
+			wb.style.height = 0
+			wb.style.opacity = 0
+			heightTimer = setInterval(function () {
+				wb.style.height = wb.offsetHeight - 20 + 2 + 'px'
+				if (wb.offsetHeight >= h + 20) {
+					wb.style.height = h + 'px'
+					clearInterval(heightTimer)
+					opacityTimer = setInterval(function () {
+						wb.style.opacity = (o += 0.1)
+						if (o >= 1) {
+							wb.style.opacity = 1
+							clearInterval(opacityTimer)
+							weiboDeleteAction()
+							clearUserInput()
+						}
+					}, 1000 / 60)
+				}
+			}, 1000 / 60)
+		}
+
+		function updateWeiboContent(weibo, src, name, text) {
+			var wb = weibo
+			var image = wb.querySelector('img')
+			var username = wb.querySelector('.username')
+			var content = wb.querySelector('.content')
+			var time = wb.querySelector('.wb-posttime')
+
+			var datetime = new Date()
+			var month = datetime.getMonth() + 1
+			var date = datetime.getDate()
+			var hour = datetime.getHours()
+			var minute = datetime.getMinutes()
+			// log(month + '' + date + '' + hour + '' + minute)
+
+			image.setAttribute('src', src)
+			username.textContent = name
+			content.textContent = ': ' + text
+			time.textContent = ((month <= 9) ? ('0' + month) : month) + '月' +
+				((date < 10) ? ('0' + date) : date) + '日 ' +
+				((hour < 10) ? ('0' + hour) : hour) + ':' +
+				((minute < 10) ? ('0' + minute) : minute)
+		}
+
+		function judgeQualifiedWeibo(username, content) {
+			var name = username.value
+			var text = content.value
+			var rule = /^[a-zA-Z]{1}[0-9a-zA-Z\_]{1,7}$/
+			if (!rule.test(name)) {
+				alert('姓名由字母、数字和下划线组成，长度不能超过八且只能以字母开头！')
+				return false
+			}
+			if (text.length > 140) {
+				alert('你输入的内容已超过限制，请检查！')
+				return false
+			}
+			return true
+		}
+
+		function weiboDeleteAction() {
+			var buttons = getAll('#wb .wb-delete-button')
+			if (!buttons) {
+				return
+			}
+			buttons.forEach(function (b) {
+				b.addEventListener('click', deleteWeibo)
+			})
+		}
+
+		function deleteWeibo(e) {
+			var button = e.target
+			var wb = button.closest('li')
+			deleteWeiboAnimated(wb)
+			e.stopPropagation()
+		}
+
+		function deleteWeiboAnimated(weibo) {
+			var wb = weibo
+			var h = weibo.offsetHeight - 20
+			var style = window.getComputedStyle(wb)
+			var opacityTimer = null
+			var heightTimer = null
+			opacityTimer = setInterval(function () {
+				wb.style.opacity = Number(style.opacity) - 0.05
+				if (style.opacity <= 0) {
+					clearInterval(opacityTimer)
+					heightTimer = setInterval(function () {
+						h -= 4
+						wb.style.height = h + 'px'
+						if (h <= 0) {
+							clearInterval(heightTimer)
+							wb.parentNode.removeChild(wb)
+						}
+					}, 1000 / 60)
+				}
+			}, 1000 / 60)
+		}
+
+		function chooseUserImage() {
+			var images = get('#wb .userimage')
+			images.addEventListener('click', function (e) {
+				var target = e.target
+				var name = target.nodeName
+				if (name !== 'IMG') {
+				}
+				target = target.parentNode
+				var lis = getAll('#wb .userimage li')
+				lis.forEach(function (li) {
+					li.classList.remove('current')
+				})
+				target.classList.add('current')
+				e.stopPropagation()
+			})
+		}
+
+		function clearUserInput() {
+			var username = get('#wb .user .username')
+			var content = get('#wb .wb-content')
+			var numbers = get('#wb .wb-post-numbers')
+
+			username.value = ''
+			content.value = ''
+			numbers.textContent = 140
+		}
+
+		function main() {
+			chooseUserImage()
+			weiboPostAction()
+			weiboDeleteAction()
+			clearUserInput()
+		}
+
+		main()
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>百度输入法</title>
+	<style>
+		.dialog {
+			border: 1px solid blue;
+			color: blue;
+			display: none;
+			position: absolute;
+		}
+
+		.dialog ul {
+			padding: 0;
+			margin: 0;
+			list-style: none;
+		}
+
+		.dialog ul li {
+			padding: 5px 25px 5px 5px;
+			cursor: pointer;
+		}
+
+		.dialog ul li:hover {
+			background-color: rgba(0, 0, 255, 0.1);
+		}
+
+		.dialog .close {
+			border-top: 1px solid blue;
+		}
+
+		.display {
+			display: block;
+		}
+	</style>
+</head>
+
+<body>
+	<button>输入法</button>
+	<div id="dialog" class="dialog">
+		<ul>
+			<li>手写</li>
+			<li>拼音</li>
+			<li class="close">关闭</li>
+		</ul>
+	</div>
+	<script>
+		var button = document.querySelector('button')
+		var dialog = document.querySelector('#dialog')
+		var close = dialog.querySelector('.close')
+
+		function toggleDialog() {
+			if (dialog.classList.contains('display')) {
+				dialog.classList.remove('display')
+			} else {
+				dialog.classList.add('display')
+			}
+		}
+
+		button.addEventListener('click', function (e) {
+			var rect = button.getBoundingClientRect()
+			var x = rect.left
+			var y = rect.bottom + 10
+
+			toggleDialog()
+
+			dialog.style.top = y + 'px'
+			dialog.style.left = x + 'px'
+		})
+
+		close.addEventListener('click', function (e) {
+			toggleDialog()
+		})
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>页面加载后累加，自加1</title>
+</head>
+
+<body>
+	<p></p>
+	<script>
+		function main() {
+			var times = 0
+			var p = document.querySelector('p')
+
+			window.addEventListener('load', function (e) {
+				p.textContent = times
+			})
+
+			setInterval(function () {
+				times++
+				p.textContent = times
+			}, 1000)
+		}
+
+		main()
+	</script>
+</body>
+
+</html>

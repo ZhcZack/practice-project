@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>用parseInt解析数字，并求和</title>
+	<style>
+		input {
+			width: 50px;
+			border: 1px solid #ccc;
+			background-color: #f0f0f0;
+			padding: 3px;
+		}
+
+		.plus,
+		.equal {
+			margin: 0 10px;
+		}
+
+		.result {
+			margin-right: 10px;
+			color: green;
+		}
+	</style>
+</head>
+
+<body>
+	<input type="text"><span class="plus">+</span><input type="text"><span class="equal">=</span><span class="result">?</span><button>求和</button>
+	<script>
+		function __main() {
+			var inputs = document.querySelectorAll('input')
+			inputs.forEach(function (input) {
+				input.addEventListener('keyup', function (e) {
+					this.value = this.value.replace(/[^0-9]/, '')
+				})
+			})
+
+			var result = document.querySelector('.result')
+			var button = document.querySelector('button')
+
+			button.addEventListener('click', function (e) {
+				var v1 = parseInt(inputs[0].value, 10)
+				var v2 = parseInt(inputs[1].value, 10)
+				result.textContent = v1 + v2
+			})
+		}
+
+		__main()
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>仿苹果电脑任务栏菜单</title>
+    <style>
+        .menu {
+            width: 100%;
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            text-align: center;
+        }
+
+        .menu img {
+            width: 64px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="menu">
+        <img src="http://www.fgm.cc/learn/lesson9/img/1.png">
+        <img src="http://www.fgm.cc/learn/lesson9/img/2.png">
+        <img src="http://www.fgm.cc/learn/lesson9/img/3.png">
+        <img src="http://www.fgm.cc/learn/lesson9/img/4.png">
+        <img src="http://www.fgm.cc/learn/lesson9/img/5.png">
+        <img src="http://www.fgm.cc/learn/lesson9/img/6.png">
+        <img src="http://www.fgm.cc/learn/lesson9/img/7.png">
+        <img src="http://www.fgm.cc/learn/lesson9/img/8.png">
+    </div>
+    <script>
+        window.addEventListener('load', function () {
+            main()
+        })
+
+        var get = document.querySelector.bind(document)
+        var getAll = document.querySelectorAll.bind(document)
+        var log = console.log.bind(console)
+
+        function main() {
+            var menu = get('.menu')
+            var imgs = getAll('.menu img')
+            var ws = []
+
+            for (var i = 0; i < imgs.length; i++) {
+                ws.push(imgs[i].offsetWidth * 2)
+            }
+
+            menu.addEventListener('mousemove', function (e) {
+                for (i = 0; i < imgs.length; i++) {
+                    var a = e.clientX - imgs[i].offsetLeft - imgs[i].offsetWidth / 2
+                    var b = e.clientY - imgs[i].offsetTop - menu.offsetTop - imgs[i].offsetHeight / 2
+                    var scale = 1 - Math.sqrt(a * a + b * b) / 300
+                    if (scale < 0.5) {
+                        scale = 0.5
+                    }
+                    imgs[i].style.width = ws[i] * scale + 'px'
+                }
+            })
+        }
+    </script>
+</body>
+
+</html>

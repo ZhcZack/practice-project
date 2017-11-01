@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>简易js年历</title>
+	<style>
+		.container {
+			background-color: lightgray;
+			width: 240px;
+			padding: 10px 0 10px 10px;
+		}
+
+		.months ul {
+			list-style: none;
+			padding: 0;
+			font-size: 0;
+		}
+
+		.months ul li {
+			display: inline-block;
+			background-color: rgba(0, 0, 0, 0.8);
+			color: rgb(255, 255, 255);
+			width: 40px;
+			padding: 5px;
+			margin: 0 10px 10px 0;
+			text-align: center;
+			cursor: pointer;
+		}
+
+		.months ul li span {
+			display: block;
+			font-size: 14px;
+		}
+
+		.months ul li span:first-child {
+			font-weight: bold;
+			font-size: 16px;
+		}
+
+		.show ul {
+			list-style: none;
+			padding: 0;
+			margin: 0;
+			margin-right: 10px;
+		}
+
+		.show ul li {
+			padding: 5px;
+			display: none;
+		}
+
+		.show ul li p {
+			margin: 0;
+			font-size: 0.8em;
+			color: gray;
+		}
+
+		.show ul li p:first-child {
+			font-weight: bold;
+			font-size: 1em;
+			color: black;
+		}
+
+		.current {
+			background-color: white !important;
+			color: #D37A8A !important;
+		}
+
+		.display {
+			background-color: rgba(0, 0, 0, 0.1);
+			display: block !important;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="container">
+		<div class="months">
+			<ul>
+				<li data-index="0" class="current"><span>1</span><span>JAN</span></li>
+				<li data-index="1"><span>2</span><span>FER</span></li>
+				<li data-index="2"><span>3</span><span>MAR</span></li>
+				<li data-index="3"><span>4</span><span>APR</span></li>
+				<li data-index="4"><span>5</span><span>MAY</span></li>
+				<li data-index="5"><span>6</span><span>JUN</span></li>
+				<li data-index="6"><span>7</span><span>JUL</span></li>
+				<li data-index="7"><span>8</span><span>AUG</span></li>
+				<li data-index="8"><span>9</span><span>SEP</span></li>
+				<li data-index="9"><span>10</span><span>OCT</span></li>
+				<li data-index="10"><span>11</span><span>NOV</span></li>
+				<li data-index="11"><span>12</span><span>DEC</span></li>
+			</ul>
+		</div>
+		<div class="show">
+			<ul>
+				<li class="display">
+					<p>1月节日</p>
+					<p>元旦：1月1日至3日放假三天。</p>
+				</li>
+				<li>
+					<p>2月节日</p>
+					<p>春节：2月2日至8日放假7天。</p>
+				</li>
+				<li>
+					<p>3月节日</p>
+					<p>妇女节：3月8日妇女节，与我无关。</p>
+				</li>
+				<li>
+					<p>4月节日</p>
+					<p>清明节：4月3日至5日放假三天。</p>
+				</li>
+				<li>
+					<p>5月节日</p>
+					<p>劳动节：4月30日至5月2日放假3天。</p>
+				</li>
+				<li>
+					<p>6月节日</p>
+					<p>端午节：6月4日至6日放假三天。</p>
+				</li>
+				<li>
+					<p>7月节日</p>
+					<p>小暑：7月7日小暑。不放假。</p>
+				</li>
+				<li>
+					<p>8月节日</p>
+					<p>七夕节：8月6日七夕节。不放假。</p>
+				</li>
+				<li>
+					<p>9月节日</p>
+					<p>中秋节：9月10日至12日放假三天。</p>
+				</li>
+				<li>
+					<p>10月节日</p>
+					<p>国庆节：10月1日至7日放假7天。</p>
+				</li>
+				<li>
+					<p>11月节日</p>
+					<p>立冬：11月8日立冬。不放假。</p>
+				</li>
+				<li>
+					<p>12月节日</p>
+					<p>艾滋病日：12月1日</p>
+					<p>废除奴隶制国际日：12月2日</p>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<script>
+		var uls = document.querySelectorAll('.show li')
+		var navs = document.querySelectorAll('.months li')
+
+		for (var i = 0; i < navs.length; i++) {
+			navs[i].addEventListener('mouseover', function (e) {
+				navs.forEach(function (nav) {
+					nav.classList.remove('current')
+				})
+				var index = this.dataset.index
+				this.classList.add('current')
+				uls.forEach(function (ul) {
+					ul.classList.remove('display')
+				})
+				uls[index].classList.add('display')
+			})
+		}
+	</script>
+</body>
+
+</html>

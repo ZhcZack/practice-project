@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>无缝滚动</title>
+    <style>
+        .box {
+            width: 160px;
+            padding: 80px 30px;
+            border: 1px solid green;
+            position: relative;
+        }
+
+        .container {
+            width: 160px;
+            height: 570px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .list {
+            margin: auto;
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            font-size: 0.8em;
+            position: relative;
+        }
+
+        .list li {
+            height: 190px;
+            text-align: center;
+        }
+
+        .list li a {
+            text-decoration: none;
+        }
+
+        .prev {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 48px;
+            height: 48px;
+            background: url(http://www.fgm.cc/learn/lesson10/img/arrow.jpg) no-repeat;
+            cursor: pointer;
+        }
+
+        .next {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 48px;
+            height: 48px;
+            background: url(http://www.fgm.cc/learn/lesson10/img/arrow.jpg) no-repeat;
+            background-position: 0 bottom;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <span class="prev"></span>
+        <span class="next"></span>
+        <div class="container">
+            <ul class="list">
+                <li>
+                    <a href="javascript:void(0)">
+                        <img src="http://www.fgm.cc/learn/lesson10/img/1.jpeg">Ozolio - Webcam Hosting</a>
+                </li>
+                <li>
+                    <a href="javascript:void(0)">
+                        <img src="http://www.fgm.cc/learn/lesson10/img/2.jpeg">Sullivan Construction Inc.</a>
+                </li>
+                <li>
+                    <a href="javascript:void(0)">
+                        <img src="http://www.fgm.cc/learn/lesson10/img/3.jpeg">Maui Stables</a>
+                </li>
+                <li>
+                    <a href="javascript:void(0)">
+                        <img src="http://www.fgm.cc/learn/lesson10/img/4.jpeg">Code Rebel 3.0</a>
+                </li>
+                <li>
+                    <a href="javascript:void(0)">
+                        <img src="http://www.fgm.cc/learn/lesson10/img/5.jpeg">SecurityPro Shop</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <script>
+        var get = document.querySelector.bind(document)
+        var getAll = document.querySelectorAll.bind(document)
+        var log = console.log.bind(console)
+
+        window.addEventListener('load', main)
+
+        function main() {
+            var slide = SmoothySlide('.list')
+            var prev = get('.prev')
+            var next = get('.next')
+            prev.addEventListener('click', function () {
+                slide.prevMove()
+            })
+            next.addEventListener('click', function () {
+                slide.nextMove()
+            })
+        }
+
+        function SmoothySlide(id) {
+            var o = {}
+            o.id = id
+
+            o.setup = function () {
+                this.list = get(this.id)
+                this.slides = getAll(this.id + ' > li')
+
+                // properties
+                this.timer = null
+            }
+
+            o.updateSlidesProperty = function () {
+                this.slides = getAll(this.id + ' > li')
+            }
+
+            // target: stop position
+            // distance: start position
+            o.move = function (stopPosition, startPosition, callback) {
+                var self = this
+                this.timer = setInterval(function () {
+                    var speed = (stopPosition - startPosition) / 10
+                    if (speed > 0) {
+                        speed = Math.ceil(speed)
+                    } else {
+                        speed = Math.floor(speed)
+                    }
+                    self.list.style.top = self.list.offsetTop + speed + 'px'
+                    startPosition += speed
+                    if (speed === 0) {
+                        clearInterval(self.timer)
+                        if (callback) {
+                            callback()
+                        }
+                    }
+                }, 1000 / 60)
+            }
+
+            // three steps
+            // 1: move last item to first place
+            // 2: set list's position to hide first item, css 'left' or 'top' property maybe negative
+            // 3: make first item 'slide in', css 'left' or 'top' should be zero
+            o.prevMove = function () {
+                // portrait moving, should change css property 'top'
+                var first = this.slides[0]
+                var last = this.slides[this.slides.length - 1]
+                var h = last.offsetHeight
+
+                this.list.insertBefore(last, first)
+                this.updateSlidesProperty()
+                this.list.style.top = -1 * h + 'px'
+
+                this.move(0, -1 * h)
+            }
+
+            // three steps
+            // 1: slide to show next item, the next item maybe in the right or bottom, 
+            // so css property 'left' or 'top' should be negative
+            // 2: move first item to last place
+            // 3: set list's position to 'origin', means css 'left' or 'top' property should be zero
+            // tips: 2, 3 steps should be in 1 step's callback method
+            o.nextMove = function () {
+                // portrait moving, should change css property 'top'
+                var first = this.slides[0]
+                var last = this.slides[this.slides.length - 1]
+                var h = first.offsetHeight
+                var self = this
+
+                var back = function () {
+                    self.list.appendChild(first)
+                    self.updateSlidesProperty()
+                    self.list.style.top = 0
+                    back = null
+                }
+                this.move(-1 * h, 0, back)
+            }
+
+            o.setup()
+            return o
+        }
+    </script>
+</body>
+
+</html>

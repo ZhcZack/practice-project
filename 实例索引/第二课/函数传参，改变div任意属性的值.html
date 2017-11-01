@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>函数传参，改变div任意属性的值</title>
+	<style>
+		#show {
+			width: 180px;
+			height: 180px;
+			background-color: black;
+			color: white;
+			padding: 10px;
+			font-size: 0.8em;
+		}
+	</style>
+</head>
+
+<body>
+	<label for="attr">属性名：</label><input type="text" id="attr"><br>
+	<label for="val">属性值：</label><input type="text" id="val"><br>
+	<button>确定</button><input type="reset"></button>
+	<div id="show">
+		在上方输入框输入“属性名”及“属性值”，点击确定按钮查看效果。
+	</div>
+	<script>
+		var attr = document.querySelector('#attr')
+		var val = document.querySelector('#val')
+		var show = document.querySelector('#show')
+		var b = document.querySelector('button')
+		var reset = document.querySelector('[type=reset]')
+
+		b.addEventListener('click', function (e) {
+			var v1 = attr.value
+			var v2 = val.value
+			show.style[v1] = v2
+		})
+		reset.addEventListener('click', function (e) {
+			show.style.cssText = ''
+		})
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>判断数字是否为两位数</title>
+	<style>
+		.input {
+			width: 50px;
+			border: 1px solid #ccc;
+			background-color: #f0f0f0;
+			padding: 3px;
+		}
+
+		button {
+			margin-left: 10px;
+		}
+	</style>
+</head>
+
+<body>
+	<input type="text" class="input"><button>是否为两位数</button>
+	<script>
+		function main() {
+			var input = document.querySelector('input')
+			var button = document.querySelector('button')
+
+			input.addEventListener('keyup', function (e) {
+				this.value = this.value.replace(/[^0-9]/, '')
+			})
+
+			button.addEventListener('click', function (e) {
+				var value = Number(input.value)
+				var index = 0
+				while (value >= 1) {
+					value /= 10
+					index++
+				}
+				alert('这是' + index + '位数')
+			})
+		}
+
+		main()
+	</script>
+</body>
+
+</html>

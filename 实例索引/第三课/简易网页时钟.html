@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>简易网页时钟</title>
+	<style>
+		.clock {
+			height: 30px;
+			line-height: 30px;
+		}
+
+		span {
+			display: inline-block;
+			width: 50px;
+			height: 20px;
+			border: 1px solid lightgray;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="clock">
+		<span></span>点<span></span>分<span></span>秒
+	</div>
+	<script>
+		function main() {
+			getTime()
+			setInterval(function () {
+				getTime()
+			}, 1000)
+		}
+
+		function getTime() {
+			var date = new Date()
+			var hour = date.getHours()
+			var min = date.getMinutes()
+			var sec = date.getSeconds()
+
+			format(hour, min, sec)
+		}
+
+		function format(h, m, s) {
+			var ss = document.querySelectorAll('span')
+			var hl = ss[0]
+			var ml = ss[1]
+			var sl = ss[2]
+
+			hl.textContent = h
+			ml.textContent = m
+			sl.textContent = s < 10 ? '0' + s : s
+		}
+
+		main()
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>事件练习：封装兼容性添加、删除事件的函数</title>
+</head>
+
+<body>
+	<button>毫无用处的按钮</button>
+	<button>绑定click</button>
+	<button>解除绑定</button>
+	<script>
+		var get = document.querySelector.bind(document)
+		var getAll = document.querySelectorAll.bind(document)
+		var log = console.log.bind(console)
+
+		function main() {
+			bind()
+		}
+
+		function bind() {
+			var buttons = getAll('button')
+			addHandler(buttons[1], 'click', function () {
+				buttons[0].textContent = '我可以点击了'
+				addHandler(buttons[0], 'click', clickHandler)
+			})
+			addHandler(buttons[2], 'click', function () {
+				buttons[0].textContent = '毫无用处的按钮'
+				removeHandler(buttons[0], 'click', clickHandler)
+			})
+		}
+
+		function addHandler(obj, event, handler) {
+			obj.addEventListener(event, handler)
+		}
+		function removeHandler(obj, event, handler) {
+			obj.removeEventListener(event, handler)
+		}
+
+		function clickHandler() {
+			alert('我可以点击了！')
+		}
+
+		main()
+	</script>
+</body>
+
+</html>

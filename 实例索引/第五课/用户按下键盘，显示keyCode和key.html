@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>用户按下键盘，显示keyCode和key</title>
+</head>
+
+<body>
+	<h1 id="keyCode">这里会显示keyCode</h1>
+	<h1 id="key">这里会显示key</h1>
+	<script>
+		function main() {
+			var code = document.querySelector("#keyCode")
+			var key = document.querySelector('#key')
+
+			window.addEventListener('keydown', function (e) {
+				var k = e.key
+				var c = e.keyCode
+				code.textContent = c
+				key.textContent = k
+
+				e.preventDefault()
+			})
+		}
+
+		main()
+	</script>
+</body>
+
+</html>

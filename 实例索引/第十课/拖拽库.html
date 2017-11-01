@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <title>拖拽库</title>
+    <style>
+        * {
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+
+        #drag {
+            width: 100px;
+            height: 100px;
+            padding: 5px;
+            border: 1px solid orange;
+            background-color: #FEF4EB;
+        }
+
+        #drag .drag-title {
+            width: 100%;
+            height: 20px;
+            background-color: orange;
+            cursor: move;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="buttons">
+        <button class="lock-area">锁定范围</button>
+        <button class="lock-x">水平锁定</button>
+        <button class="lock-y">竖直锁定</button>
+        <button class="lock-location">锁定位置</button>
+    </div>
+    <p>拖放状态：
+        <span class="drag-status">未开始</span>
+    </p>
+    <div id="drag">
+        <div class="drag-title"></div>
+    </div>
+    <script>
+        var get = document.querySelector.bind(document)
+        var getAll = document.querySelectorAll.bind(document)
+        var log = console.log.bind(console)
+
+        window.addEventListener('load', main)
+
+        function main() {
+            var item = DragItem('#drag')
+            var buttons = getAll('.buttons button')
+            var areaLock = buttons[0]
+            var xLock = buttons[1]
+            var yLock = buttons[2]
+            var locationLock = buttons[3]
+            var status = get('.drag-status')
+
+            item.onStart = function () {
+                status.textContent = '开始拖拽'
+            }
+            item.onStop = function () {
+                status.textContent = '结束拖拽'
+            }
+            item.onMove = function () {
+                var p = this.position()
+                status.textContent = 'x: ' + p.x + ', y: ' + p.y
+            }
+
+            areaLock.addEventListener('click', function () {
+                item.areaLock = !item.areaLock
+                this.textContent = item.areaLock ? '取消锁定范围' : '锁定范围'
+            })
+            xLock.addEventListener('click', function () {
+                item.xLock = !item.xLock
+                this.textContent = item.xLock ? '取消水平锁定' : '水平锁定'
+            })
+            yLock.addEventListener('click', function () {
+                item.yLock = !item.yLock
+                this.textContent = item.yLock ? '取消垂直锁定' : '垂直锁定'
+            })
+            locationLock.addEventListener('click', function () {
+                item.locationLock = !item.locationLock
+                this.textContent = item.locationLock ? '取消锁定位置' : '锁定位置'
+            })
+
+        }
+
+        function DragItem(identifier) {
+            var o = {}
+            o.id = identifier
+
+            o.setup = function () {
+                this.item = get(this.id)
+                this.titleItem = get(this.id + ' .drag-title')
+
+                // properties
+                o.dragEnabled = false
+                o.startX = 0
+                o.startY = 0
+                o.areaLock = false
+                o.xLock = false
+                o.yLock = false
+                o.locationLock = false
+
+                // callback methods
+                this.onStart = null
+                this.onMove = null
+                this.onStop = null
+
+                // mouse events
+                this.titleItem.addEventListener('mousedown', this.mousedownEvent)
+                this.titleItem.addEventListener('mouseup', this.mouseupEvent)
+                this.titleItem.addEventListener('mousemove', this.mousemoveEvent)
+            }
+
+            // css function
+            o.css = function (obj, attr, value) {
+                if (arguments.length === 2) {
+                    var style = window.getComputedStyle(obj)
+                    var value = 0
+                    if (attr === 'opacity') {
+                        value = parseInt(parseFloat(style['opacity']).toFixed(2) * 100, 10)
+                    } else {
+                        value = parseInt(style[attr], 10)
+                    }
+                    return value
+                } else if (arguments.length === 3) {
+                    if (attr === 'opacity') {
+                        obj.style.opacity = value / 100
+                    } else {
+                        obj.style[attr] = value + 'px'
+                    }
+                }
+            }
+
+            // when 'areaLock' is true, item's moving should be with limits
+            o.moveWithLimits = function () {
+                var maxWidth = window.innerWidth
+                var maxHeight = window.innerHeight
+                var item = o.item
+                if (o.css(item, 'left') <= 0) {
+                    o.css(item, 'left', 0)
+                } else if (o.css(item, 'left') + o.css(item, 'width') >= maxWidth) {
+                    o.css(item, 'left', maxWidth - o.css(item, 'width'))
+                }
+                if (o.css(item, 'top') <= 0) {
+                    o.css(item, 'top', 0)
+                } else if (o.css(item, 'top') + o.css(item, 'height') >= maxHeight) {
+                    o.css(item, 'top', maxHeight - o.css(item, 'height'))
+                }
+            }
+
+            // this is a computed property
+            o.position = function () {
+                if (!this.dragEnabled) {
+                    return
+                }
+                var p = {
+                    x: this.css(this.item, 'left'),
+                    y: this.css(this.item, 'top'),
+                }
+                return p
+            }
+
+            o.mousedownEvent = function (e) {
+                o.item.style.position = 'absolute'
+                o.dragEnabled = true
+                o.startX = e.clientX
+                o.startY = e.clientY
+                this.setCapture()
+                e.stopPropagation()
+
+                if (o.onStart) {
+                    o.onStart()
+                }
+            }
+
+            o.mouseupEvent = function (e) {
+                this.releaseCapture()
+                o.dragEnabled = false
+                e.stopPropagation()
+
+                if (o.onStop) {
+                    o.onStop()
+                }
+            }
+
+            o.mousemoveEvent = function (e) {
+                var item = o.item
+                if (!o.dragEnabled) {
+                    return
+                }
+                var dx = e.clientX - o.startX
+                var dy = e.clientY - o.startY
+                o.startX = e.clientX
+                o.startY = e.clientY
+
+                if (o.xLock) {
+                    o.css(item, 'top', o.css(item, 'top') + dy)
+                } else if (o.yLock) {
+                    o.css(item, 'left', o.css(item, 'left') + dx)
+                } else if (o.locationLock) {
+                    // do nothing
+                } else {
+                    o.css(item, 'left', o.css(item, 'left') + dx)
+                    o.css(item, 'top', o.css(item, 'top') + dy)
+                }
+                if (o.areaLock) {
+                    o.moveWithLimits()
+                }
+
+                e.stopPropagation()
+
+                if (o.onMove) {
+                    o.onMove()
+                }
+            }
+
+            o.setup()
+            return o
+        }
+    </script>
+</body>
+
+</html>

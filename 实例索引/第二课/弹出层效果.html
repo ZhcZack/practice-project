@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>弹出层效果</title>
+	<style>
+		.cover-back {
+			background-color: rgba(0, 0, 0, 0.5);
+			position: absolute;
+			top: 0;
+			left: 0;
+			z-index: 1;
+		}
+
+		.cover-dialog {
+			width: 300px;
+			margin: auto;
+			/* height: 200px; */
+			background-color: orange;
+			padding: 5px;
+			margin-top: 200px;
+		}
+
+		.cover-dialog-title {
+			background-color: yellow;
+			position: relative;
+			height: 30px;
+			margin-bottom: 5px;
+		}
+
+		.cover-close-button {
+			border: 1px solid orange;
+			background-color: white;
+			color: orange;
+			padding: 2px 5px;
+			font-size: 0.8em;
+			position: absolute;
+			right: 5px;
+			top: 5px;
+			margin-bottom: 5px;
+			cursor: pointer;
+		}
+
+		.cover-dialog-content {
+			background-color: white;
+			height: 200px;
+		}
+	</style>
+</head>
+
+<body>
+	<button>弹出层</button>
+	<script>
+		var button = document.querySelector('button')
+		button.addEventListener('click', function (e) {
+			createCover()
+		})
+
+		function createCover() {
+			var back = document.createElement('div')
+			back.classList.add('cover-back')
+			var x = window.innerWidth
+			var y = window.innerHeight
+			back.style.width = x + 'px'
+			back.style.height = y + 'px'
+
+			var dialog = createDialog()
+			dialog.querySelector('.cover-close-button').addEventListener('click', function (e) {
+				back.parentNode.removeChild(back)
+			})
+
+			back.appendChild(dialog)
+
+			insertAfter(back, button)
+		}
+
+		function createDialog() {
+			var d = document.createElement('div')
+			d.classList.add('cover-dialog')
+
+			var t = document.createElement('div')
+			t.classList.add('cover-dialog-title')
+
+			var b = document.createElement('span')
+			b.classList.add('cover-close-button')
+			b.textContent = 'x'
+
+			var c = document.createElement('div')
+			c.classList.add('cover-dialog-content')
+
+			t.appendChild(b)
+
+			d.appendChild(t)
+			d.appendChild(c)
+
+			return d
+		}
+
+		function insertAfter(newNode, targetNode) {
+			var after = targetNode.nextElementSibling
+			var parent = targetNode.parentNode
+			if (!after) {
+				parent.appendChild(newNode)
+			} else {
+				parent.insertBefore(newNode, after)
+			}
+		}
+	</script>
+</body>
+
+</html>

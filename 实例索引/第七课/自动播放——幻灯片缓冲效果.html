@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+	<meta charset="utf-8" />
+	<title>自动播放——幻灯片缓冲效果</title>
+	<style>
+		html,
+		body {
+			background-color: black;
+		}
+
+		.container {
+			width: 500px;
+			height: 170px;
+			overflow: hidden;
+			margin: auto;
+			margin-top: 10px;
+			position: relative;
+			border: 10px solid white;
+			border-radius: 10px;
+			background-color: white;
+		}
+
+		.imgList {
+			padding: 0;
+			margin: 0;
+			list-style: none;
+			font-size: 0;
+			position: relative;
+		}
+
+		.imgList li {
+			height: 170px;
+		}
+
+		.imgList a,
+		.imgList a img {
+			width: 100%;
+			height: 100%;
+		}
+
+		.nav {
+			position: absolute;
+			right: 5px;
+			bottom: 5px;
+		}
+
+		.nav ul {
+			padding: 0;
+			margin: 0;
+			list-style: none;
+			font-size: 0;
+		}
+
+		.nav li {
+			display: inline-block;
+			width: 20px;
+			height: 20px;
+			line-height: 20px;
+			font-size: 14px;
+			text-align: center;
+			color: white;
+			background-color: orange;
+			border-radius: 50%;
+			margin: 0 2px;
+			cursor: pointer;
+		}
+
+		.nav li.active {
+			background-color: white;
+			color: orange;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="container">
+		<!-- <img src="" alt="" class="display"> -->
+		<ul class="imgList">
+			<li>
+				<a href="javascript:void(0)">
+					<img src="http://www.fgm.cc/learn/lesson4/img/01.jpg" alt="">
+				</a>
+			</li>
+			<li>
+				<a href="javascript:void(0)">
+					<img src="http://www.fgm.cc/learn/lesson4/img/02.jpg" alt="">
+				</a>
+			</li>
+			<li>
+				<a href="javascript:void(0)">
+					<img src="http://www.fgm.cc/learn/lesson4/img/03.jpg" alt="">
+				</a>
+			</li>
+			<li>
+				<a href="javascript:void(0)">
+					<img src="http://www.fgm.cc/learn/lesson4/img/04.jpg" alt="">
+				</a>
+			</li>
+			<li>
+				<a href="javascript:void(0)">
+					<img src="http://www.fgm.cc/learn/lesson4/img/05.jpg" alt="">
+				</a>
+			</li>
+		</ul>
+		<nav class="nav">
+			<ul>
+				<li>1</li>
+				<li>2</li>
+				<li>3</li>
+				<li>4</li>
+				<li>5</li>
+			</ul>
+		</nav>
+	</div>
+	<script>
+		var log = console.log.bind(console)
+		var get = document.querySelector.bind(document)
+		var getAll = document.querySelectorAll.bind(document)
+
+		function main() {
+			slideImage()
+		}
+
+		function slideImage() {
+			var container = get('.container')
+			var images = get('.imgList')
+			var navs = getAll('.nav li')
+			var indexTimer = null
+			var moveTimer = null
+			var index = 0
+			var leftToRight = true
+
+			function slideMove(obj) {
+				clearInterval(moveTimer)
+				moveTimer = setInterval(function () {
+					var lis = getAll('.imgList li')
+					var target = -(lis[index].offsetHeight * index)
+					var speed = (target - obj.offsetTop) / 10
+					if (speed > 0) {
+						speed = Math.ceil(speed)
+					} else {
+						speed = Math.floor(speed)
+					}
+					if (speed === 0) {
+						clearInterval(moveTimer)
+					} else {
+						obj.style.top = obj.offsetTop + speed + 'px'
+					}
+				}, 1000 / 60)
+			}
+
+			function startAutoplay(obj) {
+				indexActive(index)
+				indexTimer = setInterval(function () {
+					if (leftToRight) {
+						index++
+					} else {
+						index--
+					}
+					if (index === 4) {
+						leftToRight = false
+					} else if (index === 0) {
+						leftToRight = true
+					}
+					indexActive(index)
+					slideMove(obj)
+				}, 2000)
+			}
+
+			function indexActive(index) {
+				navs.forEach(function (nav) {
+					nav.classList.remove('active')
+				})
+				navs[index].classList.add('active')
+			}
+
+			function stopAutoplay() {
+				clearInterval(indexTimer)
+			}
+
+			navs.forEach(function (nav) {
+				nav.addEventListener('mouseover', function (e) {
+					stopAutoplay()
+					var i = Number(this.textContent) - 1
+					index = i
+					indexActive(index)
+					slideMove(images)
+					e.stopPropagation()
+				})
+				nav.addEventListener('mouseout', function (e) {
+					var i = Number(this.textContent) - 1
+					index = i
+					startAutoplay(images, index)
+					e.stopPropagation()
+				})
+			})
+
+			container.addEventListener('mouseover', function (e) {
+				stopAutoplay()
+			})
+			container.addEventListener('mouseout', function (e) {
+				startAutoplay(images, index)
+			})
+
+			startAutoplay(images, index)
+		}
+		main()
+	</script>
+</body>
+
+</html>

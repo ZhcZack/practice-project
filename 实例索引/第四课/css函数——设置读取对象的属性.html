@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>css函数——设置读取对象的属性</title>
+	<style>
+		.container {
+			width: 500px;
+			height: 400px;
+			padding: 10px;
+			margin: auto;
+			border: 1px solid #FF6600;
+			background-color: #FEF4EB;
+			box-sizing: border-box;
+		}
+
+		.container span {
+			color: white;
+			background-color: #FF6600;
+			display: inline-block;
+			padding: 5px;
+			cursor: pointer;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="container">
+		<span class="get">Get Style</span>
+		<span class="set">Set Style</span>
+		<span class="default">Default Style</span>
+	</div>
+	<script>
+		var get = document.querySelector.bind(document)
+		var getAll = document.querySelectorAll.bind(document)
+		var log = console.log.bind(console)
+
+		function main() {
+			// test()
+			bind()
+		}
+
+		function bind() {
+			var d = get('.container')
+			var gb = get('.get')
+			var sb = get('.set')
+			var db = get('.default')
+
+			gb.addEventListener('click', function (e) {
+				alert('width: ' + css(d, 'width') + '\nheight: ' + css(d, 'height')
+					+ '\nbackground-color: ' + css(d, 'backgroundColor'))
+			})
+			sb.addEventListener('click', function (e) {
+				css(d, {
+					width: '330px',
+					height: '100px',
+					borderColor: 'rgb(0, 132, 255)',
+					backgroundColor: 'rgb(239, 248, 255)'
+				})
+				css(gb, 'backgroundColor', 'rgb(0, 132, 255)')
+				css(sb, 'backgroundColor', 'rgb(0, 132, 255)')
+				css(db, 'backgroundColor', 'rgb(0, 132, 255)')
+			})
+			db.addEventListener('click', function (e) {
+				d.style.cssText = ''
+				gb.style.cssText = ''
+				sb.style.cssText = ''
+				db.style.cssText = ''
+			})
+		}
+
+		function test() {
+			var d = document.querySelector('.container')
+			alert(css(d, 'width'))
+		}
+
+		function css(obj, attr, value) {
+			switch (arguments.length) {
+				case 2:
+					if (typeof arguments[1] === 'object') {
+						for (var i in attr) {
+							obj.style[i] = attr[i]
+						}
+					} else {
+						return window.getComputedStyle(obj, null)[attr]
+					}
+					break
+				case 3:
+					obj.style[attr] = value
+					break
+				default:
+					alert('参数错误！')
+					break
+			}
+		}
+
+		main()
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>自定义右键菜单</title>
+	<style>
+		#menu {
+			display: none;
+			position: absolute;
+			padding: 0;
+			margin: 0;
+			list-style: none;
+			border: 1px black solid;
+			border-radius: 5px;
+		}
+
+		#menu li {
+			width: 80px;
+			font-size: 0.8em;
+			padding: 3px 5px;
+			cursor: pointer;
+		}
+
+		#menu li:hover {
+			background-color: rgba(0, 0, 0, 0.3);
+		}
+	</style>
+</head>
+
+<body>
+	<ul id="menu">
+		<li>剪切</li>
+		<li>复制</li>
+		<li>粘贴</li>
+	</ul>
+	<script>
+		function main() {
+			document.addEventListener('contextmenu', displayCustomMenu)
+			events()
+		}
+
+		function displayCustomMenu(e) {
+			var menu = document.querySelector('#menu')
+			var x = e.clientX
+			var y = e.clientY
+
+			menu.style.display = 'block'
+			menu.style.left = x + 'px'
+			menu.style.top = y + 'px'
+
+			e.preventDefault()
+		}
+
+		function hideCustomMenu(menu) {
+			menu.style.display = 'none'
+		}
+
+		function events() {
+			var lis = document.querySelectorAll('#menu li')
+			lis.forEach(function (li) {
+				li.addEventListener('click', function (e) {
+					hideCustomMenu(this.parentNode)
+				})
+			})
+		}
+
+		main()
+	</script>
+</body>
+
+</html>

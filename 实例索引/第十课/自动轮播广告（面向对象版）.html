@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>自动轮播广告（面向对象版）</title>
+    <style>
+        html,
+        body {
+            background-color: black;
+        }
+
+        .container {
+            width: 500px;
+            height: 170px;
+            overflow: hidden;
+            margin: auto;
+            margin-top: 10px;
+            position: relative;
+            border: 10px solid white;
+            border-radius: 10px;
+            background-color: white;
+        }
+
+        .imgList {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+            font-size: 0;
+            position: relative;
+        }
+
+        .imgList li {
+            height: 170px;
+        }
+
+        .imgList a,
+        .imgList a img {
+            width: 100%;
+            height: 100%;
+        }
+
+        .nav {
+            position: absolute;
+            right: 5px;
+            bottom: 5px;
+        }
+
+        .nav ul {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+            font-size: 0;
+        }
+
+        .nav li {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            line-height: 20px;
+            font-size: 14px;
+            text-align: center;
+            color: white;
+            background-color: orange;
+            border-radius: 50%;
+            margin: 0 2px;
+            cursor: pointer;
+        }
+
+        .nav li.active {
+            background-color: white;
+            color: orange;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- <img src="" alt="" class="display"> -->
+        <ul class="imgList">
+            <li>
+                <a href="javascript:void(0)">
+                    <img src="http://www.fgm.cc/learn/lesson4/img/01.jpg" alt="">
+                </a>
+            </li>
+            <li>
+                <a href="javascript:void(0)">
+                    <img src="http://www.fgm.cc/learn/lesson4/img/02.jpg" alt="">
+                </a>
+            </li>
+            <li>
+                <a href="javascript:void(0)">
+                    <img src="http://www.fgm.cc/learn/lesson4/img/03.jpg" alt="">
+                </a>
+            </li>
+            <li>
+                <a href="javascript:void(0)">
+                    <img src="http://www.fgm.cc/learn/lesson4/img/04.jpg" alt="">
+                </a>
+            </li>
+            <li>
+                <a href="javascript:void(0)">
+                    <img src="http://www.fgm.cc/learn/lesson4/img/05.jpg" alt="">
+                </a>
+            </li>
+        </ul>
+        <nav class="nav">
+            <ul>
+                <li>1</li>
+                <li>2</li>
+                <li>3</li>
+                <li>4</li>
+                <li>5</li>
+            </ul>
+        </nav>
+    </div>
+    <script>
+        var log = console.log.bind(console)
+        var get = document.querySelector.bind(document)
+        var getAll = document.querySelectorAll.bind(document)
+
+        window.addEventListener('load', main)
+
+        function main() {
+            var slide = SlideImage('.container')
+        }
+
+        function SlideImage(identifier) {
+            var o = {
+                identifier: identifier,
+            }
+
+            // manually start slide move
+            o.start = function () {
+                this.setup()
+            }
+
+            // initial values
+            o.setup = function () {
+                this.container = get(identifier)
+                this.images = get(identifier + ' .imgList')
+                this.navs = getAll(identifier + ' .nav li')
+                this.indexTimer = null
+                this.moveTimer = null
+                this.index = 0
+                this.leftToRight = true
+
+                this.initEvents()
+
+                this.startAutoplay()
+            }
+
+            o.initEvents = function () {
+                this.container.addEventListener('mouseover', this.containerMouseoverEvent)
+                this.container.addEventListener('mouseout', this.containerMouseoutEvent)
+
+                for (var i = 0; i < this.navs.length; i++) {
+                    this.navs[i].addEventListener('mouseover', this.navMouseoverEvent)
+                    this.navs[i].addEventListener('mouseout', this.navMouseoutEvent)
+                }
+            }
+
+            o.containerMouseoverEvent = function (e) {
+                o.stopAutoplay()
+                e.stopPropagation()
+            }
+
+            o.containerMouseoutEvent = function (e) {
+                o.startAutoplay()
+            }
+
+            o.navMouseoverEvent = function (e) {
+                o.stopAutoplay()
+                var i = Number(this.textContent) - 1
+                o.index = i
+                o.indexActive()
+                o.slideMove()
+                e.stopPropagation()
+            }
+
+            o.navMouseoutEvent = function (e) {
+                var i = Number(this.textContent) - 1
+                o.index = i
+                o.startAutoplay()
+                e.stopPropagation()
+            }
+
+            // check which one is current slide page and set its index 'active'
+            o.indexActive = function () {
+                for (var i = 0; i < this.navs.length; i++) {
+                    this.navs[i].classList.remove('active')
+                }
+                this.navs[this.index].classList.add('active')
+            }
+
+            // image list moving method
+            o.slideMove = function () {
+                var self = this
+                var obj = this.images
+                clearInterval(this.moveTimer)
+                this.moveTimer = setInterval(function () {
+                    var lis = getAll(self.identifier + ' .imgList li')
+                    var target = -(lis[self.index].offsetHeight * self.index)
+                    var speed = (target - obj.offsetTop) / 10
+                    if (speed > 0) {
+                        speed = Math.ceil(speed)
+                    } else {
+                        speed = Math.floor(speed)
+                    }
+                    if (speed === 0) {
+                        clearInterval(self.moveTimer)
+                    } else {
+                        obj.style.top = obj.offsetTop + speed + 'px'
+                    }
+                }, 1000 / 60)
+            }
+
+            o.startAutoplay = function () {
+                var self = this
+                this.indexActive()
+                this.indexTimer = setInterval(function () {
+                    if (self.leftToRight) {
+                        self.index++
+                    } else {
+                        self.index--
+                    }
+                    if (self.index === 4) {
+                        self.leftToRight = false
+                    } else if (self.index === 0) {
+                        self.leftToRight = true
+                    }
+                    self.indexActive()
+                    self.slideMove()
+                }, 2000)
+            }
+
+            o.stopAutoplay = function () {
+                clearInterval(this.indexTimer)
+            }
+
+            o.setup()
+            return o
+        }
+    </script>
+</body>
+
+</html>

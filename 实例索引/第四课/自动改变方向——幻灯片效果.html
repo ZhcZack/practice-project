@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+	<meta charset="utf-8" />
+	<title>自动改变方向——幻灯片效果</title>
+	<style>
+		html,
+		body {
+			background-color: black;
+		}
+
+		.container {
+			width: 500px;
+			margin: auto;
+			margin-top: 10px;
+			position: relative;
+			border: 10px solid white;
+			border-radius: 10px;
+			background-color: white;
+		}
+
+		.display {
+			display: block;
+			width: 100%;
+			border: 1px solid lightgray;
+		}
+
+		.imgList {
+			display: none;
+		}
+
+		.nav {
+			position: absolute;
+			right: 5px;
+			bottom: 5px;
+		}
+
+		.nav ul {
+			padding: 0;
+			margin: 0;
+			list-style: none;
+			font-size: 0;
+		}
+
+		.nav li {
+			display: inline-block;
+			width: 20px;
+			height: 20px;
+			line-height: 20px;
+			font-size: 14px;
+			text-align: center;
+			color: white;
+			background-color: orange;
+			border-radius: 50%;
+			margin: 0 2px;
+			cursor: pointer;
+		}
+
+		.nav li.active {
+			background-color: white;
+			color: orange;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="container">
+		<img src="" alt="" class="display">
+		<ul class="imgList">
+			<li>
+				<a href="javascript:void(0)">
+					<img src="http://www.fgm.cc/learn/lesson4/img/01.jpg" alt="">
+				</a>
+			</li>
+			<li>
+				<a href="javascript:void(0)">
+					<img src="http://www.fgm.cc/learn/lesson4/img/02.jpg" alt="">
+				</a>
+			</li>
+			<li>
+				<a href="javascript:void(0)">
+					<img src="http://www.fgm.cc/learn/lesson4/img/03.jpg" alt="">
+				</a>
+			</li>
+			<li>
+				<a href="javascript:void(0)">
+					<img src="http://www.fgm.cc/learn/lesson4/img/04.jpg" alt="">
+				</a>
+			</li>
+			<li>
+				<a href="javascript:void(0)">
+					<img src="http://www.fgm.cc/learn/lesson4/img/05.jpg" alt="">
+				</a>
+			</li>
+		</ul>
+		<nav class="nav">
+			<ul>
+				<li>1</li>
+				<li>2</li>
+				<li>3</li>
+				<li>4</li>
+				<li>5</li>
+			</ul>
+		</nav>
+	</div>
+	<script>
+		var log = console.log.bind(console)
+		var get = document.querySelector.bind(document)
+		var getAll = document.querySelectorAll.bind(document)
+
+		function main() {
+			slideImage()
+		}
+
+		function slideImage() {
+			var display = get('.display')
+			var images = getAll('.imgList img')
+			var navs = getAll('.nav li')
+			var timer = null
+			var index = {
+				i: 0
+			}
+
+			showActive(index, display, images, navs)
+			timer = setTimer(index, display, images, navs)
+			bind(index, display, images, navs, timer)
+		}
+
+		function bind(index, display, images, navs, timer) {
+			navs.forEach(function (nav) {
+				nav.addEventListener('mouseover', function (e) {
+					var i = Number(this.textContent) - 1
+					index.i = i
+					showActive(index, display, images, navs)
+					clearInterval(timer)
+				})
+			})
+
+			display.addEventListener('mouseover', function (e) {
+				clearInterval(timer)
+			})
+			display.addEventListener('mouseout', function (e) {
+				timer = setTimer(index, display, images, navs)
+			})
+
+		}
+
+		function showActive(index, display, images, navs) {
+			display.setAttribute('src', images[index.i].getAttribute('src'))
+			navs.forEach(function (nav) {
+				nav.classList.remove('active')
+			})
+			navs[index.i].classList.add('active')
+		}
+
+		function setTimer(index, display, images, navs) {
+			var rightDirection = true
+			var timer = setInterval(function () {
+				if (rightDirection) {
+					index.i++
+				} else {
+					index.i--
+				}
+				showActive(index, display, images, navs)
+				animation(display)
+				if (index.i === 4) {
+					rightDirection = false
+				}
+				if (index.i === 0) {
+					rightDirection = true
+				}
+			}, 2000)
+			return timer
+		}
+
+		function animation(display) {
+			var o = 0
+			display.style.opacity = o
+			var t = setInterval(function () {
+				o += 2
+				if (o > 100) {
+					o = 100
+				}
+				display.style.opacity = o / 100
+				if (o === 100) {
+					clearInterval(t)
+				}
+			}, 1000 / 50)
+		}
+
+		main()
+	</script>
+</body>
+
+</html>

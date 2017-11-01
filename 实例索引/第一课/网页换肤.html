@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>网页换肤</title>
+	<style>
+		#skins span {
+			display: inline-block;
+			width: 20px;
+			height: 20px;
+			cursor: pointer;
+		}
+
+		.red {
+			background-color: red;
+		}
+
+		.green {
+			background-color: green;
+		}
+
+		.black {
+			background-color: black;
+		}
+
+		ul {
+			list-style-type: none;
+			margin: 0;
+			padding: 0;
+			border: 1px solid white;
+			width: 487px;
+			font-size: 0;
+		}
+
+		ul li {
+			display: inline-block;
+			border-right: 1px solid white;
+			width: 80px;
+			padding: 3px 0;
+			text-align: center;
+			font-size: 16px;
+		}
+
+		ul li:last-child {
+			border-right: 0;
+		}
+
+		body.redType {
+			background-color: #fdd;
+		}
+
+		body.greenType {
+			background-color: #a3c5a8;
+		}
+
+		body.blackType {
+			background-color: #ccc;
+		}
+
+		ul.redType {
+			background-color: red;
+			color: white;
+		}
+
+		ul.greenType {
+			background-color: green;
+			color: white;
+		}
+
+		ul.blackType {
+			background-color: black;
+			color: white;
+		}
+	</style>
+</head>
+
+<body class="">
+	<div id="skins">
+		<span class="red"></span>
+		<span class="green"></span>
+		<span class="black"></span>
+	</div>
+	<nav>
+		<ul>
+			<li>新闻</li>
+			<li>娱乐</li>
+			<li>体育</li>
+			<li>电影</li>
+			<li>音乐</li>
+			<li>旅游</li>
+		</ul>
+	</nav>
+	<script>
+		var colors = document.querySelectorAll('#skins span')
+		var body = document.body
+		var ul = document.querySelector('nav ul')
+
+		var red = colors[0]
+		red.addEventListener('click', function (e) {
+			body.className = 'redType'
+			ul.className = 'redType'
+		})
+
+		var green = colors[1]
+		green.addEventListener('click', function (e) {
+			body.className = 'greenType'
+			ul.className = 'greenType'
+		})
+
+		var black = colors[2]
+		black.addEventListener('click', function (e) {
+			body.className = 'blackType'
+			ul.className = 'blackType'
+		})
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>带loading效果的图片切换</title>
+	<style>
+		.container {
+			position: relative;
+			width: 800px;
+		}
+
+		.container .mark {
+			position: absolute;
+			width: 50%;
+			height: 100%;
+			cursor: pointer;
+		}
+
+		.mark-left {
+			left: 0;
+		}
+
+		.mark-right {
+			right: 0;
+		}
+
+		.button {
+			position: absolute;
+			width: 40px;
+			height: 80px;
+			line-height: 80px;
+			text-align: center;
+			font-size: 3em;
+			border-radius: 10px;
+			top: 50%;
+			opacity: 0;
+			background-color: rgba(0, 0, 0, 0.4);
+			color: white;
+			cursor: pointer;
+			transition: opacity 0.5s;
+		}
+
+		.button-left {
+			left: 10px;
+		}
+
+		.button-right {
+			right: 10px;
+		}
+
+		.button.button-display {
+			opacity: 1;
+		}
+
+		.container .title {
+			position: absolute;
+			top: -100%;
+			margin: 0;
+			width: 100%;
+			background-color: rgba(0, 0, 0, 0.7);
+			color: white;
+			text-align: center;
+			overflow: hidden;
+			transition: top 1s;
+		}
+
+		.container .title.title-display {
+			top: 0;
+		}
+
+		.container .title p {
+			padding: 10px;
+			font-size: 1.5em;
+			margin: 0;
+			opacity: 0;
+			transition: opacity 1s 1s;
+		}
+
+		.container .title.title.title-display p {
+			opacity: 1;
+		}
+
+		.container .image {
+			width: 100%;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="container">
+		<div class="mark mark-left"></div>
+		<div class="mark mark-right"></div>
+		<div class="button button-left">&lt;</div>
+		<div class="button button-right">&gt;</div>
+		<div class="title">
+			<p>hello</p>
+		</div>
+		<img src="" alt="" class="image">
+	</div>
+	<script>
+		var getAll = document.querySelectorAll.bind(document)
+		var get = document.querySelector.bind(document)
+		var log = console.log.bind(console)
+
+		function main() {
+			var marks = getAll('.mark')
+			var buttons = getAll('.button')
+			var index = 0
+			var loadingSrc = 'http://images4.alphacoders.com/288/288276.png'
+			var links = [
+				'http://img1.gtimg.com/news/pics/hv1/106/238/825/53706421.jpg',
+				'http://img1.gtimg.com/news/pics/hv1/99/238/825/53706414.jpg',
+				'http://img1.gtimg.com/news/pics/hv1/101/238/825/53706416.jpg'
+			]
+
+			for (var i = 0; i < marks.length; i++) {
+				marks[i].addEventListener('mouseover', (function (i) {
+					return function (e) {
+						buttons[i].classList.add('button-display')
+					}
+				}(i)))
+				marks[i].addEventListener('mouseout', (function (i) {
+					return function (e) {
+						buttons[i].classList.remove('button-display')
+					}
+				}(i)))
+			}
+			for (var i = 0; i < buttons.length; i++) {
+				buttons[i].addEventListener('mouseover', function (e) {
+					this.classList.add('button-display')
+				})
+			}
+
+			buttons[0].addEventListener('click', function (e) {
+				var container = get('.container')
+				index--
+				if (index < 0) {
+					index = 0
+					alert('这是第一张图片！')
+					return
+				}
+				loadImage()
+				displayTitle()
+				e.stopPropagation()
+			})
+			buttons[1].addEventListener('click', function (e) {
+				var container = get('.container')
+				index++
+				if (index > links.length - 1) {
+					index = links.length - 1
+					alert('这是最后一张图片！')
+					return
+				}
+				displayTitle()
+				loadImage()
+				e.stopPropagation()
+
+			})
+
+			loadImage()
+			displayTitle()
+
+			function displayTitle() {
+				var title = get('.container .title')
+				title.classList.remove('title-display')
+				var temp = title.cloneNode(true)
+				title.parentNode.replaceChild(temp, title)
+				setTimeout(function () {
+					temp.classList.add('title-display')
+				}, 100)
+			}
+
+			function loadImage() {
+				var img = get('.container .image')
+				img.src = loadingSrc
+				var parent = img.parentNode
+
+				var image = document.createElement('img')
+				image.classList.add('image')
+
+				var temp = new Image()
+				temp.src = links[index]
+				temp.addEventListener('load', function (e) {
+					image.src = this.src
+					parent.replaceChild(image, img)
+				})
+			}
+		}
+
+		main()
+	</script>
+</body>
+
+</html>

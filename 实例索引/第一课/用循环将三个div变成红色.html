@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>用循环将三个div变成红色</title>
+	<style>
+		div {
+			display: inline-block;
+			width: 100px;
+			height: 100px;
+			background-color: black;
+		}
+
+		div.red {
+			background-color: red;
+		}
+	</style>
+</head>
+
+<body>
+	<button>点击将div变成红色</button>
+	<br>
+	<div></div>
+	<div></div>
+	<div></div>
+	<script>
+		var btn = document.querySelector('button')
+		var divs = document.querySelectorAll('div')
+
+		btn.addEventListener('click', function (e) {
+			for (var i = 0; i < divs.length; i++) {
+				divs[i].className = 'red'
+			}
+		})
+	</script>
+</body>
+
+</html>
