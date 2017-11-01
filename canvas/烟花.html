@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>烟花</title>
+	<style>
+		canvas {
+			border: 1px solid black;
+		}
+	</style>
+</head>
+
+<body>
+	<canvas id="firework" width="800" height="600"></canvas>
+	<script>
+		const log = console.log.bind(console)
+
+		const randomBetween = function (start, end) {
+			var n = Math.random() * (end - start + 1)
+			return Math.floor(n + start)
+		}
+
+		const randomColor = function () {
+			var color = 'rgb(' + randomBetween(0, 255) + ', ' + randomBetween(0, 255) + ', ' + randomBetween(0, 255) + ')'
+			return color
+		}
+
+		class Process {
+			constructor() {
+				this.scene = null
+				this.keydowns = {}
+				this.actions = {}
+
+				// events
+				window.addEventListener('keydown', event => {
+					this.keydowns[event.key] = true
+				}, false)
+				window.addEventListener('keyup', event => {
+					this.keydowns[event.key] = false
+				}, false)
+			}
+
+			runloop() {
+				if (!this.scene) {
+					return
+				}
+				// events触发
+				var actions = Object.keys(this.actions)
+				// log(actions)
+				for (var i = 0; i < actions.length; i++) {
+					var key = actions[i]
+					if (this.keydowns[key]) {
+						this.actions[key]()
+					}
+				}
+				// 绘制动画步骤
+				this.update()
+				this.clear()
+				this.draw()
+				window.requestAnimationFrame(() => {
+					this.runloop()
+				})
+			}
+			registerAction(key, callback) {
+				this.actions[key] = callback
+			}
+			__start() {
+				this.runloop()
+			}
+			update() {
+				this.scene.update()
+			}
+			clear() {
+				this.scene.clear()
+			}
+			draw() {
+				this.scene.draw()
+			}
+			runWithScene(s) {
+				this.scene = s
+				this.__start()
+			}
+		}
+
+		class Scene {
+			constructor() {
+				this.canvas = document.querySelector('#firework')
+				this.context = this.canvas.getContext('2d')
+				this.elements = []
+				this.numberOfFirework = 10
+				this.autoFirework = false
+
+				this.setup()
+			}
+			setup() {
+				this.canvas.addEventListener('click', event => {
+					var x = event.offsetX
+					var y = event.offsetY
+					let f = new Firework()
+					f.init(x, y)
+
+					this.addElement(f)
+				})
+			}
+			addElement(elem) {
+				elem.scene = this
+				this.elements.push(elem)
+			}
+			// removeElement(elem) {
+			// 	var index = this.elements.indexOf(elem)
+			// 	this.elements.splice(index, 1)
+			// }
+			auto() {
+				if (this.elements.length < this.numberOfFirework) {
+					var f = new Firework()
+					var x = randomBetween(20, this.canvas.width - 20)
+					var y = randomBetween(100, this.canvas.height - 100)
+					f.init(x, y)
+					this.addElement(f)
+				}
+
+			}
+			update() {
+				this.elements.forEach(elem => {
+					elem.update()
+				})
+				this.elements = this.elements.filter(elem => elem.alive === true)
+				if (this.autoFirework) {
+					this.auto()
+				}
+			}
+			clear() {
+				let x = this.canvas.width
+				let y = this.canvas.height
+				this.context.clearRect(0, 0, x, y)
+			}
+			draw() {
+				// draw背景
+				// this.context.fillStyle = 'gray'
+				// this.context.fillRect(0, 0, this.canvas.width, this.canvas.height)
+
+				// draw提示文字
+				this.context.font = '20px sans-serif'
+				this.context.fillStyle = 'black'
+				this.context.fillText('点击屏幕发射烟花。', 50, 100)
+				this.context.fillText('按F自动发射烟花，按C取消自动发射。', 50, 150)
+
+				this.elements.forEach(elem => {
+					elem.draw()
+				})
+			}
+		}
+
+		class Firework {
+			constructor() {
+				this.setup()
+			}
+			setup() {
+				this.speed = 10
+				this.x = 0
+				this.y = 0
+				this.color = randomColor()
+				this.alive = true
+			}
+			init(x, targetY) {
+				this.x = x
+				this.targetY = targetY
+			}
+			draw() {
+				if (!this.scene) {
+					return
+				}
+				var context = this.scene.context
+				var canvas = this.scene.canvas
+				context.fillStyle = this.color
+				context.fillRect(this.x - 1, canvas.height - this.y, 3, 15)
+			}
+			update() {
+				this.y += this.speed
+				if (this.y + this.targetY >= this.scene.canvas.height) {
+					var x = this.x
+					var y = this.targetY
+					// this.scene.removeElement(this)
+					this.alive = false
+
+					var ps = new ParticleSystem(x, y)
+					ps.setColor(this.color)
+					this.scene.addElement(ps)
+
+				}
+			}
+		}
+
+		class ParticleSystem {
+			constructor(x, y) {
+				this.setup(x, y)
+			}
+
+			setup(x, y) {
+				this.particles = []
+				this.duration = 40
+
+				this.x = x
+				this.y = y
+
+				this.alive = true
+
+				this.addParticles()
+			}
+			setColor(color) {
+				this.color = color
+			}
+			addParticles() {
+				for (var i = 0; i < 10; i++) {
+					var p = new Particle(this.x, this.y)
+					this.particles.push(p)
+				}
+			}
+			draw() {
+				var context = this.scene.context
+				this.particles.forEach(p => {
+					context.fillStyle = this.color ? this.color : 'purple'
+					context.beginPath()
+					context.arc(p.x, p.y, 2, 0, Math.PI * 2, true)
+					context.fill()
+				})
+			}
+			update() {
+				this.duration--
+				if (this.duration < 0) {
+					this.alive = false
+					// this.scene.removeElement(this)
+				}
+				this.particles.forEach(p => p.update())
+			}
+		}
+
+		class Particle {
+			constructor(x, y) {
+				this.x = x
+				this.y = y
+				this.vx = randomBetween(-2, 2)
+				this.vy = randomBetween(-2, 2)
+			}
+			// draw() {
+
+			// }
+			update() {
+				this.x += this.vx
+				this.y += this.vy
+			}
+		}
+
+		function __main() {
+			const p = new Process()
+			const s = new Scene()
+			p.runWithScene(s)
+			p.registerAction('f', function () {
+				s.autoFirework = true
+			})
+			p.registerAction('c', function () {
+				s.autoFirework = false
+			})
+		}
+
+		__main()
+	</script>
+</body>
+
+</html>
