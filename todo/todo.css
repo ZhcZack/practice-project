@@ -22,7 +22,6 @@
     width: calc(100% - 280px);
     height: 100vh;
     clear: both;
-    transition: width 0.5s;
 }
 #todo-area.shrink {
     width: calc(100% - 280px - 280px);
@@ -32,10 +31,11 @@
     height: 100vh;
     border-left: 1px solid rgba(0, 0, 0, 0.2);
     float: right;
-    transition: width 0.5s;
+    background-color: rgba(196, 195, 195, 0.2);
+    overflow: hidden;
 }
 .hide {
-    width: 0 !important;
+    display: none !important;
 }
 
 #todo-area-header {
@@ -76,13 +76,37 @@
     font-size: 1.2em;
     display: inline-block;
 }
-
-#todo-detail {
-    background-color: rgba(0, 0, 0, 0.2);
+#todo-area-list #todo-area-add-area {
+    font-size: 1em;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    height: 60px;
+    line-height: 60px;
+    clear: both;
 }
+#todo-area-list .todo-area-add:hover {
+    color: gray;
+}
+#todo-area-list #todo-area-add-area > * {
+    float: left;
+}
+#todo-area-list #todo-area-add-area .todo-area-add {
+    border: none;
+    width: 90%;
+    padding: 20px 0;
+    font-size: 1em;
+}
+#todo-area-add-area .todo-area-closebutton,
+#todo-area-add-area .todo-area-addbutton {
+    font-size: 1em;
+    width: 5%;
+    height: 100%;
+    text-align: center;
+    cursor: pointer;
+}
+
 #todo-detail .todo-detail-title {
     font-size: 2em;
-    padding-bottom: 20px;
+    padding: 20px;
     background-color: white;
 }
 #todo-detail .todo-detail-title p {
@@ -108,13 +132,19 @@
     width: 30px;
     cursor: pointer;
 }
-#todo-detail .todo-detail-nav .todo-detail-view-closebutton:hover {
+#todo-detail .todo-detail-nav .todo-detail-view-closebutton:hover,
+#todo-detail .todo-detail-nav .todo-delete-button:hover {
     background-color: rgba(0, 0, 0, 0.1);
 }
 #todo-detail .todo-detail-nav .todo-create-time {
+    text-align: center;
+    line-height: 30px;
     width: calc(100% - 60px);
     font-size: 1em;
 }
 #todo-detail .todo-detail-nav .todo-delete-button {
+    font-size: 1.5em;
+    text-align: center;
     width: 30px;
+    cursor: pointer;
 }

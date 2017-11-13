@@ -5,4 +5,5 @@ function main() {
     // vc.connectModel('test');
 }
 
-let vc = new ViewController('test');
+let vc = new TodoAreaView();
+vc.connectModel('test');
