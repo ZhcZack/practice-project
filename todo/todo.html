@@ -9,14 +9,19 @@
     <link rel="stylesheet" href="todo.css">
     <script src="util.js"></script>
     <script src="item.js"></script>
-    <script src="model.js"></script>
+    <script src="todo_item_model.js"></script>
     <script src="todo_area_view.js"></script>
     <script src="todo_detail_view.js"></script>
     <script src="todo_input_area.js"></script>
+    <script src="todo_list_view.js"></script>
+    <script src="todo_list_model.js"></script>
+    <script src="todo_checkbox_item.js"></script>
 </head>
 
 <body>
-    <div id="todo-list"></div>
+    <div id="todo-list">
+        <ul id="todo-list-view"></ul>
+    </div>
     <div id="todo-area" class="">
         <div id="todo-area-header">
             <h1 id="todo-area-header-name">TEST</h1>
@@ -28,7 +33,6 @@
                 <span class="todo-area-closebutton hide">X</span>
                 <span class="todo-area-addbutton hide">添加</span>
             </div>
-            </input>
         </div>
     </div>
     <div id="todo-detail" class="hide">

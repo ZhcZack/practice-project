@@ -1,4 +1,4 @@
-class TodoModel {
+class TodoItemModel {
     constructor(id) {
         this.id = id;
         this.items = [];

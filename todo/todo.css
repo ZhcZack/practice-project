@@ -15,8 +15,21 @@
 #todo-list {
     width: 280px;
     height: 100vh;
+    padding: 10px;
     border-right: 1px solid rgba(0, 0, 0, 0.2);
     float: left;
+}
+#todo-list #todo-list-view {
+    list-style-type: none;
+    font-size: 1em;
+}
+#todo-list #todo-list-view .todo-list-view-item {
+    font-size: 1.2em;
+    height: 40px;
+    line-height: 40px;
+}
+#todo-list #todo-list-view .todo-list-view-item:hover {
+    background-color: rgba(196, 195, 195, 0.2);
 }
 #todo-area {
     width: calc(100% - 280px);
@@ -70,7 +83,28 @@
     border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 }
 #todo-area-list .list-item:hover {
-    background-color: rgba(0, 0, 0, 0.1);
+    background-color: rgba(196, 195, 195, 0.2);
+}
+#todo-area-list .todo-checkbox {
+    display: inline-block;
+    font-size: 1em;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    border: 1px solid gray;
+    border-radius: 50%;
+    margin-right: 10px;
+    cursor: pointer;
+    color: transparent;
+}
+#todo-area-list .todo-checkbox:hover {
+    color: white;
+    background-color: gray;
+}
+#todo-area-list .todo-checkbox.todo-checkbox-checked {
+    background-color: green;
+    color: white;
 }
 #todo-area-list .list-item p {
     font-size: 1.2em;

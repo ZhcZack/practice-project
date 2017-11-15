@@ -5,5 +5,5 @@ function main() {
     // vc.connectModel('test');
 }
 
-let vc = new TodoAreaView();
-vc.connectModel('test');
+// global variable for debug
+let listView = new TodoListView();
