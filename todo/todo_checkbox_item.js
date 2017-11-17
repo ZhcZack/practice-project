@@ -9,8 +9,21 @@ class TodoCheckbox {
         check.innerText = '✓';
         this.element = check;
     }
-    markDone() {
+    get isChecked() {
+        return this.checked;
+    }
+    switchChecked() {
         this.checked = true;
         this.element.classList.add('todo-checkbox-checked');
+    }
+    switchUnChecked() {
+        this.checked = false;
+        this.element.classList.remove('todo-checkbox-checked');
+    }
+    toggleStatus() {
+        this.checked = !this.checked;
+        this.checked ?
+            this.element.classList.add('todo-checkbox-checked') :
+            this.element.classList.remove('todo-checkbox-checked');
     }
 }

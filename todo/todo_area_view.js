@@ -1,7 +1,7 @@
 class TodoAreaView {
-    constructor(name) {
+    constructor() {
         this.model = null;
-        this.name = name;
+        // this.name = name;
         this.nameLabel = get('#todo-area-header-name');
         this.element = get('#todo-area');
         this.list = get('#todo-area-list ul');
@@ -10,16 +10,21 @@ class TodoAreaView {
         this.setup();
     }
     setup() {
-        this.nameLabel.textContent = this.name;
+        // this.nameLabel.textContent = this.name;
         // this.todoListCallback = null;
         this.detailView = new TodoItemDetailView();
         this.detailView.areaView = this;
         this.inputArea = new TodoInputArea();
         this.inputArea.areaView = this;
+        // this.connectModel();
+    }
+    set name(value) {
+        this.modelName = value;
+        this.nameLabel.textContent = value;
         this.connectModel();
     }
     connectModel() {
-        this.model = new TodoItemModel(this.name);
+        this.model = new TodoItemModel(this.modelName);
         this.refreshUI();
         this.bindEvents();
     }
@@ -54,9 +59,7 @@ class TodoAreaView {
             li.dataset.index = index;
             // custom checkbox
             let check = new TodoCheckbox();
-            if (todo.done) {
-                check.markDone();
-            }
+            todo.done ? check.switchChecked() : check.switchUnChecked();
             this.checkboxs.push(check);
             let p = document.createElement('p');
             p.textContent = todo.title;
@@ -71,16 +74,21 @@ class TodoAreaView {
     // 自定义的checkbox点击事件处理函数
     // `check` is an instance of `TodoCheckbox`
     checkboxClickEvent(check) {
-        const element = check.element;
-        const title = element.nextElementSibling.textContent; // todo `title`
-        check.checked = !check.checked;
-        if (check.checked) {
-            element.classList.add('todo-checkbox-checked');
-        } else {
-            element.classList.remove('todo-checkbox-checked');
-        }
+        const title = check.element.nextElementSibling.textContent; // todo `title`
+        check.toggleStatus();
         // // change the status of `todo` item
         this.toggleItem(title);
+        // 如果detail view显示，刷新detail view的内容
+        // 如果标记todo`已完成`，隐藏detail view
+        if (this.detailView.isDisplayed) {
+            this.detailView.refreshUI();
+            if (check.isChecked) {
+                setTimeout(() => {
+                    this.detailView.disappear();
+                    this.stretch();
+                }, 200);
+            }
+        }
     }
     bindEvents() {
         this.list.addEventListener('click', event => {

@@ -10,7 +10,17 @@ class TodoItemDetailView {
         this.deleteButton = get('#todo-detail .todo-detail-nav .todo-delete-button');
         // log('hi');
         // this.refreshUI();
+        // insert custom checkbox
+        const title = get('#todo-detail .todo-detail-title p');
+        let checkbox = new TodoCheckbox();
+        this.checkbox = checkbox;
+        title.parentNode.insertBefore(checkbox.element, title);
+
         this.bindEvents();
+    }
+
+    get isDisplayed() {
+        return !this.element.classList.contains('hide');
     }
 
     appear() {
@@ -27,6 +37,7 @@ class TodoItemDetailView {
     }
 
     refreshUI() {
+        this.todoItem.done ? this.checkbox.switchChecked() : this.checkbox.switchUnChecked();
         let title = get('#todo-detail .todo-detail-title p');
         let time = get('#todo-detail .todo-detail-nav .todo-create-time');
 
@@ -43,6 +54,12 @@ class TodoItemDetailView {
             this.disappear();
             this.areaView.stretch();
             this.areaView.deleteTodoItem(this.todoItem);
+        });
+        this.checkbox.element.addEventListener('click', event => {
+            const title = this.checkbox.element.nextElementSibling.textContent;
+            this.checkbox.toggleStatus();
+            this.areaView.toggleItem(title);
+            this.areaView.refreshUI();
         });
     }
 }
