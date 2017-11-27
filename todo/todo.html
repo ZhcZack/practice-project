@@ -1,53 +1,28 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>To-Do</title>
-    <link rel="stylesheet" href="todo.css">
-    <script src="util.js"></script>
-    <script src="item.js"></script>
-    <script src="todo_item_model.js"></script>
-    <script src="todo_area_view.js"></script>
-    <script src="todo_detail_view.js"></script>
-    <script src="todo_input_area.js"></script>
-    <script src="todo_list_view.js"></script>
-    <script src="todo_list_model.js"></script>
-    <script src="todo_checkbox_item.js"></script>
-    <script src="todo_context_menu.js"></script>
+    <title>Todo App</title>
+    <link rel="stylesheet" href="main.css">
+    <script src="js/util.js"></script>
+    <script src="js/todo_list_view.js"></script>
+    <script src="js/todo_list_model.js"></script>
+    <script src="js/todo_app.js"></script>
+    <script src="js/custom_view.js"></script>
+    <script src="js/main.js"></script>
 </head>
 
 <body>
-    <div id="todo-list">
-        <ul id="todo-list-view"></ul>
-        <div id="todo-list-add-area">+ 新建清单</div>
-    </div>
-    <div id="todo-area" class="">
-        <div id="todo-area-header">
-            <h1 id="todo-area-header-name">TEST</h1>
-        </div>
-        <div id="todo-area-list">
+    <div id="todo">
+        <div id="todo-list-view">
             <ul></ul>
-            <div id="todo-area-add-area">
-                <input class="todo-area-add" placeholder="+ 添加待办事项">
-                <span class="todo-area-closebutton hide">X</span>
-                <span class="todo-area-addbutton hide">添加</span>
-            </div>
         </div>
+        <div id="todo-area-view"></div>
+        <div id="todo-detail-view" class="disappear"></div>
     </div>
-    <div id="todo-detail" class="hide">
-        <div class="todo-detail-title">
-            <p>title</p>
-        </div>
-        <div class="todo-detail-nav">
-            <span class="todo-detail-view-closebutton">&gt;</span>
-            <span class="todo-create-time"></span>
-            <span class="todo-delete-button">X</span>
-        </div>
-    </div>
-    <script src="main.js"></script>
 </body>
 
 </html>

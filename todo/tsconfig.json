@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+        "target": "es5",
+        "module": "es2015",
+        "sourceMap": false,
+        "noImplicitAny": true,
+        "strictNullChecks": true,
+        "outDir": "js"
+    },
+    "include": [
+        "src"
+    ],
+    "exclude": [
+        ""
+    ]
+}
