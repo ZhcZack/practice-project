@@ -2,7 +2,7 @@ var TodoListView = /** @class */ (function () {
     function TodoListView() {
         this.element = get('#todo-list-view');
         this.listView = get('#todo-list-view ul');
-        this.addNewlist = new CustomView.AddNewList();
+        this.customNewList = new CustomView.CustomNewList();
         this.setup();
     }
     TodoListView.prototype.setup = function () {
@@ -11,7 +11,7 @@ var TodoListView = /** @class */ (function () {
         this.bindEvents();
     };
     TodoListView.prototype.addCustomViews = function () {
-        this.element.appendChild(this.addNewlist.elem);
+        this.element.appendChild(this.customNewList.elem);
     };
     TodoListView.prototype.connectModel = function () {
         this.model = new TodoListModel();
@@ -34,10 +34,10 @@ var TodoListView = /** @class */ (function () {
     };
     TodoListView.prototype.bindEvents = function () {
         var _this = this;
-        this.addNewlist.elem.addEventListener('click', function (event) {
-            var name = _this.addNewlist.listName;
+        this.customNewList.elem.addEventListener('click', function (event) {
+            var name = _this.customNewList.listName;
             while (_this.lists.indexOf(name) !== -1) {
-                name = _this.addNewlist.listName;
+                name = _this.customNewList.listName;
             }
             _this.model.add(name);
             _this.refreseUI();

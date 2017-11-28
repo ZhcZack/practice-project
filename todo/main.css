@@ -3,6 +3,7 @@
     padding: 0;
     box-sizing: border-box;
     font-size: 16px;
+    font-family: -apple-system, Segoe UI, Helvetica Neue, Helvetica, 微软雅黑, sans-serif;
 }
 
 #todo {
@@ -52,6 +53,10 @@
 }
 #todo-area-view.shrink {
     width: calc(100% - 280px - 280px);
+}
+#todo-area-view-head {
+    height: 200px;
+    border-bottom: 1px solid rgba(206, 197, 197, 0.5);
 }
 #todo-detail-view.disappear {
     width: 0;
