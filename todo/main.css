@@ -15,26 +15,26 @@
     justify-content: flex-start;
 }
 
-#todo-list-view,
-#todo-detail-view {
+#listview,
+#detailview {
     width: 280px;
 }
 
-#todo-list-view {
+#listview {
     border-right: 1px solid rgba(206, 197, 197, 0.5);
 }
-#todo-list-view ul {
+#listview ul {
     list-style-type: none;
     padding: 10px;
 }
-#todo-list-view .list-item {
+#listview .list-item {
     height: 40px;
     display: flex;
     justify-content: flex-start;
     align-items: center;
     cursor: pointer;
 }
-#todo-list-view .list-item:hover {
+#listview .list-item:hover {
     background-color: rgba(206, 197, 197, 0.5);
 }
 #add-new-list {
@@ -48,16 +48,52 @@
 #add-new-list:hover {
     background-color: rgba(206, 197, 197, 0.5);
 }
-#todo-area-view {
+#add-new-item {
+    margin: 0 20px;
+    padding: 10px 0;
+    height: 60px;
+    display: flex;
+    border-bottom: 1px solid rgba(206, 197, 197, 0.5);
+}
+#add-new-item #input-area {
+    border: none;
+    flex: 10 1 100px;
+}
+#add-new-item #close-button {
+    flex: 0 1 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#add-new-item #add-button {
+    flex: 0 1 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#areaview {
     width: calc(100% - 280px);
 }
-#todo-area-view.shrink {
+#areaview.shrink {
     width: calc(100% - 280px - 280px);
 }
-#todo-area-view-head {
+#areaview-head {
     height: 200px;
     border-bottom: 1px solid rgba(206, 197, 197, 0.5);
 }
-#todo-detail-view.disappear {
+#areaview-content > ul {
+    margin: 0 20px;
+}
+#areaview .todo-item {
+    height: 60px;
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(206, 197, 197, 0.5);
+}
+#detailview.disappear {
     width: 0;
+}
+.hide {
+    display: none !important;
 }

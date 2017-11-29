@@ -1,7 +1,7 @@
 var TodoListView = /** @class */ (function () {
     function TodoListView() {
-        this.element = get('#todo-list-view');
-        this.listView = get('#todo-list-view ul');
+        this.element = get('#listview');
+        this.listView = get('#listview ul');
         this.customNewList = new CustomView.CustomNewList();
         this.setup();
     }
@@ -15,9 +15,9 @@ var TodoListView = /** @class */ (function () {
     };
     TodoListView.prototype.connectModel = function () {
         this.model = new TodoListModel();
-        this.refreseUI();
+        this.updateUI();
     };
-    TodoListView.prototype.refreseUI = function () {
+    TodoListView.prototype.updateUI = function () {
         var child = this.listView.firstElementChild;
         while (child !== null) {
             this.listView.removeChild(child);
@@ -40,7 +40,16 @@ var TodoListView = /** @class */ (function () {
                 name = _this.customNewList.listName;
             }
             _this.model.add(name);
-            _this.refreseUI();
+            _this.updateUI();
+        });
+        this.listView.addEventListener('click', function (event) {
+            var target = event.target;
+            if (target.nodeName !== 'LI') {
+                return;
+            }
+            var name = target.textContent;
+            // 让代理（也就是app）做切换视图内容的工作。
+            _this.delegate.toggleAreaView(name);
         });
     };
     return TodoListView;

@@ -4,7 +4,7 @@ class TodoListModel {
     constructor() {
         this.setup()
     }
-    setup() {
+    private setup() {
         this.load()
     }
     add(name: string) {

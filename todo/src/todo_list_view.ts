@@ -4,26 +4,27 @@ class TodoListView {
     private listView: HTMLElement
     private customNewList: CustomView.CustomNewList
     private lists: string[]
+    delegate: TodoApp;
 
     constructor() {
-        this.element = get('#todo-list-view')
-        this.listView = get('#todo-list-view ul')
+        this.element = get('#listview')
+        this.listView = get('#listview ul')
         this.customNewList = new CustomView.CustomNewList()
         this.setup()
     }
-    setup() {
+    private setup() {
         this.addCustomViews()
         this.connectModel()
         this.bindEvents()
     }
-    addCustomViews() {
+    private addCustomViews() {
         this.element.appendChild(this.customNewList.elem)
     }
-    connectModel() {
+    private connectModel() {
         this.model = new TodoListModel()
-        this.refreseUI()
+        this.updateUI()
     }
-    refreseUI() {
+    private updateUI() {
         let child = this.listView.firstElementChild
         while (child !== null) {
             this.listView.removeChild(child)
@@ -37,14 +38,23 @@ class TodoListView {
             this.listView.appendChild(li)
         }
     }
-    bindEvents() {
+    private bindEvents() {
         this.customNewList.elem.addEventListener('click', (event: Event) => {
             let name = this.customNewList.listName
             while (this.lists.indexOf(name) !== -1) {
                 name = this.customNewList.listName
             }
             this.model.add(name)
-            this.refreseUI()
+            this.updateUI()
         })
+        this.listView.addEventListener('click', event => {
+            const target = event.target as HTMLElement;
+            if (target.nodeName !== 'LI') {
+                return;
+            }
+            const name = target.textContent as string;
+            // 让代理（也就是app）做切换视图内容的工作。
+            this.delegate.toggleAreaView(name);
+        });
     }
 }
