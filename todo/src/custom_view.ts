@@ -1,4 +1,6 @@
+// 自定义“视图”
 namespace CustomView {
+    // “新建清单”按钮
     export class CustomNewList {
         private element: HTMLElement
         private defaultListName = '无命名清单'
@@ -20,7 +22,7 @@ namespace CustomView {
             return this.index > 0 ? this.defaultListName + this.index : this.defaultListName
         }
     }
-
+    // “添加待办事项”按钮
     export class CustomNewItem {
         private element: HTMLDivElement;
         private closeButton: HTMLElement;
@@ -91,6 +93,52 @@ namespace CustomView {
                 this.delegate.addNewItem(value);
                 // 重复代码，后面再改
                 this.normalMode();
+            });
+        }
+    }
+    // 
+    export class CustomCheckbox {
+        private element: HTMLElement;
+        private isChecked: boolean;
+
+        constructor() {
+            this.isChecked = false;
+            this.setup();
+        }
+
+        private setup() {
+            const div = document.createElement('div');
+            div.classList.add('custom-checkbox');
+            div.textContent = '√';
+            this.element = div;
+
+            this.bindEvents();
+        }
+
+        get checked(): boolean {
+            return this.isChecked;
+        }
+        get elem(): HTMLElement {
+            return this.element;
+        }
+
+        switchChecked() {
+            this.isChecked = true;
+            this.element.classList.add('checked');
+        }
+
+        private toggleStatus() {
+            if (this.isChecked) {
+                this.element.classList.add('checked');
+            } else {
+                this.element.classList.remove('checked');
+            }
+        }
+
+        private bindEvents() {
+            this.element.addEventListener('click', event => {
+                this.isChecked = !this.isChecked;
+                this.toggleStatus();
             });
         }
     }

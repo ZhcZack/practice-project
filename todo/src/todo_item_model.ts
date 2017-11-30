@@ -27,6 +27,14 @@ class TodoItemModel {
         }
         return { find: false }
     }
+    toggle(name: string) {
+        const info = this.info(name);
+        if (info.find) {
+            const item = this.itemList[info.index as number];
+            item.toggleStatus();
+            this.save();
+        }
+    }
     remove(title: string) {
         const info = this.info(title)
         if (!info.find) {
@@ -62,11 +70,23 @@ class TodoItemModel {
         localStorage.removeItem(this.modelName)
     }
 
-    get items(): string[] {
-        let result: string[] = []
+    get items(): TodoItemInterface[] {
+        let result: TodoItemInterface[] = []
         for (let item of this.itemList) {
-            result.push(item.title)
+            let face: TodoItemInterface = {
+                itemName: item.title,
+                isDone: item.isFinished,
+                date: item.createTime
+            }
+            result.push(face);
         }
         return result
+    }
+    getItem(title: string): TodoItem | null {
+        const info = this.info(title);
+        if (info.find) {
+            return this.itemList[info.index as number];
+        }
+        return null;
     }
 }

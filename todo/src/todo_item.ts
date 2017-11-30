@@ -13,6 +13,9 @@ class TodoItem {
     get isFinished(): boolean {
         return this.isDone
     }
+    get createTime(): string {
+        return this.date;
+    }
     toggleStatus() {
         this.isDone = !this.isDone
     }

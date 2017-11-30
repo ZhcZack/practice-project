@@ -20,6 +20,13 @@ var TodoItem = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(TodoItem.prototype, "createTime", {
+        get: function () {
+            return this.date;
+        },
+        enumerable: true,
+        configurable: true
+    });
     TodoItem.prototype.toggleStatus = function () {
         this.isDone = !this.isDone;
     };

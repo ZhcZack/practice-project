@@ -1,5 +1,7 @@
+// 自定义“视图”
 var CustomView;
 (function (CustomView) {
+    // “新建清单”按钮
     var CustomNewList = /** @class */ (function () {
         function CustomNewList() {
             this.defaultListName = '无命名清单';
@@ -30,6 +32,7 @@ var CustomView;
         return CustomNewList;
     }());
     CustomView.CustomNewList = CustomNewList;
+    // “添加待办事项”按钮
     var CustomNewItem = /** @class */ (function () {
         function CustomNewItem() {
             this.setup();
@@ -97,4 +100,53 @@ var CustomView;
         return CustomNewItem;
     }());
     CustomView.CustomNewItem = CustomNewItem;
+    // 
+    var CustomCheckbox = /** @class */ (function () {
+        function CustomCheckbox() {
+            this.isChecked = false;
+            this.setup();
+        }
+        CustomCheckbox.prototype.setup = function () {
+            var div = document.createElement('div');
+            div.classList.add('custom-checkbox');
+            div.textContent = '√';
+            this.element = div;
+            this.bindEvents();
+        };
+        Object.defineProperty(CustomCheckbox.prototype, "checked", {
+            get: function () {
+                return this.isChecked;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(CustomCheckbox.prototype, "elem", {
+            get: function () {
+                return this.element;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        CustomCheckbox.prototype.switchChecked = function () {
+            this.isChecked = true;
+            this.element.classList.add('checked');
+        };
+        CustomCheckbox.prototype.toggleStatus = function () {
+            if (this.isChecked) {
+                this.element.classList.add('checked');
+            }
+            else {
+                this.element.classList.remove('checked');
+            }
+        };
+        CustomCheckbox.prototype.bindEvents = function () {
+            var _this = this;
+            this.element.addEventListener('click', function (event) {
+                _this.isChecked = !_this.isChecked;
+                _this.toggleStatus();
+            });
+        };
+        return CustomCheckbox;
+    }());
+    CustomView.CustomCheckbox = CustomCheckbox;
 })(CustomView || (CustomView = {}));
