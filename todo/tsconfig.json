@@ -4,6 +4,8 @@
         "module": "es2015",
         "sourceMap": false,
         "noImplicitAny": true,
+        "noImplicitReturns": true,
+        "noImplicitThis": true,
         "strictNullChecks": true,
         "outDir": "js"
     },
