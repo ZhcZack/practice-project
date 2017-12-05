@@ -33,5 +33,13 @@ var TodoItem = /** @class */ (function () {
     TodoItem.prototype.equal = function (item) {
         return this.itemName === item.itemName;
     };
+    TodoItem.prototype.toJSON = function () {
+        var value = {
+            name: this.itemName,
+            done: this.isDone,
+            date: this.date,
+        };
+        return JSON.stringify(value);
+    };
     return TodoItem;
 }());

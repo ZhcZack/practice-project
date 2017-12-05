@@ -22,10 +22,18 @@ class TodoItem {
     equal(item: TodoItem): boolean {
         return this.itemName === item.itemName
     }
+    toJSON(): string {
+        const value = {
+            name: this.itemName,
+            done: this.isDone,
+            date: this.date,
+        }
+        return JSON.stringify(value);
+    }
 }
 
 interface TodoItemInterface {
-    itemName: string
-    isDone: boolean
+    name: string
+    done: boolean
     date: string
 }

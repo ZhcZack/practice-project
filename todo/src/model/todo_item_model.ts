@@ -36,11 +36,12 @@ class TodoItemModel {
         }
     }
     remove(title: string) {
-        const info = this.info(title)
+        const info = this.info(title);
         if (!info.find) {
-            return
+            return;
         }
-        this.itemList.splice(info.index as number, 1)
+        this.itemList.splice(info.index as number, 1);
+        this.save();
     }
     clear() {
         this.itemList = []
@@ -58,10 +59,11 @@ class TodoItemModel {
             this.itemList = []
             this.save()
         } else {
-            const todos = JSON.parse(data).todos as TodoItemInterface[]
+            const todos = JSON.parse(data).todos as string[]
             for (let todo of todos) {
-                let item = new TodoItem(todo.itemName, todo.isDone, todo.date)
-                this.itemList.push(item)
+                let t = JSON.parse(todo) as TodoItemInterface;
+                let item = new TodoItem(t.name, t.done, t.date);
+                this.itemList.push(item);
             }
         }
     }
@@ -74,18 +76,27 @@ class TodoItemModel {
         let result: TodoItemInterface[] = []
         for (let item of this.itemList) {
             let face: TodoItemInterface = {
-                itemName: item.title,
-                isDone: item.isFinished,
-                date: item.createTime
+                name: item.title,
+                done: item.isFinished,
+                date: item.createTime,
             }
             result.push(face);
         }
-        return result
+        return result;
     }
-    getItem(title: string): TodoItem | null {
+
+    get numberOfItems(): number {
+        return this.itemList.length;
+    }
+    getItem(title: string): TodoItemInterface | null {
         const info = this.info(title);
         if (info.find) {
-            return this.itemList[info.index as number];
+            const index = info.index as number;
+            return {
+                name: this.itemList[index].title,
+                done: this.itemList[index].isFinished,
+                date: this.itemList[index].createTime,
+            }
         }
         return null;
     }

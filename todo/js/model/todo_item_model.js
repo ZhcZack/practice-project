@@ -39,6 +39,7 @@ var TodoItemModel = /** @class */ (function () {
             return;
         }
         this.itemList.splice(info.index, 1);
+        this.save();
     };
     TodoItemModel.prototype.clear = function () {
         this.itemList = [];
@@ -60,7 +61,8 @@ var TodoItemModel = /** @class */ (function () {
             var todos = JSON.parse(data).todos;
             for (var _i = 0, todos_1 = todos; _i < todos_1.length; _i++) {
                 var todo = todos_1[_i];
-                var item = new TodoItem(todo.itemName, todo.isDone, todo.date);
+                var t = JSON.parse(todo);
+                var item = new TodoItem(t.name, t.done, t.date);
                 this.itemList.push(item);
             }
         }
@@ -74,9 +76,9 @@ var TodoItemModel = /** @class */ (function () {
             for (var _i = 0, _a = this.itemList; _i < _a.length; _i++) {
                 var item = _a[_i];
                 var face = {
-                    itemName: item.title,
-                    isDone: item.isFinished,
-                    date: item.createTime
+                    name: item.title,
+                    done: item.isFinished,
+                    date: item.createTime,
                 };
                 result.push(face);
             }
@@ -85,10 +87,22 @@ var TodoItemModel = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(TodoItemModel.prototype, "numberOfItems", {
+        get: function () {
+            return this.itemList.length;
+        },
+        enumerable: true,
+        configurable: true
+    });
     TodoItemModel.prototype.getItem = function (title) {
         var info = this.info(title);
         if (info.find) {
-            return this.itemList[info.index];
+            var index = info.index;
+            return {
+                name: this.itemList[index].title,
+                done: this.itemList[index].isFinished,
+                date: this.itemList[index].createTime,
+            };
         }
         return null;
     };
