@@ -14,7 +14,7 @@ class TodoItem {
         return this.isDone
     }
     get createTime(): string {
-        return this.date;
+        return this.date
     }
     toggleStatus() {
         this.isDone = !this.isDone

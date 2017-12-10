@@ -24,122 +24,122 @@ namespace CustomView {
     }
     // “添加待办事项”按钮
     export class CustomNewItem {
-        private element: HTMLDivElement;
-        private closeButton: HTMLElement;
-        private addButton: HTMLElement;
-        private inputArea: HTMLInputElement;
+        private element: HTMLDivElement
+        private closeButton: HTMLElement
+        private addButton: HTMLElement
+        private inputArea: HTMLInputElement
         delegate: TodoAreaView;
 
         constructor() {
-            this.setup();
-            this.bindEvents();
+            this.setup()
+            this.bindEvents()
         }
 
         get elem(): HTMLDivElement {
-            return this.element;
+            return this.element
         }
 
         private setup() {
-            this.element = document.createElement('div');
-            this.closeButton = document.createElement('span');
-            this.addButton = document.createElement('span');
-            this.inputArea = document.createElement('input');
+            this.element = document.createElement('div')
+            this.closeButton = document.createElement('span')
+            this.addButton = document.createElement('span')
+            this.inputArea = document.createElement('input')
 
-            this.element.id = 'add-new-item';
-            this.closeButton.id = 'close-button';
-            this.addButton.id = 'add-button';
-            this.inputArea.id = 'input-area';
+            this.element.id = 'add-new-item'
+            this.closeButton.id = 'close-button'
+            this.addButton.id = 'add-button'
+            this.inputArea.id = 'input-area'
 
-            this.closeButton.textContent = 'X';
-            this.closeButton.classList.add('hide');
-            this.addButton.textContent = '添加';
-            this.addButton.classList.add('hide');
-            this.inputArea.placeholder = '添加待办事项';
+            this.closeButton.textContent = 'X'
+            this.closeButton.classList.add('hide')
+            this.addButton.textContent = '添加'
+            this.addButton.classList.add('hide')
+            this.inputArea.placeholder = '添加待办事项'
 
-            this.element.appendChild(this.inputArea);
-            this.element.appendChild(this.closeButton);
-            this.element.appendChild(this.addButton);
+            this.element.appendChild(this.inputArea)
+            this.element.appendChild(this.closeButton)
+            this.element.appendChild(this.addButton)
         }
 
         private inputMode() {
-            this.inputArea.focus();
-            this.closeButton.classList.remove('hide');
-            this.addButton.classList.remove('hide');
+            this.inputArea.focus()
+            this.closeButton.classList.remove('hide')
+            this.addButton.classList.remove('hide')
         }
 
         private normalMode() {
-            this.inputArea.value = '';
-            this.inputArea.blur();
-            this.closeButton.classList.add('hide');
-            this.addButton.classList.add('hide');
+            this.inputArea.value = ''
+            this.inputArea.blur()
+            this.closeButton.classList.add('hide')
+            this.addButton.classList.add('hide')
         }
 
         private bindEvents() {
             this.inputArea.addEventListener('keyup', event => {
-                log('hi');
-                const target = event.target as HTMLInputElement;
-                const value = target.value;
+                log('hi')
+                const target = event.target as HTMLInputElement
+                const value = target.value
                 if (value !== '') {
-                    this.inputMode();
+                    this.inputMode()
                 } else {
-                    this.normalMode();
+                    this.normalMode()
                 }
-            });
+            })
             this.closeButton.addEventListener('click', event => {
-                this.normalMode();
-            });
+                this.normalMode()
+            })
             this.addButton.addEventListener('click', event => {
-                const value = this.inputArea.value;
-                this.delegate.addNewItem(value);
+                const value = this.inputArea.value
+                this.delegate.addNewItem(value)
                 // 重复代码，后面再改
-                this.normalMode();
-            });
+                this.normalMode()
+            })
         }
     }
     // 
     export class CustomCheckbox {
-        private element: HTMLElement;
-        private isChecked: boolean;
+        private element: HTMLElement
+        private isChecked: boolean
 
         constructor() {
-            this.isChecked = false;
-            this.setup();
+            this.isChecked = false
+            this.setup()
         }
 
         private setup() {
-            const div = document.createElement('div');
-            div.classList.add('custom-checkbox');
-            div.textContent = '√';
-            this.element = div;
+            const div = document.createElement('div')
+            div.classList.add('custom-checkbox')
+            div.textContent = '√'
+            this.element = div
 
-            this.bindEvents();
+            this.bindEvents()
         }
 
         get checked(): boolean {
-            return this.isChecked;
+            return this.isChecked
         }
         get elem(): HTMLElement {
-            return this.element;
+            return this.element
         }
 
         switchChecked() {
-            this.isChecked = true;
-            this.element.classList.add('checked');
+            this.isChecked = true
+            this.element.classList.add('checked')
         }
 
         private toggleStatus() {
             if (this.isChecked) {
-                this.element.classList.add('checked');
+                this.element.classList.add('checked')
             } else {
-                this.element.classList.remove('checked');
+                this.element.classList.remove('checked')
             }
         }
 
         private bindEvents() {
             this.element.addEventListener('click', event => {
-                this.isChecked = !this.isChecked;
-                this.toggleStatus();
-            });
+                this.isChecked = !this.isChecked
+                this.toggleStatus()
+            })
         }
     }
 }

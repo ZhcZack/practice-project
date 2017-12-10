@@ -46,7 +46,7 @@ var TodoListView = /** @class */ (function () {
     TodoListView.prototype.displayItemNumberOfList = function () {
         if (this.delegate) {
             clearInterval(this.timer);
-            var items = this.listView.querySelectorAll('span');
+            var items = this.listView.querySelectorAll('.item-name');
             for (var i = 0; i < items.length; i++) {
                 var name_2 = items[i].textContent;
                 var numberOfItems = this.delegate.numberOfItemsInList(name_2);

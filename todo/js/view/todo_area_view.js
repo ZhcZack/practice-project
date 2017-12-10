@@ -35,7 +35,7 @@ var TodoAreaView = /** @class */ (function () {
         var _this = this;
         this.contentView.addEventListener('click', function (event) {
             var target = event.target;
-            // log(target);
+            // log(target)
             // 点击的是checkbox
             if (target.classList.contains('custom-checkbox')) {
                 var item = target.nextElementSibling;
