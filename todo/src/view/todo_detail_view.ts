@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 class TodoDetailView implements CustomView.CustomCheckboxDelegate {
-=======
-class TodoDetailView {
->>>>>>> 3cd509b4af9afa47820b209adb78a9020be2d192
     delegate: TodoApp
     private element: HTMLElement
     private check: CustomView.CustomCheckbox
@@ -15,10 +11,7 @@ class TodoDetailView {
     constructor() {
         this.element = get('#detailview')
         this.check = new CustomView.CustomCheckbox()
-<<<<<<< HEAD
         this.check.delegate = this
-=======
->>>>>>> 3cd509b4af9afa47820b209adb78a9020be2d192
         this.nameLabel = get('#detailview .title')
         this.hideButton = get('#detailview .disappear')
         this.closeButton = get('#detailview .delete')
@@ -44,13 +37,6 @@ class TodoDetailView {
             const title = this.todoItem.name
             this.delegate.deleteItem(title)
             this.delegate.closeDetailView()
-<<<<<<< HEAD
-=======
-        });
-        this.check.elem.addEventListener('click', event => {
-            const title = this.nameLabel.textContent as string
-            this.delegate.toggleItem(title)
->>>>>>> 3cd509b4af9afa47820b209adb78a9020be2d192
         });
         // this.check.elem.addEventListener('click', event => {
         //     const title = this.nameLabel.textContent as string;

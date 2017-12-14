@@ -100,17 +100,11 @@ namespace CustomView {
     export class CustomCheckbox {
         private element: HTMLElement
         private isChecked: boolean
-<<<<<<< HEAD
         delegate: CustomCheckboxDelegate | null
 
         constructor() {
             this.isChecked = false
             this.delegate = null
-=======
-
-        constructor() {
-            this.isChecked = false
->>>>>>> 3cd509b4af9afa47820b209adb78a9020be2d192
             this.setup()
         }
 
@@ -147,15 +141,11 @@ namespace CustomView {
             this.element.addEventListener('click', event => {
                 this.isChecked = !this.isChecked
                 this.toggleStatus()
-<<<<<<< HEAD
                 event.stopPropagation()
                 if (this.delegate) {
                     this.delegate.checkboxClicked(this)
                 }
-            });
-=======
             })
->>>>>>> 3cd509b4af9afa47820b209adb78a9020be2d192
         }
     }
 

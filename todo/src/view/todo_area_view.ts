@@ -1,18 +1,9 @@
-<<<<<<< HEAD
-class TodoAreaView implements CustomView.CustomCheckboxDelegate {
-    private element: HTMLElement;
-    private nameLabel: HTMLDivElement;
-    private contentView: HTMLElement;
-    private itemModel: TodoItemModel;
-    private modelName: string;
-=======
 class TodoAreaView {
     private element: HTMLElement
     private nameLabel: HTMLDivElement
     private contentView: HTMLElement
     private itemModel: TodoItemModel
     private modelName: string
->>>>>>> 3cd509b4af9afa47820b209adb78a9020be2d192
     private customNewItem: CustomView.CustomNewItem
     private checkboxList: CustomView.CustomCheckbox[]
     delegate: TodoApp;
@@ -47,25 +38,11 @@ class TodoAreaView {
     }
     private bindEvents() {
         this.contentView.addEventListener('click', event => {
-<<<<<<< HEAD
             const target = event.target as HTMLElement;
             // log(target);
             if (target.classList.contains('todo-item')) {
                 const title = target.querySelector('.todo-item-content')!.textContent as string;
                 const item = this.itemModel.getItem(title);
-=======
-            const target = event.target as HTMLElement
-            // log(target)
-            // 点击的是checkbox
-            if (target.classList.contains('custom-checkbox')) {
-                const item = target.nextElementSibling!
-                const title = item.textContent as string
-                item.classList.toggle('done')
-                this.toggleItemStatus(title)
-            } else if (target.classList.contains('todo-item')) {
-                const title = target.querySelector('.todo-item-content')!.textContent as string
-                const item = this.itemModel.getItem(title)
->>>>>>> 3cd509b4af9afa47820b209adb78a9020be2d192
                 if (item) {
                     this.delegate.toggleDetailView(item!)
                     this.shrinkView()
@@ -88,25 +65,15 @@ class TodoAreaView {
         this.checkboxList = []
         const items = this.itemModel.items
         for (let item of items) {
-            // log(item);
-<<<<<<< HEAD
-            let li = document.createElement('li');
-            li.classList.add('todo-item');
-            let span = document.createElement('span');
-            span.classList.add('todo-item-content');
-            span.textContent = item.name;
-            let check = new CustomView.CustomCheckbox();
-            check.delegate = this
-            this.checkboxList.push(check);
-=======
+            // log(item)
             let li = document.createElement('li')
             li.classList.add('todo-item')
             let span = document.createElement('span')
             span.classList.add('todo-item-content')
             span.textContent = item.name
             let check = new CustomView.CustomCheckbox()
+            check.delegate = this
             this.checkboxList.push(check)
->>>>>>> 3cd509b4af9afa47820b209adb78a9020be2d192
 
             li.appendChild(check.elem)
             li.appendChild(span)
