@@ -3,6 +3,8 @@ var TodoListView = /** @class */ (function () {
         this.element = get('#listview');
         this.listView = get('#listview ul');
         this.customNewList = new CustomView.CustomNewList();
+        this.areaView = new TodoAreaView();
+        this.areaView.delegate = this;
         this.setup();
     }
     TodoListView.prototype.setup = function () {
@@ -18,7 +20,6 @@ var TodoListView = /** @class */ (function () {
         this.updateUI();
     };
     TodoListView.prototype.updateUI = function () {
-        var _this = this;
         var child = this.listView.firstElementChild;
         while (child !== null) {
             this.listView.removeChild(child);
@@ -39,32 +40,17 @@ var TodoListView = /** @class */ (function () {
             li.appendChild(number);
             this.listView.appendChild(li);
         }
-        this.timer = setInterval(function () {
-            _this.displayItemNumberOfList();
-        }, 500);
-    };
-    TodoListView.prototype.displayItemNumberOfList = function () {
-        if (this.delegate) {
-            clearInterval(this.timer);
-            var items = this.listView.querySelectorAll('.item-name');
-            for (var i = 0; i < items.length; i++) {
-                var name_2 = items[i].textContent;
-                var numberOfItems = this.delegate.numberOfItemsInList(name_2);
-                var numberLabel = items[i].nextElementSibling;
-                numberLabel.textContent = numberOfItems > 0 ? String(numberOfItems) : '';
-            }
-        }
     };
     TodoListView.prototype.bindEvents = function () {
         var _this = this;
-        this.customNewList.elem.addEventListener('click', function (event) {
-            var name = _this.customNewList.listName;
-            while (_this.itemList.indexOf(name) !== -1) {
-                name = _this.customNewList.listName;
-            }
-            _this.model.add(name);
-            _this.updateUI();
-        });
+        // this.customNewList.elem.addEventListener('click', (event: Event) => {
+        //     let name = this.customNewList.listName
+        //     while (this.itemList.indexOf(name) !== -1) {
+        //         name = this.customNewList.listName
+        //     }
+        //     this.model.add(name)
+        //     this.updateUI()
+        // })
         this.listView.addEventListener('click', function (event) {
             var target = event.target;
             var name = '';
@@ -78,13 +64,19 @@ var TodoListView = /** @class */ (function () {
                 }
             }
             // 让代理（也就是app）做切换视图内容的工作。
-            _this.delegate.toggleAreaView(name);
-            _this.delegate.closeDetailView();
+            // this.delegate!.toggleAreaView(name)
+            // this.delegate!.closeDetailView()
+            _this.areaView.name = name;
         });
     };
-    // delegate methods
-    TodoListView.prototype.refreshUI = function () {
-        this.displayItemNumberOfList();
+    // add new list delegate methods
+    TodoListView.prototype.newListClicked = function (newList) {
+        var name = this.customNewList.listName;
+        while (this.itemList.indexOf(name) !== -1) {
+            name = this.customNewList.listName;
+        }
+        this.model.add(name);
+        this.updateUI();
     };
     return TodoListView;
 }());

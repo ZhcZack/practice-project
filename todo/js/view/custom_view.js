@@ -7,12 +7,18 @@ var CustomView;
             this.defaultListName = '无命名清单';
             this.index = -1;
             this.setup();
+            this.bindEvents();
         }
         CustomNewList.prototype.setup = function () {
             var div = document.createElement('div');
             div.textContent = '新建清单';
             div.id = 'add-new-list';
             this.element = div;
+        };
+        CustomNewList.prototype.bindEvents = function () {
+            this.element.addEventListener('click', function (event) {
+                event.stopPropagation();
+            });
         };
         Object.defineProperty(CustomNewList.prototype, "elem", {
             get: function () {
@@ -77,7 +83,10 @@ var CustomView;
         CustomNewItem.prototype.bindEvents = function () {
             var _this = this;
             this.inputArea.addEventListener('keyup', function (event) {
-                log('hi');
+                // log('hi')
+                if (event.key === 'Control' || event.key === 'Shift') {
+                    return;
+                }
                 var target = event.target;
                 var value = target.value;
                 if (value !== '') {
@@ -92,15 +101,16 @@ var CustomView;
             });
             this.addButton.addEventListener('click', function (event) {
                 var value = _this.inputArea.value;
-                _this.delegate.addNewItem(value);
-                // 重复代码，后面再改
                 _this.normalMode();
+                if (_this.delegate) {
+                    _this.delegate.addButtonClicked(value);
+                }
             });
         };
         return CustomNewItem;
     }());
     CustomView.CustomNewItem = CustomNewItem;
-    // 
+    // 自定义checkbox
     var CustomCheckbox = /** @class */ (function () {
         function CustomCheckbox() {
             this.isChecked = false;

@@ -5,44 +5,22 @@
  * models应该保存在app里，用不着和views进行绑定。相当于app是绑定models的一个‘view’
  */
 
+/**
+ * 2017/12/14
+ * 代码设计的问题解决了
+ */
+
 class TodoApp {
     private listView: TodoListView
-    private areaView: TodoAreaView
-    private detailView: TodoDetailView
-
-    private tempItemsModel: TodoItemModel | null
+    private listModel: TodoListModel
+    private itemModel: TodoItemModel
 
     constructor() {
+        // init models
+        this.listModel = new TodoListModel()
+        this.itemModel = new TodoItemModel('我的一天')
+
         this.listView = new TodoListView()
         this.listView.delegate = this
-        this.areaView = new TodoAreaView()
-        this.areaView.delegate = this
-        this.detailView = new TodoDetailView()
-        this.detailView.delegate = this
-    }
-    toggleAreaView(name: string) {
-        this.areaView.name = name
-    }
-    toggleDetailView(item: TodoItemInterface) {
-        this.detailView.item = item
-    }
-    closeDetailView() {
-        this.areaView.stretchView()
-        this.detailView.closeView()
-    }
-    // 我也不知道这个设计对不对，反正写到现在了感觉不太对劲……
-    deleteItem(title: string) {
-        this.areaView.deleteItem(title)
-        this.listView.refreshUI()
-    }
-    toggleItem(title: string) {
-        this.areaView.toggleItem(title)
-    }
-
-    numberOfItemsInList(listName: string): number {
-        this.tempItemsModel = new TodoItemModel(listName)
-        const result = this.tempItemsModel.numberOfItems
-        this.tempItemsModel = null
-        return result
     }
 }

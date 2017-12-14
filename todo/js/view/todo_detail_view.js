@@ -1,11 +1,11 @@
 var TodoDetailView = /** @class */ (function () {
     function TodoDetailView() {
         this.element = get('#detailview');
-        this.check = new CustomView.CustomCheckbox();
-        this.check.delegate = this;
+        this.checkbox = new CustomView.CustomCheckbox();
+        this.checkbox.delegate = this;
         this.nameLabel = get('#detailview .title');
-        this.hideButton = get('#detailview .disappear');
-        this.closeButton = get('#detailview .delete');
+        this.closeButton = get('#detailview .disappear');
+        this.deleteButton = get('#detailview .delete');
         this.timeLabel = get('#detailview .create-time');
         this.setup();
     }
@@ -18,23 +18,19 @@ var TodoDetailView = /** @class */ (function () {
     TodoDetailView.prototype.bindEvents = function () {
         var _this = this;
         // 让delegate来显示/隐藏视图总觉得哪里怪怪的……
-        this.hideButton.addEventListener('click', function (event) {
-            _this.delegate.closeDetailView();
-        });
         this.closeButton.addEventListener('click', function (event) {
-            var title = _this.todoItem.name;
-            _this.delegate.deleteItem(title);
-            _this.delegate.closeDetailView();
+            _this.closeView();
+            if (_this.delegate) {
+                _this.delegate.closeButtonClicked(_this.todoItem);
+            }
         });
-        // this.check.elem.addEventListener('click', event => {
-        //     const title = this.nameLabel.textContent as string;
-        //     this.delegate.toggleItem(title);
-        // });
-    };
-    // custom checkbox delegate method
-    TodoDetailView.prototype.checkboxClicked = function (checkbox) {
-        var title = this.nameLabel.textContent;
-        this.delegate.toggleItem(title);
+        this.deleteButton.addEventListener('click', function (event) {
+            var title = _this.todoItem.name;
+            _this.closeView();
+            if (_this.delegate) {
+                _this.delegate.deleteButtonClicked(_this.todoItem);
+            }
+        });
     };
     Object.defineProperty(TodoDetailView.prototype, "item", {
         set: function (item) {
@@ -47,8 +43,11 @@ var TodoDetailView = /** @class */ (function () {
     });
     TodoDetailView.prototype.updateUI = function () {
         this.nameLabel.textContent = this.todoItem.name;
-        this.nameLabel.parentNode.insertBefore(this.check.elem, this.nameLabel);
+        this.nameLabel.parentNode.insertBefore(this.checkbox.elem, this.nameLabel);
         this.timeLabel.textContent = '创建于' + this.todoItem.date.split(' ')[0];
+        if (this.todoItem.done) {
+            this.checkbox.switchChecked();
+        }
     };
     TodoDetailView.prototype.disappear = function () {
         // hide detail view
@@ -57,6 +56,12 @@ var TodoDetailView = /** @class */ (function () {
     TodoDetailView.prototype.appear = function () {
         // show detail view
         this.element.classList.remove('disappear');
+    };
+    // custom checkbox delegate method
+    TodoDetailView.prototype.checkboxClicked = function (checkbox) {
+        if (this.delegate) {
+            this.delegate.toggleItem(this.todoItem);
+        }
     };
     return TodoDetailView;
 }());

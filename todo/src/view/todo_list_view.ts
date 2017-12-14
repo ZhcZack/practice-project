@@ -1,4 +1,4 @@
-class TodoListView {
+class TodoListView implements CustomView.CustomNewListDelegate {
     private model: TodoListModel
     private element: HTMLElement
     private listView: HTMLElement
@@ -7,10 +7,15 @@ class TodoListView {
     private timer: number
     delegate: TodoApp | null
 
+    private areaView: TodoAreaView
+
     constructor() {
         this.element = get('#listview')
         this.listView = get('#listview ul')
         this.customNewList = new CustomView.CustomNewList()
+
+        this.areaView = new TodoAreaView()
+        this.areaView.delegate = this
         this.setup()
     }
     private setup() {
@@ -48,31 +53,17 @@ class TodoListView {
             li.appendChild(number)
             this.listView.appendChild(li)
         }
-        this.timer = setInterval(() => {
-            this.displayItemNumberOfList()
-        }, 500)
     }
-    private displayItemNumberOfList() {
-        if (this.delegate) {
-            clearInterval(this.timer)
-            const items = this.listView.querySelectorAll('.item-name')
-            for (let i = 0; i < items.length; i++) {
-                let name = items[i].textContent as string
-                let numberOfItems = this.delegate.numberOfItemsInList(name)
-                let numberLabel = items[i].nextElementSibling as HTMLElement
-                numberLabel.textContent = numberOfItems > 0 ? String(numberOfItems) : ''
-            }
-        }
-    }
+
     private bindEvents() {
-        this.customNewList.elem.addEventListener('click', (event: Event) => {
-            let name = this.customNewList.listName
-            while (this.itemList.indexOf(name) !== -1) {
-                name = this.customNewList.listName
-            }
-            this.model.add(name)
-            this.updateUI()
-        })
+        // this.customNewList.elem.addEventListener('click', (event: Event) => {
+        //     let name = this.customNewList.listName
+        //     while (this.itemList.indexOf(name) !== -1) {
+        //         name = this.customNewList.listName
+        //     }
+        //     this.model.add(name)
+        //     this.updateUI()
+        // })
         this.listView.addEventListener('click', event => {
             const target = event.target as HTMLElement
             let name = ''
@@ -85,13 +76,19 @@ class TodoListView {
                 }
             }
             // 让代理（也就是app）做切换视图内容的工作。
-            this.delegate!.toggleAreaView(name)
-            this.delegate!.closeDetailView()
+            // this.delegate!.toggleAreaView(name)
+            // this.delegate!.closeDetailView()
+            this.areaView.name = name
         });
     }
 
-    // delegate methods
-    refreshUI() {
-        this.displayItemNumberOfList()
+    // add new list delegate methods
+    newListClicked(newList: CustomView.CustomNewList): void {
+        let name = this.customNewList.listName
+        while (this.itemList.indexOf(name) !== -1) {
+            name = this.customNewList.listName
+        }
+        this.model.add(name)
+        this.updateUI()
     }
 }

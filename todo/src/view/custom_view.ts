@@ -7,12 +7,19 @@ namespace CustomView {
         private index = -1
         constructor() {
             this.setup()
+            this.bindEvents()
         }
         private setup() {
             const div = document.createElement('div')
             div.textContent = '新建清单'
             div.id = 'add-new-list'
             this.element = div
+        }
+
+        private bindEvents() {
+            this.element.addEventListener('click', event => {
+                event.stopPropagation()
+            })
         }
         get elem(): HTMLElement {
             return this.element
@@ -22,13 +29,18 @@ namespace CustomView {
             return this.index > 0 ? this.defaultListName + this.index : this.defaultListName
         }
     }
+
+    export interface CustomNewListDelegate {
+        newListClicked(newList: CustomNewList): void
+    }
+
     // “添加待办事项”按钮
     export class CustomNewItem {
         private element: HTMLDivElement
         private closeButton: HTMLElement
         private addButton: HTMLElement
         private inputArea: HTMLInputElement
-        delegate: TodoAreaView;
+        delegate: TodoAreaView | null
 
         constructor() {
             this.setup()
@@ -76,7 +88,10 @@ namespace CustomView {
 
         private bindEvents() {
             this.inputArea.addEventListener('keyup', event => {
-                log('hi')
+                // log('hi')
+                if (event.key === 'Control' || event.key === 'Shift') {
+                    return
+                }
                 const target = event.target as HTMLInputElement
                 const value = target.value
                 if (value !== '') {
@@ -90,13 +105,18 @@ namespace CustomView {
             })
             this.addButton.addEventListener('click', event => {
                 const value = this.inputArea.value
-                this.delegate.addNewItem(value)
-                // 重复代码，后面再改
                 this.normalMode()
+                if (this.delegate) {
+                    this.delegate.addButtonClicked(value)
+                }
             })
         }
     }
-    // 
+    export interface CustomNewItemDelegate {
+        addButtonClicked(value: string): void
+    }
+
+    // 自定义checkbox
     export class CustomCheckbox {
         private element: HTMLElement
         private isChecked: boolean
@@ -150,6 +170,6 @@ namespace CustomView {
     }
 
     export interface CustomCheckboxDelegate {
-        checkboxClicked(checkbox: CustomView.CustomCheckbox): void
+        checkboxClicked(checkbox: CustomCheckbox): void
     }
 }

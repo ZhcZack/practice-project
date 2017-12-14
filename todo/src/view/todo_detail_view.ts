@@ -1,20 +1,20 @@
 class TodoDetailView implements CustomView.CustomCheckboxDelegate {
-    delegate: TodoApp
+    delegate: TodoAreaView | null
     private element: HTMLElement
-    private check: CustomView.CustomCheckbox
+    private checkbox: CustomView.CustomCheckbox
     private nameLabel: HTMLElement
-    private hideButton: HTMLElement
     private closeButton: HTMLElement
+    private deleteButton: HTMLElement
     private timeLabel: HTMLElement
     private todoItem: TodoItemInterface
 
     constructor() {
         this.element = get('#detailview')
-        this.check = new CustomView.CustomCheckbox()
-        this.check.delegate = this
+        this.checkbox = new CustomView.CustomCheckbox()
+        this.checkbox.delegate = this
         this.nameLabel = get('#detailview .title')
-        this.hideButton = get('#detailview .disappear')
-        this.closeButton = get('#detailview .delete')
+        this.closeButton = get('#detailview .disappear')
+        this.deleteButton = get('#detailview .delete')
         this.timeLabel = get('#detailview .create-time')
 
         this.setup()
@@ -30,24 +30,19 @@ class TodoDetailView implements CustomView.CustomCheckboxDelegate {
 
     private bindEvents() {
         // 让delegate来显示/隐藏视图总觉得哪里怪怪的……
-        this.hideButton.addEventListener('click', event => {
-            this.delegate.closeDetailView()
-        });
         this.closeButton.addEventListener('click', event => {
+            this.closeView()
+            if (this.delegate) {
+                this.delegate.closeButtonClicked(this.todoItem)
+            }
+        })
+        this.deleteButton.addEventListener('click', event => {
             const title = this.todoItem.name
-            this.delegate.deleteItem(title)
-            this.delegate.closeDetailView()
-        });
-        // this.check.elem.addEventListener('click', event => {
-        //     const title = this.nameLabel.textContent as string;
-        //     this.delegate.toggleItem(title);
-        // });
-    }
-
-    // custom checkbox delegate method
-    checkboxClicked(checkbox: CustomView.CustomCheckbox) {
-        const title = this.nameLabel.textContent as string
-        this.delegate.toggleItem(title)
+            this.closeView()
+            if (this.delegate) {
+                this.delegate.deleteButtonClicked(this.todoItem)
+            }
+        })
     }
 
     set item(item: TodoItemInterface) {
@@ -58,8 +53,12 @@ class TodoDetailView implements CustomView.CustomCheckboxDelegate {
 
     private updateUI() {
         this.nameLabel.textContent = this.todoItem.name
-        this.nameLabel.parentNode!.insertBefore(this.check.elem, this.nameLabel)
+        this.nameLabel.parentNode!.insertBefore(this.checkbox.elem, this.nameLabel)
         this.timeLabel.textContent = '创建于' + this.todoItem.date.split(' ')[0]
+
+        if (this.todoItem.done) {
+            this.checkbox.switchChecked()
+        }
     }
 
     private disappear() {
@@ -71,4 +70,17 @@ class TodoDetailView implements CustomView.CustomCheckboxDelegate {
         // show detail view
         this.element.classList.remove('disappear')
     }
+
+    // custom checkbox delegate method
+    checkboxClicked(checkbox: CustomView.CustomCheckbox) {
+        if (this.delegate) {
+            this.delegate.toggleItem(this.todoItem)
+        }
+    }
+}
+
+interface TodoDetailViewDelegate {
+    closeButtonClicked(item: TodoItemInterface): void
+    deleteButtonClicked(item: TodoItemInterface): void
+    toggleItem(item: TodoItemInterface): void
 }
