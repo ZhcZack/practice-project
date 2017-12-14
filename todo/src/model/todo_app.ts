@@ -6,43 +6,43 @@
  */
 
 class TodoApp {
-    private listView: TodoListView;
-    private areaView: TodoAreaView;
-    private detailView: TodoDetailView;
+    private listView: TodoListView
+    private areaView: TodoAreaView
+    private detailView: TodoDetailView
 
-    private tempItemsModel: TodoItemModel | null;
+    private tempItemsModel: TodoItemModel | null
 
     constructor() {
-        this.listView = new TodoListView();
-        this.listView.delegate = this;
-        this.areaView = new TodoAreaView();
-        this.areaView.delegate = this;
-        this.detailView = new TodoDetailView();
-        this.detailView.delegate = this;
+        this.listView = new TodoListView()
+        this.listView.delegate = this
+        this.areaView = new TodoAreaView()
+        this.areaView.delegate = this
+        this.detailView = new TodoDetailView()
+        this.detailView.delegate = this
     }
     toggleAreaView(name: string) {
-        this.areaView.name = name;
+        this.areaView.name = name
     }
     toggleDetailView(item: TodoItemInterface) {
-        this.detailView.item = item;
+        this.detailView.item = item
     }
     closeDetailView() {
-        this.areaView.stretchView();
-        this.detailView.closeView();
+        this.areaView.stretchView()
+        this.detailView.closeView()
     }
     // 我也不知道这个设计对不对，反正写到现在了感觉不太对劲……
     deleteItem(title: string) {
-        this.areaView.deleteItem(title);
-        this.listView.refreshUI();
+        this.areaView.deleteItem(title)
+        this.listView.refreshUI()
     }
     toggleItem(title: string) {
-        this.areaView.toggleItem(title);
+        this.areaView.toggleItem(title)
     }
 
     numberOfItemsInList(listName: string): number {
-        this.tempItemsModel = new TodoItemModel(listName);
-        const result = this.tempItemsModel.numberOfItems;
-        this.tempItemsModel = null;
-        return result;
+        this.tempItemsModel = new TodoItemModel(listName)
+        const result = this.tempItemsModel.numberOfItems
+        this.tempItemsModel = null
+        return result
     }
 }

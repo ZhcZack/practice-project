@@ -35,8 +35,20 @@ var TodoAreaView = /** @class */ (function () {
         var _this = this;
         this.contentView.addEventListener('click', function (event) {
             var target = event.target;
+<<<<<<< HEAD
             // log(target);
             if (target.classList.contains('todo-item')) {
+=======
+            // log(target)
+            // 点击的是checkbox
+            if (target.classList.contains('custom-checkbox')) {
+                var item = target.nextElementSibling;
+                var title = item.textContent;
+                item.classList.toggle('done');
+                _this.toggleItemStatus(title);
+            }
+            else if (target.classList.contains('todo-item')) {
+>>>>>>> 3cd509b4af9afa47820b209adb78a9020be2d192
                 var title = target.querySelector('.todo-item-content').textContent;
                 var item = _this.itemModel.getItem(title);
                 if (item) {

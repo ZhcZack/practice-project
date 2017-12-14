@@ -2,7 +2,7 @@ class TodoItemModel {
     private itemList: TodoItem[]
     private modelName: string
     constructor(name: string) {
-        this.itemList = [];
+        this.itemList = []
         this.modelName = name
         this.setup()
     }
@@ -28,20 +28,20 @@ class TodoItemModel {
         return { find: false }
     }
     toggle(name: string) {
-        const info = this.info(name);
+        const info = this.info(name)
         if (info.find) {
-            const item = this.itemList[info.index as number];
-            item.toggleStatus();
-            this.save();
+            const item = this.itemList[info.index as number]
+            item.toggleStatus()
+            this.save()
         }
     }
     remove(title: string) {
-        const info = this.info(title);
+        const info = this.info(title)
         if (!info.find) {
-            return;
+            return
         }
-        this.itemList.splice(info.index as number, 1);
-        this.save();
+        this.itemList.splice(info.index as number, 1)
+        this.save()
     }
     clear() {
         this.itemList = []
@@ -61,9 +61,9 @@ class TodoItemModel {
         } else {
             const todos = JSON.parse(data).todos as string[]
             for (let todo of todos) {
-                let t = JSON.parse(todo) as TodoItemInterface;
-                let item = new TodoItem(t.name, t.done, t.date);
-                this.itemList.push(item);
+                let t = JSON.parse(todo) as TodoItemInterface
+                let item = new TodoItem(t.name, t.done, t.date)
+                this.itemList.push(item)
             }
         }
     }
@@ -80,24 +80,24 @@ class TodoItemModel {
                 done: item.isFinished,
                 date: item.createTime,
             }
-            result.push(face);
+            result.push(face)
         }
-        return result;
+        return result
     }
 
     get numberOfItems(): number {
-        return this.itemList.length;
+        return this.itemList.length
     }
     getItem(title: string): TodoItemInterface | null {
-        const info = this.info(title);
+        const info = this.info(title)
         if (info.find) {
-            const index = info.index as number;
+            const index = info.index as number
             return {
                 name: this.itemList[index].title,
                 done: this.itemList[index].isFinished,
                 date: this.itemList[index].createTime,
             }
         }
-        return null;
+        return null
     }
 }
