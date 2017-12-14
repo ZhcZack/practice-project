@@ -36,14 +36,7 @@ var TodoAreaView = /** @class */ (function () {
         this.contentView.addEventListener('click', function (event) {
             var target = event.target;
             // log(target);
-            // 点击的是checkbox
-            if (target.classList.contains('custom-checkbox')) {
-                var item = target.nextElementSibling;
-                var title = item.textContent;
-                item.classList.toggle('done');
-                _this.toggleItemStatus(title);
-            }
-            else if (target.classList.contains('todo-item')) {
+            if (target.classList.contains('todo-item')) {
                 var title = target.querySelector('.todo-item-content').textContent;
                 var item = _this.itemModel.getItem(title);
                 if (item) {
@@ -74,6 +67,7 @@ var TodoAreaView = /** @class */ (function () {
             span.classList.add('todo-item-content');
             span.textContent = item.name;
             var check = new CustomView.CustomCheckbox();
+            check.delegate = this;
             this.checkboxList.push(check);
             li.appendChild(check.elem);
             li.appendChild(span);
@@ -82,6 +76,17 @@ var TodoAreaView = /** @class */ (function () {
                 span.classList.add('done');
             }
             this.contentView.appendChild(li);
+        }
+    };
+    // custom checkbox delegate methods
+    TodoAreaView.prototype.checkboxClicked = function (checkbox) {
+        var item = checkbox.elem.nextElementSibling;
+        if (item) {
+            var title = item.textContent;
+            if (title) {
+                item.classList.toggle('done');
+                this.toggleItemStatus(title);
+            }
         }
     };
     // delegate methods

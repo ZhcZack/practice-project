@@ -1,3 +1,9 @@
+/**
+ * 代码结构设计存在严重缺陷，后面的改动直到设计变得正常为止不会增加新功能。
+ *
+ * 每一个view的delegate不应该是app，而应该是相关联的上一层view。
+ * models应该保存在app里，用不着和views进行绑定。相当于app是绑定models的一个‘view’
+ */
 var TodoApp = /** @class */ (function () {
     function TodoApp() {
         this.listView = new TodoListView();

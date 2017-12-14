@@ -55,7 +55,7 @@ class TodoListView {
     private displayItemNumberOfList() {
         if (this.delegate) {
             clearInterval(this.timer);
-            const items = this.listView.querySelectorAll('span');
+            const items = this.listView.querySelectorAll('.item-name');
             for (let i = 0; i < items.length; i++) {
                 let name = items[i].textContent as string;
                 let numberOfItems = this.delegate.numberOfItemsInList(name);

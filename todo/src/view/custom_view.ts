@@ -98,48 +98,58 @@ namespace CustomView {
     }
     // 
     export class CustomCheckbox {
-        private element: HTMLElement;
-        private isChecked: boolean;
+        private element: HTMLElement
+        private isChecked: boolean
+        delegate: CustomCheckboxDelegate | null
 
         constructor() {
-            this.isChecked = false;
-            this.setup();
+            this.isChecked = false
+            this.delegate = null
+            this.setup()
         }
 
         private setup() {
-            const div = document.createElement('div');
-            div.classList.add('custom-checkbox');
-            div.textContent = '√';
-            this.element = div;
+            const div = document.createElement('div')
+            div.classList.add('custom-checkbox')
+            div.textContent = '√'
+            this.element = div
 
-            this.bindEvents();
+            this.bindEvents()
         }
 
         get checked(): boolean {
-            return this.isChecked;
+            return this.isChecked
         }
         get elem(): HTMLElement {
-            return this.element;
+            return this.element
         }
 
         switchChecked() {
-            this.isChecked = true;
-            this.element.classList.add('checked');
+            this.isChecked = true
+            this.element.classList.add('checked')
         }
 
         private toggleStatus() {
             if (this.isChecked) {
-                this.element.classList.add('checked');
+                this.element.classList.add('checked')
             } else {
-                this.element.classList.remove('checked');
+                this.element.classList.remove('checked')
             }
         }
 
         private bindEvents() {
             this.element.addEventListener('click', event => {
-                this.isChecked = !this.isChecked;
-                this.toggleStatus();
+                this.isChecked = !this.isChecked
+                this.toggleStatus()
+                event.stopPropagation()
+                if (this.delegate) {
+                    this.delegate.checkboxClicked(this)
+                }
             });
         }
+    }
+
+    export interface CustomCheckboxDelegate {
+        checkboxClicked(checkbox: CustomView.CustomCheckbox): void
     }
 }

@@ -104,6 +104,7 @@ var CustomView;
     var CustomCheckbox = /** @class */ (function () {
         function CustomCheckbox() {
             this.isChecked = false;
+            this.delegate = null;
             this.setup();
         }
         CustomCheckbox.prototype.setup = function () {
@@ -144,6 +145,10 @@ var CustomView;
             this.element.addEventListener('click', function (event) {
                 _this.isChecked = !_this.isChecked;
                 _this.toggleStatus();
+                event.stopPropagation();
+                if (_this.delegate) {
+                    _this.delegate.checkboxClicked(_this);
+                }
             });
         };
         return CustomCheckbox;

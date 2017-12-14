@@ -2,6 +2,7 @@ var TodoDetailView = /** @class */ (function () {
     function TodoDetailView() {
         this.element = get('#detailview');
         this.check = new CustomView.CustomCheckbox();
+        this.check.delegate = this;
         this.nameLabel = get('#detailview .title');
         this.hideButton = get('#detailview .disappear');
         this.closeButton = get('#detailview .delete');
@@ -25,10 +26,15 @@ var TodoDetailView = /** @class */ (function () {
             _this.delegate.deleteItem(title);
             _this.delegate.closeDetailView();
         });
-        this.check.elem.addEventListener('click', function (event) {
-            var title = _this.nameLabel.textContent;
-            _this.delegate.toggleItem(title);
-        });
+        // this.check.elem.addEventListener('click', event => {
+        //     const title = this.nameLabel.textContent as string;
+        //     this.delegate.toggleItem(title);
+        // });
+    };
+    // custom checkbox delegate method
+    TodoDetailView.prototype.checkboxClicked = function (checkbox) {
+        var title = this.nameLabel.textContent;
+        this.delegate.toggleItem(title);
     };
     Object.defineProperty(TodoDetailView.prototype, "item", {
         set: function (item) {

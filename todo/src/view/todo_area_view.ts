@@ -1,4 +1,4 @@
-class TodoAreaView {
+class TodoAreaView implements CustomView.CustomCheckboxDelegate {
     private element: HTMLElement;
     private nameLabel: HTMLDivElement;
     private contentView: HTMLElement;
@@ -40,13 +40,7 @@ class TodoAreaView {
         this.contentView.addEventListener('click', event => {
             const target = event.target as HTMLElement;
             // log(target);
-            // 点击的是checkbox
-            if (target.classList.contains('custom-checkbox')) {
-                const item = target.nextElementSibling!;
-                const title = item.textContent as string;
-                item.classList.toggle('done');
-                this.toggleItemStatus(title);
-            } else if (target.classList.contains('todo-item')) {
+            if (target.classList.contains('todo-item')) {
                 const title = target.querySelector('.todo-item-content')!.textContent as string;
                 const item = this.itemModel.getItem(title);
                 if (item) {
@@ -78,6 +72,7 @@ class TodoAreaView {
             span.classList.add('todo-item-content');
             span.textContent = item.name;
             let check = new CustomView.CustomCheckbox();
+            check.delegate = this
             this.checkboxList.push(check);
 
             li.appendChild(check.elem);
@@ -88,6 +83,18 @@ class TodoAreaView {
                 span.classList.add('done');
             }
             this.contentView.appendChild(li);
+        }
+    }
+
+    // custom checkbox delegate methods
+    checkboxClicked(checkbox: CustomView.CustomCheckbox) {
+        const item = checkbox.elem.nextElementSibling
+        if (item) {
+            const title = item.textContent
+            if (title) {
+                item.classList.toggle('done')
+                this.toggleItemStatus(title)
+            }
         }
     }
 
