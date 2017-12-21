@@ -28,9 +28,6 @@ var TodoAreaView = /** @class */ (function () {
     });
     // private methods
     TodoAreaView.prototype.setup = function () {
-        // very bad hard code
-        this.modelName = '我的一天';
-        this.connectModel('我的一天');
         this.bindEvents();
         this.element.appendChild(this.customNewItem.elem);
     };

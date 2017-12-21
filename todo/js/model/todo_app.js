@@ -9,10 +9,13 @@
  * 代码设计的问题解决了
  */
 var TodoApp = /** @class */ (function () {
+    // private listModel: TodoListModel
+    // private itemModel: TodoItemModel
     function TodoApp() {
         // init models
-        this.listModel = new TodoListModel();
-        this.itemModel = new TodoItemModel('我的一天');
+        // this.listModel = new TodoListModel()
+        // const modelName = this.getDataModelName()
+        // this.itemModel = new TodoItemModel(modelName)
         this.listView = new TodoListView();
         this.listView.delegate = this;
     }

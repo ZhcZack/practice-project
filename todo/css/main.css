@@ -1,4 +1,14 @@
 @charset "UTF-8";
+@keyframes bounceInOut {
+  0% {
+    transform: scale(1);
+    opaticy: 1; }
+  50% {
+    transform: scale(0.95);
+    opacity: 0.5; }
+  100% {
+    transform: scale(1);
+    opacity: 1; } }
 * {
   margin: 0;
   padding: 0;
@@ -28,6 +38,14 @@
     justify-content: flex-start;
     align-items: center;
     cursor: pointer; }
+    #listview .list-item.active {
+      font-weight: bold;
+      background-color: #ABDDF1; }
+      #listview .list-item.active:hover {
+        background-color: #87ceeb; }
+      #listview .list-item.active .item-name {
+        animation: bounceInOut;
+        animation-duration: 0.3s; }
     #listview .list-item:hover {
       background-color: rgba(206, 197, 197, 0.5); }
     #listview .list-item .item-name {
@@ -83,10 +101,9 @@
   #areaview .todo-item-content.done {
     text-decoration: line-through;
     color: gray; }
-
-#areaview-head {
-  height: 200px;
-  border-bottom: 1px solid rgba(206, 197, 197, 0.5); }
+  #areaview #areaview-head {
+    height: 200px;
+    border-bottom: 1px solid rgba(206, 197, 197, 0.5); }
 
 #areaview-content ul {
   margin: 0 20px; }

@@ -16,8 +16,15 @@ class TodoListView implements CustomView.CustomNewListDelegate {
 
         this.areaView = new TodoAreaView()
         this.areaView.delegate = this
+        this.areaView.name = this.getItemModelName()
         this.setup()
     }
+
+    private getItemModelName(): string {
+        const name = localStorage.getItem('list-name-before-closed')
+        return name ? name : '我的一天'
+    }
+
     private setup() {
         this.addCustomViews()
         this.connectModel()
@@ -31,6 +38,7 @@ class TodoListView implements CustomView.CustomNewListDelegate {
         this.updateUI()
     }
     private updateUI() {
+        const itemModelName = this.getItemModelName()
         let child = this.listView.firstElementChild
         while (child !== null) {
             this.listView.removeChild(child)
@@ -49,6 +57,9 @@ class TodoListView implements CustomView.CustomNewListDelegate {
             number.classList.add('number-of-items')
             number.textContent = ''
 
+            if (list === itemModelName) {
+                li.classList.add('active')
+            }
             li.appendChild(name)
             li.appendChild(number)
             this.listView.appendChild(li)
@@ -67,19 +78,36 @@ class TodoListView implements CustomView.CustomNewListDelegate {
         this.listView.addEventListener('click', event => {
             const target = event.target as HTMLElement
             let name = ''
+            let elem: HTMLLIElement | null = null
+            let temp: HTMLElement | null = null
+
             if (target.nodeName === 'LI') {
-                name = target.querySelector('.item-name')!.textContent as string
+                elem = target as HTMLLIElement
+                temp = elem.querySelector('.item-name')
             } else if (target.nodeName === 'SPAN') {
-                const li = target.closest('li')
-                if (li) {
-                    name = li.querySelector('.item-name')!.textContent as string
+                temp = target.closest('li') as HTMLElement
+                if (temp !== null) {
+                    elem = temp as HTMLLIElement
+                    temp = elem.querySelector('.item-name')
                 }
             }
-            // 让代理（也就是app）做切换视图内容的工作。
-            // this.delegate!.toggleAreaView(name)
-            // this.delegate!.closeDetailView()
-            this.areaView.name = name
-        });
+
+            // 动画效果
+            if (elem !== null && elem.parentNode) {
+                const parent = elem.parentNode as HTMLElement
+                const siblings = parent.querySelectorAll('li')
+                for (let i = 0; i < siblings.length; i++) {
+                    siblings[i].classList.remove('active')
+                }
+                elem.classList.add('active')
+            }
+
+            if (temp !== null) {
+                name = temp.textContent ? temp.textContent : ''
+                this.areaView.name = name
+                localStorage.setItem('list-name-before-closed', name)
+            }
+        })
     }
 
     // add new list delegate methods

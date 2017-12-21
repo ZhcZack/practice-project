@@ -10,15 +10,21 @@
  * 代码设计的问题解决了
  */
 
+/**
+ * 2017/12/21
+ * 考虑把关于model的操作从view里拆出来，弄一个类似于server的类来处理
+ */
+
 class TodoApp {
     private listView: TodoListView
-    private listModel: TodoListModel
-    private itemModel: TodoItemModel
+    // private listModel: TodoListModel
+    // private itemModel: TodoItemModel
 
     constructor() {
         // init models
-        this.listModel = new TodoListModel()
-        this.itemModel = new TodoItemModel('我的一天')
+        // this.listModel = new TodoListModel()
+        // const modelName = this.getDataModelName()
+        // this.itemModel = new TodoItemModel(modelName)
 
         this.listView = new TodoListView()
         this.listView.delegate = this

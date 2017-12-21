@@ -35,9 +35,6 @@ class TodoAreaView implements TodoDetailViewDelegate, CustomView.CustomNewItemDe
 
     // private methods
     private setup() {
-        // very bad hard code
-        this.modelName = '我的一天'
-        this.connectModel('我的一天')
         this.bindEvents()
 
         this.element.appendChild(this.customNewItem.elem)

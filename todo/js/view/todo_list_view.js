@@ -5,8 +5,13 @@ var TodoListView = /** @class */ (function () {
         this.customNewList = new CustomView.CustomNewList();
         this.areaView = new TodoAreaView();
         this.areaView.delegate = this;
+        this.areaView.name = this.getItemModelName();
         this.setup();
     }
+    TodoListView.prototype.getItemModelName = function () {
+        var name = localStorage.getItem('list-name-before-closed');
+        return name ? name : '我的一天';
+    };
     TodoListView.prototype.setup = function () {
         this.addCustomViews();
         this.connectModel();
@@ -20,6 +25,7 @@ var TodoListView = /** @class */ (function () {
         this.updateUI();
     };
     TodoListView.prototype.updateUI = function () {
+        var itemModelName = this.getItemModelName();
         var child = this.listView.firstElementChild;
         while (child !== null) {
             this.listView.removeChild(child);
@@ -36,6 +42,9 @@ var TodoListView = /** @class */ (function () {
             var number = document.createElement('span');
             number.classList.add('number-of-items');
             number.textContent = '';
+            if (list === itemModelName) {
+                li.classList.add('active');
+            }
             li.appendChild(name_1);
             li.appendChild(number);
             this.listView.appendChild(li);
@@ -54,19 +63,33 @@ var TodoListView = /** @class */ (function () {
         this.listView.addEventListener('click', function (event) {
             var target = event.target;
             var name = '';
+            var elem = null;
+            var temp = null;
             if (target.nodeName === 'LI') {
-                name = target.querySelector('.item-name').textContent;
+                elem = target;
+                temp = elem.querySelector('.item-name');
             }
             else if (target.nodeName === 'SPAN') {
-                var li = target.closest('li');
-                if (li) {
-                    name = li.querySelector('.item-name').textContent;
+                temp = target.closest('li');
+                if (temp !== null) {
+                    elem = temp;
+                    temp = elem.querySelector('.item-name');
                 }
             }
-            // 让代理（也就是app）做切换视图内容的工作。
-            // this.delegate!.toggleAreaView(name)
-            // this.delegate!.closeDetailView()
-            _this.areaView.name = name;
+            // 动画效果
+            if (elem !== null && elem.parentNode) {
+                var parent_1 = elem.parentNode;
+                var siblings = parent_1.querySelectorAll('li');
+                for (var i = 0; i < siblings.length; i++) {
+                    siblings[i].classList.remove('active');
+                }
+                elem.classList.add('active');
+            }
+            if (temp !== null) {
+                name = temp.textContent ? temp.textContent : '';
+                _this.areaView.name = name;
+                localStorage.setItem('list-name-before-closed', name);
+            }
         });
     };
     // add new list delegate methods

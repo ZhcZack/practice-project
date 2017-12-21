@@ -4,15 +4,19 @@
     "version": "2.0.0",
     "tasks": [
         {
+            "label": "TS文件编译",
             "type": "typescript",
             "tsconfig": "tsconfig.json",
             "problemMatcher": [
                 "$tsc"
             ],
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            }
+            "group": "build"
+        },
+        {
+            "label": "SCSS文件编译",
+            "type": "shell",
+            "command": "sass scss/* css/*",
+            "group": "build"
         }
     ]
 }
