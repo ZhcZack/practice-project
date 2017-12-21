@@ -35,13 +35,14 @@ class TodoItemModel {
             this.save()
         }
     }
-    remove(title: string) {
+    remove(title: string): boolean {
         const info = this.info(title)
         if (!info.find) {
-            return
+            return false;
         }
         this.itemList.splice(info.index as number, 1)
         this.save()
+        return true;
     }
     clear() {
         this.itemList = []

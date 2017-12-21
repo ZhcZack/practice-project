@@ -24,12 +24,13 @@ class TodoListModel {
         }
         return { find: false }
     }
-    remove(name: string) {
+    remove(name: string): boolean {
         const info = this.info(name)
         if (!info.find) {
-            return
+            return false;
         }
         this.todoLists.splice(info.index as number, 1)
+        return true;
     }
     clear() {
         this.todoLists = []
