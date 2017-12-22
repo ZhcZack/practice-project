@@ -12,16 +12,9 @@ var TodoAreaView = /** @class */ (function () {
     }
     Object.defineProperty(TodoAreaView.prototype, "name", {
         set: function (value) {
-            this.modelName = value;
-            this.connectModel(value);
+            this.listName = value;
             this.detailView.closeView();
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(TodoAreaView.prototype, "numberOfItems", {
-        get: function () {
-            return this.itemModel.numberOfItems;
+            this.updateUI();
         },
         enumerable: true,
         configurable: true
@@ -38,7 +31,7 @@ var TodoAreaView = /** @class */ (function () {
             // log(target)
             if (target.classList.contains('todo-item')) {
                 var title = target.querySelector('.todo-item-content').textContent;
-                var item = _this.itemModel.getItem(title);
+                var item = _this.dataServer.getItemInList(title, _this.listName);
                 if (item) {
                     _this.detailView.item = item;
                     _this.shrinkView();
@@ -47,17 +40,13 @@ var TodoAreaView = /** @class */ (function () {
         });
     };
     TodoAreaView.prototype.toggleItemStatus = function (title) {
-        this.itemModel.toggle(title);
-    };
-    TodoAreaView.prototype.connectModel = function (name) {
-        this.itemModel = new TodoItemModel(name);
-        this.updateUI();
+        this.dataServer.toggleItemInList(title, this.listName);
     };
     TodoAreaView.prototype.updateUI = function () {
-        this.nameLabel.textContent = this.modelName;
+        this.nameLabel.textContent = this.listName;
         this.contentView.innerHTML = '';
         this.checkboxList = [];
-        var items = this.itemModel.items;
+        var items = this.dataServer.itemsInList(this.listName);
         for (var _i = 0, items_1 = items; _i < items_1.length; _i++) {
             var item = items_1[_i];
             // log(item)
@@ -107,12 +96,14 @@ var TodoAreaView = /** @class */ (function () {
         this.updateUI();
     };
     TodoAreaView.prototype.addNewItem = function (title) {
-        this.itemModel.add(title);
+        this.dataServer.addItemInList(title, this.listName);
         this.updateUI();
     };
     TodoAreaView.prototype.deleteItem = function (title) {
-        this.itemModel.remove(title);
-        this.updateUI();
+        var result = this.dataServer.removeItemInList(title, this.listName);
+        if (result) {
+            this.updateUI();
+        }
     };
     TodoAreaView.prototype.shrinkView = function () {
         this.element.classList.add('shrink');

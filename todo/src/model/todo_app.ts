@@ -16,17 +16,19 @@
  */
 
 class TodoApp {
-    private listView: TodoListView
+    private listView: TodoListView;
+    private areaView: TodoAreaView;
+    private dataServer: TodoServer;
     // private listModel: TodoListModel
     // private itemModel: TodoItemModel
 
     constructor() {
-        // init models
-        // this.listModel = new TodoListModel()
-        // const modelName = this.getDataModelName()
-        // this.itemModel = new TodoItemModel(modelName)
+        this.dataServer = new TodoServer();
 
-        this.listView = new TodoListView()
-        this.listView.delegate = this
+        this.listView = new TodoListView();
+        this.listView.delegate = this;
+        this.listView.dataServer = this.dataServer;
+        this.listView.lists = this.dataServer.modelLists;
+
     }
 }

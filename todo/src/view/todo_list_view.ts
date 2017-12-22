@@ -1,50 +1,56 @@
 class TodoListView implements CustomView.CustomNewListDelegate {
-    private model: TodoListModel
     private element: HTMLElement
     private listView: HTMLElement
     private customNewList: CustomView.CustomNewList
     private itemList: string[]
+    private latestModelList: string;
     private timer: number
     delegate: TodoApp | null
+    dataServer: TodoServer;
 
-    private areaView: TodoAreaView
+    private areaView: TodoAreaView;
 
     constructor() {
-        this.element = get('#listview')
-        this.listView = get('#listview ul')
-        this.customNewList = new CustomView.CustomNewList()
+        this.element = get('#listview');
+        this.listView = get('#listview ul');
 
-        this.areaView = new TodoAreaView()
-        this.areaView.delegate = this
-        this.areaView.name = this.getItemModelName()
-        this.setup()
+        this.customNewList = new CustomView.CustomNewList();
+        this.customNewList.delegate = this;
+
+        this.areaView = new TodoAreaView();
+        this.areaView.delegate = this;
+
+        this.setup();
     }
 
-    private getItemModelName(): string {
-        const name = localStorage.getItem('list-name-before-closed')
-        return name ? name : '我的一天'
+    set lists(lists: string[]) {
+        this.itemList = lists;
+        this.updateUI();
+        this.areaView.dataServer = this.dataServer;
+        this.areaView.name = this.latestModelList;
     }
 
     private setup() {
-        this.addCustomViews()
-        this.connectModel()
-        this.bindEvents()
+        this.addCustomViews();
+        // this.connectModel()
+        this.bindEvents();
     }
     private addCustomViews() {
         this.element.appendChild(this.customNewList.elem)
     }
-    private connectModel() {
-        this.model = new TodoListModel()
-        this.updateUI()
-    }
+    // private connectModel() {
+    //     this.model = new TodoListModel()
+    //     this.updateUI()
+    // }
     private updateUI() {
-        const itemModelName = this.getItemModelName()
+        this.latestModelList = this.dataServer.latestModelList;
+        this.itemList = this.dataServer.modelLists;
+        // log(this.itemList);
         let child = this.listView.firstElementChild
         while (child !== null) {
             this.listView.removeChild(child)
             child = this.listView.firstElementChild
         }
-        this.itemList = this.model.lists
         for (let list of this.itemList) {
             let li = document.createElement('li')
             li.classList.add('list-item')
@@ -57,7 +63,7 @@ class TodoListView implements CustomView.CustomNewListDelegate {
             number.classList.add('number-of-items')
             number.textContent = ''
 
-            if (list === itemModelName) {
+            if (list === this.latestModelList) {
                 li.classList.add('active')
             }
             li.appendChild(name)
@@ -67,14 +73,6 @@ class TodoListView implements CustomView.CustomNewListDelegate {
     }
 
     private bindEvents() {
-        // this.customNewList.elem.addEventListener('click', (event: Event) => {
-        //     let name = this.customNewList.listName
-        //     while (this.itemList.indexOf(name) !== -1) {
-        //         name = this.customNewList.listName
-        //     }
-        //     this.model.add(name)
-        //     this.updateUI()
-        // })
         this.listView.addEventListener('click', event => {
             const target = event.target as HTMLElement
             let name = ''
@@ -116,7 +114,7 @@ class TodoListView implements CustomView.CustomNewListDelegate {
         while (this.itemList.indexOf(name) !== -1) {
             name = this.customNewList.listName
         }
-        this.model.add(name)
-        this.updateUI()
+        this.dataServer.addNewList(name);
+        this.updateUI();
     }
 }

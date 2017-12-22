@@ -5,6 +5,7 @@ namespace CustomView {
         private element: HTMLElement
         private defaultListName = '无命名清单'
         private index = -1
+        delegate: TodoListView | null;
         constructor() {
             this.setup()
             this.bindEvents()
@@ -18,8 +19,11 @@ namespace CustomView {
 
         private bindEvents() {
             this.element.addEventListener('click', event => {
-                event.stopPropagation()
-            })
+                event.stopPropagation();
+                if (this.delegate) {
+                    this.delegate.newListClicked(this);
+                }
+            });
         }
         get elem(): HTMLElement {
             return this.element

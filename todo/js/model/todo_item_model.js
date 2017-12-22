@@ -36,10 +36,11 @@ var TodoItemModel = /** @class */ (function () {
     TodoItemModel.prototype.remove = function (title) {
         var info = this.info(title);
         if (!info.find) {
-            return;
+            return false;
         }
         this.itemList.splice(info.index, 1);
         this.save();
+        return true;
     };
     TodoItemModel.prototype.clear = function () {
         this.itemList = [];

@@ -8,16 +8,19 @@
  * 2017/12/14
  * 代码设计的问题解决了
  */
+/**
+ * 2017/12/21
+ * 考虑把关于model的操作从view里拆出来，弄一个类似于server的类来处理
+ */
 var TodoApp = /** @class */ (function () {
     // private listModel: TodoListModel
     // private itemModel: TodoItemModel
     function TodoApp() {
-        // init models
-        // this.listModel = new TodoListModel()
-        // const modelName = this.getDataModelName()
-        // this.itemModel = new TodoItemModel(modelName)
+        this.dataServer = new TodoServer();
         this.listView = new TodoListView();
         this.listView.delegate = this;
+        this.listView.dataServer = this.dataServer;
+        this.listView.lists = this.dataServer.modelLists;
     }
     return TodoApp;
 }());

@@ -27,9 +27,10 @@ var TodoListModel = /** @class */ (function () {
     TodoListModel.prototype.remove = function (name) {
         var info = this.info(name);
         if (!info.find) {
-            return;
+            return false;
         }
         this.todoLists.splice(info.index, 1);
+        return true;
     };
     TodoListModel.prototype.clear = function () {
         this.todoLists = [];

@@ -16,8 +16,12 @@ var CustomView;
             this.element = div;
         };
         CustomNewList.prototype.bindEvents = function () {
+            var _this = this;
             this.element.addEventListener('click', function (event) {
                 event.stopPropagation();
+                if (_this.delegate) {
+                    _this.delegate.newListClicked(_this);
+                }
             });
         };
         Object.defineProperty(CustomNewList.prototype, "elem", {

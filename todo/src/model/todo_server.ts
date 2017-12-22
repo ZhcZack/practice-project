@@ -1,4 +1,4 @@
-export class TodoServer {
+class TodoServer {
     private listModel: TodoListModel;
     private itemModelList: ItemModelListInterface;
 
@@ -18,6 +18,20 @@ export class TodoServer {
 
     get modelLists(): string[] {
         return this.listModel.lists;
+    }
+
+    get latestModelList(): string {
+        let result = localStorage.getItem('list-name-before-closed');
+        if (result === null) {
+            localStorage.setItem('list-name-before-closed', '我的一天');
+            result = '我的一天';
+        }
+        return result;
+    }
+
+    getItemInList(itemName: string, listName: string): TodoItemInterface | null {
+        const list = this.itemModelList[listName];
+        return list.getItem(itemName);
     }
 
     itemNumbersInList(listName: string): number {
