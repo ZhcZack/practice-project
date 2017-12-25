@@ -21,7 +21,7 @@ var TodoServer = /** @class */ (function () {
     Object.defineProperty(TodoServer.prototype, "latestModelList", {
         get: function () {
             var result = localStorage.getItem('list-name-before-closed');
-            if (result === null) {
+            if (result === null || result === '') {
                 localStorage.setItem('list-name-before-closed', '我的一天');
                 result = '我的一天';
             }
@@ -42,6 +42,7 @@ var TodoServer = /** @class */ (function () {
         this.listModel.add(listName);
     };
     TodoServer.prototype.removeList = function (listName) {
+        localStorage.removeItem(listName);
         return this.listModel.remove(listName);
     };
     TodoServer.prototype.itemsInList = function (listName) {
@@ -63,6 +64,12 @@ var TodoServer = /** @class */ (function () {
     TodoServer.prototype.renameItemInList = function (itemName, newName, listName) {
         var list = this.itemModelList[listName];
         return false;
+    };
+    TodoServer.prototype.setSnapchat = function (listName) {
+        localStorage.setItem('list-name-before-closed', listName);
+    };
+    TodoServer.prototype.removeSnapchat = function () {
+        localStorage.removeItem('list-name-before-closed');
     };
     return TodoServer;
 }());

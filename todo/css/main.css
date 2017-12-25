@@ -54,36 +54,6 @@
       flex: 1 1 20px;
       text-align: center; }
 
-#add-new-list {
-  height: 40px;
-  display: flex;
-  align-items: center;
-  padding: 0 10px;
-  cursor: pointer;
-  color: blue; }
-  #add-new-list:hover {
-    background-color: rgba(206, 197, 197, 0.5); }
-
-#add-new-item {
-  margin: 0 20px;
-  padding: 10px 0;
-  height: 60px;
-  display: flex;
-  border-bottom: 1px solid rgba(206, 197, 197, 0.5); }
-  #add-new-item #input-area {
-    border: none;
-    flex: 10 1 100px; }
-  #add-new-item #close-button {
-    flex: 0 1 30px;
-    display: flex;
-    justify-content: center;
-    align-items: center; }
-  #add-new-item #add-button {
-    flex: 0 1 60px;
-    display: flex;
-    justify-content: center;
-    align-items: center; }
-
 #areaview {
   width: calc(100% - 280px); }
   #areaview.shrink {
@@ -149,6 +119,36 @@
 .hide {
   display: none !important; }
 
+#add-new-list {
+  height: 40px;
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  cursor: pointer;
+  color: blue; }
+  #add-new-list:hover {
+    background-color: rgba(206, 197, 197, 0.5); }
+
+#add-new-item {
+  margin: 0 20px;
+  padding: 10px 0;
+  height: 60px;
+  display: flex;
+  border-bottom: 1px solid rgba(206, 197, 197, 0.5); }
+  #add-new-item #input-area {
+    border: none;
+    flex: 10 1 100px; }
+  #add-new-item #close-button {
+    flex: 0 1 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center; }
+  #add-new-item #add-button {
+    flex: 0 1 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center; }
+
 .custom-checkbox {
   font-size: 1.5rem;
   width: 30px;
@@ -169,5 +169,25 @@
   .custom-checkbox.checked {
     color: white;
     background-color: green; }
+
+#rightmenu {
+  position: absolute;
+  height: auto;
+  width: 90%;
+  margin: 0 5%;
+  border: 1px solid rgba(206, 197, 197, 0.5);
+  display: none; }
+  #rightmenu.appear {
+    display: block; }
+  #rightmenu #rightmenu-delete {
+    border-top: 1px solid rgba(206, 197, 197, 0.5);
+    height: 40px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    color: red; }
+    #rightmenu #rightmenu-delete:hover {
+      background-color: red;
+      color: white; }
 
 /*# sourceMappingURL=main.css.map */

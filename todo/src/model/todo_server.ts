@@ -22,7 +22,7 @@ class TodoServer {
 
     get latestModelList(): string {
         let result = localStorage.getItem('list-name-before-closed');
-        if (result === null) {
+        if (result === null || result === '') {
             localStorage.setItem('list-name-before-closed', '我的一天');
             result = '我的一天';
         }
@@ -44,6 +44,7 @@ class TodoServer {
     }
 
     removeList(listName: string): boolean {
+        localStorage.removeItem(listName);
         return this.listModel.remove(listName);
     }
 
@@ -70,6 +71,14 @@ class TodoServer {
     renameItemInList(itemName: string, newName: string, listName: string): boolean {
         const list = this.itemModelList[listName];
         return false;
+    }
+
+    setSnapchat(listName: string) {
+        localStorage.setItem('list-name-before-closed', listName);
+    }
+
+    removeSnapchat() {
+        localStorage.removeItem('list-name-before-closed');
     }
 }
 

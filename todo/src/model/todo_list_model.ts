@@ -1,5 +1,5 @@
 class TodoListModel {
-    private todoLists: string[] = []
+    private todoLists: string[] = [];
     private name = 'todo-app-list'
     constructor() {
         this.setup()
@@ -25,11 +25,12 @@ class TodoListModel {
         return { find: false }
     }
     remove(name: string): boolean {
-        const info = this.info(name)
+        const info = this.info(name);
         if (!info.find) {
             return false;
         }
-        this.todoLists.splice(info.index as number, 1)
+        this.todoLists.splice(info.index as number, 1);
+        this.save();
         return true;
     }
     clear() {
@@ -44,11 +45,11 @@ class TodoListModel {
     }
     load() {
         const data = localStorage.getItem(this.name)
-        if (data === null) {
+        if (data === null || JSON.parse(data).lists.length === 0) {
             this.todoLists.push('我的一天')
             this.save()
         } else {
-            this.todoLists = JSON.parse(data).lists
+            this.todoLists = JSON.parse(data).lists as string[];
         }
     }
 

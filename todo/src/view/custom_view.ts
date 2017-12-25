@@ -176,4 +176,69 @@ namespace CustomView {
     export interface CustomCheckboxDelegate {
         checkboxClicked(checkbox: CustomCheckbox): void
     }
+
+    // 自定义listview右键菜单
+    // 就我现在的水平，就不搞什么组件的继承了……
+    export class CustomListViewRightMenu {
+        delegate: TodoListView | null;
+
+        private element: HTMLElement;
+        private deleteAction: HTMLElement;
+        private hidden: boolean;
+
+        constructor() {
+            this.setup();
+        }
+
+        get isHidden(): boolean {
+            return this.hidden;
+        }
+
+        get elem(): HTMLElement {
+            return this.element;
+        }
+
+        appear() {
+            this.hidden = false;
+            this.element.classList.add('appear');
+        }
+
+        disappear() {
+            this.hidden = true;
+            this.element.classList.remove('appear');
+        }
+
+        setPosition(y: number) {
+            this.element.style.top = y + 'px';
+        }
+
+        private setup() {
+            this.hidden = true;
+            const div = document.createElement('div');
+            div.id = 'rightmenu';
+
+            const del = document.createElement('div');
+            del.id = 'rightmenu-delete';
+            del.textContent = '删除列表';
+            div.appendChild(del);
+
+            this.element = div;
+            this.deleteAction = del;
+
+            this.bindEvents();
+        }
+
+        private bindEvents() {
+            this.deleteAction.addEventListener('click', event => {
+                event.stopPropagation();
+                if (this.delegate) {
+                    this.delegate.deleteList();
+                }
+            });
+        }
+    }
+
+    export interface CustomListViewRightMenuDelegate {
+        deleteList(): void;
+    }
 }

@@ -1,11 +1,13 @@
-class TodoListView implements CustomView.CustomNewListDelegate {
-    private element: HTMLElement
-    private listView: HTMLElement
-    private customNewList: CustomView.CustomNewList
-    private itemList: string[]
+class TodoListView implements CustomView.CustomNewListDelegate, CustomView.CustomListViewRightMenuDelegate {
+    private element: HTMLElement;
+    private listView: HTMLElement;
+    private customNewList: CustomView.CustomNewList;
+    private rightMenu: CustomView.CustomListViewRightMenu;
+    private itemList: string[];
     private latestModelList: string;
-    private timer: number
-    delegate: TodoApp | null
+    private toBeDelected: string;
+
+    delegate: TodoApp | null;
     dataServer: TodoServer;
 
     private areaView: TodoAreaView;
@@ -16,6 +18,9 @@ class TodoListView implements CustomView.CustomNewListDelegate {
 
         this.customNewList = new CustomView.CustomNewList();
         this.customNewList.delegate = this;
+
+        this.rightMenu = new CustomView.CustomListViewRightMenu();
+        this.rightMenu.delegate = this;
 
         this.areaView = new TodoAreaView();
         this.areaView.delegate = this;
@@ -30,13 +35,20 @@ class TodoListView implements CustomView.CustomNewListDelegate {
         this.areaView.name = this.latestModelList;
     }
 
+    get cssProperties(): { width: number; height: number } {
+        let width = this.listView.getBoundingClientRect()['width'];
+        let height = this.element.getBoundingClientRect()['height'];
+        return { width, height }
+    }
+
     private setup() {
         this.addCustomViews();
         // this.connectModel()
         this.bindEvents();
     }
     private addCustomViews() {
-        this.element.appendChild(this.customNewList.elem)
+        this.element.appendChild(this.customNewList.elem);
+        this.element.appendChild(this.rightMenu.elem);
     }
     // private connectModel() {
     //     this.model = new TodoListModel()
@@ -103,9 +115,41 @@ class TodoListView implements CustomView.CustomNewListDelegate {
             if (temp !== null) {
                 name = temp.textContent ? temp.textContent : ''
                 this.areaView.name = name
-                localStorage.setItem('list-name-before-closed', name)
+                this.dataServer.setSnapchat(name);
             }
-        })
+
+            event.stopPropagation();
+        });
+        this.listView.addEventListener('contextmenu', event => {
+            event.stopPropagation();
+            event.preventDefault();
+
+            const target = event.target as HTMLElement;
+            if (target.nodeName === 'LI') {
+                if (target.firstElementChild && target.firstElementChild.textContent) {
+                    this.toBeDelected = target.firstElementChild.textContent;
+                }
+            } else if (target.nodeName === 'SPAN') {
+                if (target.textContent) {
+                    this.toBeDelected = target.textContent;
+                }
+            }
+
+            if (this.toBeDelected === '我的一天') {
+                this.rightMenu.disappear();
+                return;
+            }
+
+            if (this.rightMenu.isHidden) {
+                this.rightMenu.appear();
+            }
+
+            this.rightMenu.setPosition(target.getBoundingClientRect().bottom);
+        });
+        this.element.addEventListener('click', event => {
+            event.stopPropagation();
+            this.rightMenu.disappear();
+        }, false);
     }
 
     // add new list delegate methods
@@ -116,5 +160,15 @@ class TodoListView implements CustomView.CustomNewListDelegate {
         }
         this.dataServer.addNewList(name);
         this.updateUI();
+    }
+
+    // right menu delegate methods
+    deleteList() {
+        if (this.toBeDelected !== '') {
+            this.dataServer.removeList(this.toBeDelected);
+            this.dataServer.removeSnapchat();
+            this.rightMenu.disappear();
+            this.updateUI();
+        }
     }
 }

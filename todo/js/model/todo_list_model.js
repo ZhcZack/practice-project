@@ -30,6 +30,7 @@ var TodoListModel = /** @class */ (function () {
             return false;
         }
         this.todoLists.splice(info.index, 1);
+        this.save();
         return true;
     };
     TodoListModel.prototype.clear = function () {
@@ -44,7 +45,7 @@ var TodoListModel = /** @class */ (function () {
     };
     TodoListModel.prototype.load = function () {
         var data = localStorage.getItem(this.name);
-        if (data === null) {
+        if (data === null || JSON.parse(data).lists.length === 0) {
             this.todoLists.push('我的一天');
             this.save();
         }

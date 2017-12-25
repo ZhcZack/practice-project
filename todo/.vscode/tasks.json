@@ -16,7 +16,8 @@
             "label": "SCSS文件编译",
             "type": "shell",
             "command": "sass scss/* css/*",
-            "group": "build"
+            "group": "build",
+            "problemMatcher": []
         }
     ]
 }

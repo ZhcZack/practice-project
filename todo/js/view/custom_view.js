@@ -168,4 +168,59 @@ var CustomView;
         return CustomCheckbox;
     }());
     CustomView.CustomCheckbox = CustomCheckbox;
+    // 自定义listview右键菜单
+    // 就我现在的水平，就不搞什么组件的继承了……
+    var CustomListViewRightMenu = /** @class */ (function () {
+        function CustomListViewRightMenu() {
+            this.setup();
+        }
+        Object.defineProperty(CustomListViewRightMenu.prototype, "isHidden", {
+            get: function () {
+                return this.hidden;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(CustomListViewRightMenu.prototype, "elem", {
+            get: function () {
+                return this.element;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        CustomListViewRightMenu.prototype.appear = function () {
+            this.hidden = false;
+            this.element.classList.add('appear');
+        };
+        CustomListViewRightMenu.prototype.disappear = function () {
+            this.hidden = true;
+            this.element.classList.remove('appear');
+        };
+        CustomListViewRightMenu.prototype.setPosition = function (y) {
+            this.element.style.top = y + 'px';
+        };
+        CustomListViewRightMenu.prototype.setup = function () {
+            this.hidden = true;
+            var div = document.createElement('div');
+            div.id = 'rightmenu';
+            var del = document.createElement('div');
+            del.id = 'rightmenu-delete';
+            del.textContent = '删除列表';
+            div.appendChild(del);
+            this.element = div;
+            this.deleteAction = del;
+            this.bindEvents();
+        };
+        CustomListViewRightMenu.prototype.bindEvents = function () {
+            var _this = this;
+            this.deleteAction.addEventListener('click', function (event) {
+                event.stopPropagation();
+                if (_this.delegate) {
+                    _this.delegate.deleteList();
+                }
+            });
+        };
+        return CustomListViewRightMenu;
+    }());
+    CustomView.CustomListViewRightMenu = CustomListViewRightMenu;
 })(CustomView || (CustomView = {}));

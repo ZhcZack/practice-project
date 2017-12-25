@@ -4,6 +4,8 @@ var TodoListView = /** @class */ (function () {
         this.listView = get('#listview ul');
         this.customNewList = new CustomView.CustomNewList();
         this.customNewList.delegate = this;
+        this.rightMenu = new CustomView.CustomListViewRightMenu();
+        this.rightMenu.delegate = this;
         this.areaView = new TodoAreaView();
         this.areaView.delegate = this;
         this.setup();
@@ -18,6 +20,15 @@ var TodoListView = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(TodoListView.prototype, "cssProperties", {
+        get: function () {
+            var width = this.listView.getBoundingClientRect()['width'];
+            var height = this.element.getBoundingClientRect()['height'];
+            return { width: width, height: height };
+        },
+        enumerable: true,
+        configurable: true
+    });
     TodoListView.prototype.setup = function () {
         this.addCustomViews();
         // this.connectModel()
@@ -25,6 +36,7 @@ var TodoListView = /** @class */ (function () {
     };
     TodoListView.prototype.addCustomViews = function () {
         this.element.appendChild(this.customNewList.elem);
+        this.element.appendChild(this.rightMenu.elem);
     };
     // private connectModel() {
     //     this.model = new TodoListModel()
@@ -87,9 +99,37 @@ var TodoListView = /** @class */ (function () {
             if (temp !== null) {
                 name = temp.textContent ? temp.textContent : '';
                 _this.areaView.name = name;
-                localStorage.setItem('list-name-before-closed', name);
+                _this.dataServer.setSnapchat(name);
             }
+            event.stopPropagation();
         });
+        this.listView.addEventListener('contextmenu', function (event) {
+            event.stopPropagation();
+            event.preventDefault();
+            var target = event.target;
+            if (target.nodeName === 'LI') {
+                if (target.firstElementChild && target.firstElementChild.textContent) {
+                    _this.toBeDelected = target.firstElementChild.textContent;
+                }
+            }
+            else if (target.nodeName === 'SPAN') {
+                if (target.textContent) {
+                    _this.toBeDelected = target.textContent;
+                }
+            }
+            if (_this.toBeDelected === '我的一天') {
+                _this.rightMenu.disappear();
+                return;
+            }
+            if (_this.rightMenu.isHidden) {
+                _this.rightMenu.appear();
+            }
+            _this.rightMenu.setPosition(target.getBoundingClientRect().bottom);
+        });
+        this.element.addEventListener('click', function (event) {
+            event.stopPropagation();
+            _this.rightMenu.disappear();
+        }, false);
     };
     // add new list delegate methods
     TodoListView.prototype.newListClicked = function (newList) {
@@ -99,6 +139,15 @@ var TodoListView = /** @class */ (function () {
         }
         this.dataServer.addNewList(name);
         this.updateUI();
+    };
+    // right menu delegate methods
+    TodoListView.prototype.deleteList = function () {
+        if (this.toBeDelected !== '') {
+            this.dataServer.removeList(this.toBeDelected);
+            this.dataServer.removeSnapchat();
+            this.rightMenu.disappear();
+            this.updateUI();
+        }
     };
     return TodoListView;
 }());
