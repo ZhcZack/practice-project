@@ -4,7 +4,7 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
     entry: ['./src/main.ts', './scss/main.scss'],
-    devtool: 'source-map',
+    devtool: 'inline-source-map',
     module: {
         rules: [
             {
@@ -14,7 +14,10 @@ module.exports = {
             },
             {
                 test: /\.(sass|scss)$/,
-                loader: ExtractTextPlugin.extract(['css-loader', 'sass-loader']),
+                use: ExtractTextPlugin.extract({
+                    fallback: 'style-loader',
+                    use: ['css-loader', 'sass-loader'],
+                }),
             },
             {
                 test: /\.css$/,
@@ -31,7 +34,7 @@ module.exports = {
     },
     plugins: [
         new ExtractTextPlugin({
-            filename: 'main.css',
+            filename: '[name].css',
         }),
         new UglifyJsPlugin({
             sourceMap: true,
