@@ -1,3 +1,10 @@
+import TodoListView from './todo_list_view';
+import TodoServer from '../model/todo_server';
+import { TodoDetailView, TodoDetailViewDelegate } from './todo_detail_view';
+import CustomView from './custom_view';
+import { TodoItemInterface } from '../model/todo_item';
+import { get, getAll, log } from '../util/util';
+
 class TodoAreaView implements TodoDetailViewDelegate, CustomView.CustomNewItemDelegate {
     private element: HTMLElement
     private nameLabel: HTMLDivElement
@@ -133,3 +140,5 @@ class TodoAreaView implements TodoDetailViewDelegate, CustomView.CustomNewItemDe
         this.element.classList.remove('shrink')
     }
 }
+
+export default TodoAreaView;

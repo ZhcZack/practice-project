@@ -60,3 +60,5 @@ class TodoListModel {
         return JSON.parse(JSON.stringify(this.todoLists))
     }
 }
+
+export default TodoListModel;

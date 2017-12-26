@@ -1,3 +1,5 @@
+import { TodoItem, TodoItemInterface } from './todo_item';
+
 class TodoItemModel {
     private itemList: TodoItem[]
     private modelName: string
@@ -102,3 +104,5 @@ class TodoItemModel {
         return null
     }
 }
+
+export default TodoItemModel;

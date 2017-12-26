@@ -9,6 +9,7 @@
   100% {
     transform: scale(1);
     opacity: 1; } }
+
 * {
   margin: 0;
   padding: 0;
@@ -190,4 +191,4 @@
       background-color: red;
       color: white; }
 
-/*# sourceMappingURL=main.css.map */
+/*# sourceMappingURL=main.css.map*/

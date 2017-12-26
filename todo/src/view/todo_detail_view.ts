@@ -1,4 +1,9 @@
-class TodoDetailView implements CustomView.CustomCheckboxDelegate {
+import TodoAreaView from './todo_area_view';
+import CustomView from './custom_view';
+import { TodoItemInterface } from '../model/todo_item';
+import { get, getAll, log } from '../util/util';
+
+export class TodoDetailView implements CustomView.CustomCheckboxDelegate {
     delegate: TodoAreaView | null
     private element: HTMLElement
     private checkbox: CustomView.CustomCheckbox
@@ -79,7 +84,7 @@ class TodoDetailView implements CustomView.CustomCheckboxDelegate {
     }
 }
 
-interface TodoDetailViewDelegate {
+export interface TodoDetailViewDelegate {
     closeButtonClicked(item: TodoItemInterface): void
     deleteButtonClicked(item: TodoItemInterface): void
     toggleItem(item: TodoItemInterface): void

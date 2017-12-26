@@ -1,4 +1,4 @@
-class TodoItem {
+export class TodoItem {
     private itemName: string
     private isDone: boolean
     private date: string
@@ -32,7 +32,7 @@ class TodoItem {
     }
 }
 
-interface TodoItemInterface {
+export interface TodoItemInterface {
     name: string
     done: boolean
     date: string

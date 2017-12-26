@@ -1,3 +1,6 @@
+import TodoListView from './todo_list_view';
+import TodoAreaView from './todo_area_view';
+
 // 自定义“视图”
 namespace CustomView {
     // “新建清单”按钮
@@ -242,3 +245,5 @@ namespace CustomView {
         deleteList(): void;
     }
 }
+
+export default CustomView;

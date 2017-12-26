@@ -1,3 +1,7 @@
+import TodoListModel from './todo_list_model';
+import TodoItemModel from './todo_item_model';
+import { TodoItemInterface } from './todo_item';
+
 class TodoServer {
     private listModel: TodoListModel;
     private itemModelList: ItemModelListInterface;
@@ -85,3 +89,5 @@ class TodoServer {
 interface ItemModelListInterface {
     [propName: string]: TodoItemModel;
 }
+
+export default TodoServer;

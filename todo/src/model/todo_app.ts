@@ -15,6 +15,10 @@
  * 考虑把关于model的操作从view里拆出来，弄一个类似于server的类来处理
  */
 
+import TodoListView from '../view/todo_list_view';
+import TodoAreaView from '../view/todo_area_view';
+import TodoServer from './todo_server';
+
 class TodoApp {
     private listView: TodoListView;
     private areaView: TodoAreaView;
@@ -32,3 +36,5 @@ class TodoApp {
 
     }
 }
+
+export default TodoApp;
