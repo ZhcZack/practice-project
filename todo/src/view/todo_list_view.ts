@@ -156,6 +156,10 @@ class TodoListView implements CustomView.CustomNewListDelegate, CustomView.Custo
             event.stopPropagation();
             this.rightMenu.disappear();
         }, false);
+        this.element.addEventListener('contextmenu', event => {
+            event.preventDefault()
+            event.stopPropagation()
+        })
     }
 
     // add new list delegate methods

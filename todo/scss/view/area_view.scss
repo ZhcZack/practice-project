@@ -1,0 +1,35 @@
+// todo area view
+
+#areaview {
+    width: calc(100% - 280px);
+    &.shrink {
+        width: calc(100% - 280px - 280px);
+    }
+    .todo-item {
+        height: 60px;
+        display: flex;
+        align-items: center;
+        padding: 10px 0;
+        border-bottom: 1px solid rgba(206, 197, 197, 0.5);
+        background-color: transparent;
+        transition: background-color 0.3s;
+        &:hover {
+            background-color: rgba(206, 197, 197, 0.5);
+        }
+    }
+    .todo-item-content {
+        &.done {
+            text-decoration: line-through;
+            color: gray;
+        }
+    }
+    #areaview-head {
+        height: 200px;
+        border-bottom: 1px solid rgba(206, 197, 197, 0.5);
+    }
+    #areaview-content {
+        ul {
+            margin: 0 20px;
+        }
+    }
+}

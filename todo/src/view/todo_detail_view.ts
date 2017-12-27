@@ -34,7 +34,6 @@ export class TodoDetailView implements CustomView.CustomCheckboxDelegate {
     }
 
     private bindEvents() {
-        // 让delegate来显示/隐藏视图总觉得哪里怪怪的……
         this.closeButton.addEventListener('click', event => {
             this.closeView()
             if (this.delegate) {
@@ -47,6 +46,10 @@ export class TodoDetailView implements CustomView.CustomCheckboxDelegate {
             if (this.delegate) {
                 this.delegate.deleteButtonClicked(this.todoItem)
             }
+        })
+        this.element.addEventListener('contextmenu', event => {
+            event.preventDefault()
+            event.stopPropagation()
         })
     }
 

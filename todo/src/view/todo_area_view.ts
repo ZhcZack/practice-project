@@ -57,6 +57,10 @@ class TodoAreaView implements TodoDetailViewDelegate, CustomView.CustomNewItemDe
                 }
             }
         })
+        this.element.addEventListener('contextmenu', event => {
+            event.preventDefault()
+            event.stopPropagation()
+        })
     }
 
     private toggleItemStatus(title: string) {
