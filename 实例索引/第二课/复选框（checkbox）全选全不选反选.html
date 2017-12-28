@@ -50,91 +50,56 @@
 	<div class="container">
 		<div class="check">
 			<div class="allornot">
-				<input type="checkbox"><label>全选</label><span class="toggle">反选</span>
+				<input type="checkbox">
+				<label>全选</label>
+				<span class="toggle">反选</span>
 			</div>
 			<ul>
-				<li><input type="checkbox" data-index="0"><label>选项（一）</label></li>
-				<li><input type="checkbox" data-index="1"><label>选项（二）</label></li>
-				<li><input type="checkbox" data-index="2"><label>选项（三）</label></li>
-				<li><input type="checkbox" data-index="3"><label>选项（四）</label></li>
-				<li><input type="checkbox" data-index="4"><label>选项（五）</label></li>
-				<li><input type="checkbox" data-index="5"><label>选项（六）</label></li>
-				<li><input type="checkbox" data-index="6"><label>选项（七）</label></li>
-				<li><input type="checkbox" data-index="7"><label>选项（八）</label></li>
-				<li><input type="checkbox" data-index="8"><label>选项（九）</label></li>
-				<li><input type="checkbox" data-index="9"><label>选项（十）</label></li>
+				<li>
+					<input type="checkbox" data-index="0">
+					<label>选项（一）</label>
+				</li>
+				<li>
+					<input type="checkbox" data-index="1">
+					<label>选项（二）</label>
+				</li>
+				<li>
+					<input type="checkbox" data-index="2">
+					<label>选项（三）</label>
+				</li>
+				<li>
+					<input type="checkbox" data-index="3">
+					<label>选项（四）</label>
+				</li>
+				<li>
+					<input type="checkbox" data-index="4">
+					<label>选项（五）</label>
+				</li>
+				<li>
+					<input type="checkbox" data-index="5">
+					<label>选项（六）</label>
+				</li>
+				<li>
+					<input type="checkbox" data-index="6">
+					<label>选项（七）</label>
+				</li>
+				<li>
+					<input type="checkbox" data-index="7">
+					<label>选项（八）</label>
+				</li>
+				<li>
+					<input type="checkbox" data-index="8">
+					<label>选项（九）</label>
+				</li>
+				<li>
+					<input type="checkbox" data-index="9">
+					<label>选项（十）</label>
+				</li>
 			</ul>
 		</div>
 		<p class="area">1、切换全选/全不选文字；2、根据选中个数更新全选框状态；</p>
 	</div>
-	<script>
-		function check() {
-			var o = {
-				allornot: document.querySelector('.allornot input'),
-				checks: document.querySelectorAll('ul li input'),
-				status: [],
-				toggle: document.querySelector('.toggle')
-			}
-			o.init = function () {
-				var self = this
-				this.checks.forEach(function (check) {
-					self.status.push(check.checked)
-				})
-
-				o.checks.forEach(function (check) {
-					check.addEventListener('change', function (e) {
-						var index = this.dataset.index
-						self.status[index] = !self.status[index]
-						self.refresh()
-					})
-				})
-
-				o.allornot.addEventListener('change', function (e) {
-					var value = this.checked
-					if (value) {
-						self.status.forEach(function (s, i, arr) {
-							arr[i] = true
-						})
-					} else {
-						self.status.forEach(function (s, i, arr) {
-							arr[i] = false
-						})
-					}
-					self.refresh()
-				})
-
-				o.toggle.addEventListener('click', function (e) {
-					self.status.forEach(function (s, i, arr) {
-						arr[i] = !arr[i]
-					})
-					self.refresh()
-				})
-			}
-			o.refresh = function () {
-				for (var i = 0; i < this.status.length; i++) {
-					this.checks[i].checked = this.status[i]
-				}
-				var result = this.status.every(function (s) {
-					return s
-				})
-
-				if (result) {
-					this.allornot.checked = true
-					this.allornot.nextElementSibling.textContent = '全不选'
-				} else {
-					this.allornot.checked = false
-					this.allornot.nextElementSibling.textContent = '全选'
-				}
-			}
-
-			o.init()
-			return o
-		}
-		function __main() {
-			var o = check()
-		}
-		__main()
-	</script>
+	<script src="b3.js"></script>
 </body>
 
 </html>
