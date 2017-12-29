@@ -1,5 +1,5 @@
-var b5;
-(function (b5) {
+var e2;
+(function (e2) {
     function main() {
         var input = document.querySelector('input');
         var button = document.querySelector('button');
@@ -26,5 +26,5 @@ var b5;
         });
     }
     main();
-})(b5 || (b5 = {}));
-//# sourceMappingURL=b5.js.map
+})(e2 || (e2 = {}));
+//# sourceMappingURL=e2.js.map

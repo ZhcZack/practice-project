@@ -1,4 +1,4 @@
-namespace b6 {
+namespace f2 {
     const divs = document.querySelectorAll('div')
     for (let i = 0; i < divs.length; i++) {
         divs[i].addEventListener('click', e => {

@@ -1,4 +1,4 @@
-namespace b5 {
+namespace e2 {
     function main() {
         const input = document.querySelector('input')
         const button = document.querySelector('button')

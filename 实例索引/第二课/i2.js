@@ -1,5 +1,5 @@
-var b9;
-(function (b9) {
+var i2;
+(function (i2) {
     function main() {
         var uls = document.querySelectorAll('#content ul');
         var navs = document.querySelectorAll('nav span');
@@ -23,5 +23,5 @@ var b9;
         }
     }
     main();
-})(b9 || (b9 = {}));
-//# sourceMappingURL=b9.js.map
+})(i2 || (i2 = {}));
+//# sourceMappingURL=i2.js.map

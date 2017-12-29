@@ -1,4 +1,4 @@
-namespace b9 {
+namespace i2 {
     function main() {
         const uls = document.querySelectorAll('#content ul') as NodeListOf<HTMLUListElement>
         const navs = document.querySelectorAll('nav span') as NodeListOf<HTMLSpanElement>

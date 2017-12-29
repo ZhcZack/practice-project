@@ -1,4 +1,4 @@
-namespace b10 {
+namespace j2 {
     function main() {
         const imgs = document.querySelectorAll('.imglist img') as NodeListOf<HTMLImageElement>
         const main = document.querySelector('.main img') as HTMLImageElement

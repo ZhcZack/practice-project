@@ -1,4 +1,4 @@
-namespace b4 {
+namespace d2 {
     var button = document.querySelector('button')
     if (button !== null) {
         button.addEventListener('click', function (e) {

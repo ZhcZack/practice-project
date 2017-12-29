@@ -1,5 +1,5 @@
-var b10;
-(function (b10) {
+var j2;
+(function (j2) {
     function main() {
         var imgs = document.querySelectorAll('.imglist img');
         var main = document.querySelector('.main img');
@@ -14,5 +14,5 @@ var b10;
         }
     }
     main();
-})(b10 || (b10 = {}));
-//# sourceMappingURL=b10.js.map
+})(j2 || (j2 = {}));
+//# sourceMappingURL=j2.js.map

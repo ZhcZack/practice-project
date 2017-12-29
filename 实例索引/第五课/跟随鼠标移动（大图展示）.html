@@ -57,61 +57,7 @@
 	<div id="big">
 		<img src="" alt="">
 	</div>
-	<script>
-		var get = document.querySelector.bind(document)
-		var getAll = document.querySelectorAll.bind(document)
-		var log = console.log.bind(console)
-
-		function main() {
-			var list = getAll('#imglist li img')
-			listActions(list)
-		}
-
-		function listActions(list) {
-			var b = get('#big')
-			list.forEach(function (li) {
-				li.addEventListener('mouseover', function (e) {
-					var href = this.getAttribute('src').replace(/\.jpg/, '_big.jpg')
-					var x = e.clientX
-					var y = e.clientY
-					showBigImage(b, x, y, href)
-				})
-				li.addEventListener('mousemove', function (e) {
-					var x = e.clientX
-					var y = e.clientY
-					showBigImage(b, x, y)
-
-				})
-				li.addEventListener('mouseout', function (e) {
-					hideBigImage(b)
-				})
-			})
-		}
-
-		function setBigImageHref(image, href) {
-			image.querySelector('img').setAttribute('src', href)
-		}
-
-		function showBigImage(image, x, y, href) {
-			if (href) {
-				setBigImageHref(image, href)
-			}
-			image.style.display = 'block'
-			var w = image.offsetWidth
-			if (w + x <= window.innerWidth) {
-				image.style.left = x + 20 + 'px'
-			} else {
-				image.style.left = x - w - 10 + 'px'
-			}
-			image.style.top = y + 20 + 'px'
-		}
-
-		function hideBigImage(image) {
-			image.style.display = 'none'
-		}
-
-		main()
-	</script>
+	<script src="e5.js"></script>
 </body>
 
 </html>

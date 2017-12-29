@@ -1,5 +1,5 @@
-var b3;
-(function (b3) {
+var c2;
+(function (c2) {
     var Check = /** @class */ (function () {
         function Check() {
             this.allornot = document.querySelector('.allornot input');
@@ -73,5 +73,5 @@ var b3;
         var o = new Check();
     }
     __main();
-})(b3 || (b3 = {}));
-//# sourceMappingURL=b3.js.map
+})(c2 || (c2 = {}));
+//# sourceMappingURL=c2.js.map

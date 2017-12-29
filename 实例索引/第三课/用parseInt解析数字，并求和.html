@@ -27,28 +27,13 @@
 </head>
 
 <body>
-	<input type="text"><span class="plus">+</span><input type="text"><span class="equal">=</span><span class="result">?</span><button>求和</button>
-	<script>
-		function __main() {
-			var inputs = document.querySelectorAll('input')
-			inputs.forEach(function (input) {
-				input.addEventListener('keyup', function (e) {
-					this.value = this.value.replace(/[^0-9]/, '')
-				})
-			})
-
-			var result = document.querySelector('.result')
-			var button = document.querySelector('button')
-
-			button.addEventListener('click', function (e) {
-				var v1 = parseInt(inputs[0].value, 10)
-				var v2 = parseInt(inputs[1].value, 10)
-				result.textContent = v1 + v2
-			})
-		}
-
-		__main()
-	</script>
+	<input type="text">
+	<span class="plus">+</span>
+	<input type="text">
+	<span class="equal">=</span>
+	<span class="result">?</span>
+	<button>求和</button>
+	<script src="c3.js"></script>
 </body>
 
 </html>

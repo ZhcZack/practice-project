@@ -106,68 +106,7 @@
 			<li>QQ幻想世界</li>
 		</ul>
 	</div>
-	<script>
-		var get = document.querySelector.bind(document)
-		var getAll = document.querySelectorAll.bind(document)
-		var log = console.log.bind(console)
-
-		function main() {
-			var select = get('#search .name')
-			selectActions(select)
-		}
-
-		function selectActions(s) {
-			var list = get('#list')
-			s.addEventListener('click', function (e) {
-				if (this.classList.contains('list')) {
-					toggleSelect(s)
-					hideList(list)
-				} else {
-					var rect = this.getBoundingClientRect()
-					var w = rect.width
-					var y = rect.height
-					toggleSelect(s)
-					showList(list, w, y)
-				}
-			})
-		}
-
-		function toggleSelect(select) {
-			select.classList.toggle('list')
-		}
-
-		function hideList(l) {
-			l.style.display = 'none'
-		}
-
-		function showList(l, w, y) {
-			l.style.display = 'block'
-			l.style.width = w + 'px'
-			l.style.left = 0
-			l.style.top = y + 'px'
-
-			if (l.dataset.bind !== 'true') {
-				listActions(l)
-			}
-
-		}
-
-		function listActions(l) {
-			var lis = getAll('#list li')
-			var select = get('#search .name')
-			lis.forEach(function (li) {
-				li.addEventListener('click', function (e) {
-					var text = this.textContent
-					select.textContent = text
-					toggleSelect(select)
-					hideList(l)
-				})
-			})
-			l.dataset.bind = true
-		}
-
-		main()
-	</script>
+	<script src="b5.js"></script>
 </body>
 
 </html>

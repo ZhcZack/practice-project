@@ -1,5 +1,5 @@
-var b6;
-(function (b6) {
+var f2;
+(function (f2) {
     var divs = document.querySelectorAll('div');
     var _loop_1 = function (i) {
         divs[i].addEventListener('click', function (e) {
@@ -9,5 +9,5 @@ var b6;
     for (var i = 0; i < divs.length; i++) {
         _loop_1(i);
     }
-})(b6 || (b6 = {}));
-//# sourceMappingURL=b6.js.map
+})(f2 || (f2 = {}));
+//# sourceMappingURL=f2.js.map

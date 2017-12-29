@@ -1,4 +1,4 @@
-namespace b3 {
+namespace c2 {
     class Check {
         private allornot = document.querySelector('.allornot input') as HTMLInputElement
         private checks = document.querySelectorAll('ul li input') as NodeListOf<HTMLInputElement>

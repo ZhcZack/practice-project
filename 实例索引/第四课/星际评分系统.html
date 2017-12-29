@@ -33,9 +33,9 @@
 
 		#star ul,
 		#star span {
-			float: left;
+			/* float: left; */
 			display: inline;
-			height: 19px;
+			/* height: 19px; */
 			line-height: 19px;
 		}
 
@@ -101,64 +101,7 @@
 		<span></span>
 		<p></p>
 	</div>
-	<script>
-		var get = document.querySelector.bind(document)
-		var getAll = document.querySelectorAll.bind(document)
-		var log = console.log.bind(console)
-
-		function main() {
-			bind()
-		}
-
-		function bind() {
-			var stars = getAll('#star li')
-			bindStars(stars)
-		}
-
-		function bindStars(stars) {
-			var p = get('#star p')
-			var ul = get("#star ul")
-			var span = getAll('#star span')[1]
-			var score = 0
-			var msgs = ["很不满意|差得太离谱，与卖家描述的严重不符，非常不满",
-				"不满意|部分有破损，与卖家描述的不符，不满意",
-				"一般|质量一般，没有卖家描述的那么好",
-				"满意|质量不错，与卖家描述的基本一致，还是挺满意的",
-				"非常满意|质量非常好，与卖家描述的完全一致，非常满意"]
-			stars.forEach(function (s) {
-				s.addEventListener('mouseover', function (e) {
-					var temp = s.querySelector('a').textContent
-					p.style.display = 'block'
-					p.style.left = ul.offsetLeft + (temp * this.offsetWidth) - 104 + 'px'
-					var words = msgs[temp - 1].split('|')
-					p.innerHTML = '<em><b>' + temp + '</b>分 ' + words[0] + '</em>' + words[1]
-					showPoint(stars, temp)
-				})
-				s.addEventListener('mouseout', function (e) {
-					showPoint(stars, score)
-					p.style.display = 'none'
-				})
-				s.addEventListener('click', function (e) {
-					score = s.querySelector('a').textContent
-					var words = msgs[score - 1].split('|')
-					span.innerHTML = '<strong>' + score + '分</strong> (' + words[1] + ')'
-				})
-			})
-		}
-
-		function showPoint(stars, point) {
-			for (var i = 0; i < stars.length; i++) {
-				var score = stars[i].querySelector('a').textContent
-				if (score <= point) {
-					stars[i].classList.add('on')
-				} else {
-					stars[i].classList.remove('on')
-				}
-			}
-		}
-
-		main()
-	</script>
+	<script src="h4.js"></script>
 </body>
 
 </html>

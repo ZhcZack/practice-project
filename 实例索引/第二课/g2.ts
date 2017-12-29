@@ -1,4 +1,4 @@
-namespace b7 {
+namespace g2 {
     const button = document.querySelector('button')
     const dialog: HTMLElement | null = document.querySelector('#dialog')
     let close: HTMLElement | null = null

@@ -1,4 +1,4 @@
-namespace b8 {
+namespace h2 {
     const uls = document.querySelectorAll('.show li') as NodeListOf<HTMLLIElement>
     const navs = document.querySelectorAll('.months li') as NodeListOf<HTMLLIElement>
 

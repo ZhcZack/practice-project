@@ -1,5 +1,5 @@
-var b4;
-(function (b4) {
+var d2;
+(function (d2) {
     var button = document.querySelector('button');
     if (button !== null) {
         button.addEventListener('click', function (e) {
@@ -52,5 +52,5 @@ var b4;
             parent.insertBefore(newNode, after);
         }
     }
-})(b4 || (b4 = {}));
-//# sourceMappingURL=b4.js.map
+})(d2 || (d2 = {}));
+//# sourceMappingURL=d2.js.map

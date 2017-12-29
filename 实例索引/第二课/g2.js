@@ -1,5 +1,5 @@
-var b7;
-(function (b7) {
+var g2;
+(function (g2) {
     var button = document.querySelector('button');
     var dialog = document.querySelector('#dialog');
     var close = null;
@@ -34,5 +34,5 @@ var b7;
             toggleDialog();
         });
     }
-})(b7 || (b7 = {}));
-//# sourceMappingURL=b7.js.map
+})(g2 || (g2 = {}));
+//# sourceMappingURL=g2.js.map
