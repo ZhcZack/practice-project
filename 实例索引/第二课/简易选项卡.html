@@ -89,24 +89,7 @@
 			</ul>
 		</div>
 	</div>
-	<script>
-		var uls = document.querySelectorAll('#content ul')
-		var navs = document.querySelectorAll('nav span')
-
-		for (var i = 0; i < navs.length; i++) {
-			navs[i].addEventListener('mouseover', function (e) {
-				navs.forEach(function (nav) {
-					nav.classList.remove('current')
-				})
-				var index = this.dataset.index
-				this.classList.add('current')
-				uls.forEach(function (ul) {
-					ul.classList.remove('display')
-				})
-				uls[index].classList.add('display')
-			})
-		}
-	</script>
+	<script src="b9.js"></script>
 </body>
 
 </html>

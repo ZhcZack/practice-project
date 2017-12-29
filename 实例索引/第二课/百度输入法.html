@@ -48,34 +48,7 @@
 			<li class="close">关闭</li>
 		</ul>
 	</div>
-	<script>
-		var button = document.querySelector('button')
-		var dialog = document.querySelector('#dialog')
-		var close = dialog.querySelector('.close')
-
-		function toggleDialog() {
-			if (dialog.classList.contains('display')) {
-				dialog.classList.remove('display')
-			} else {
-				dialog.classList.add('display')
-			}
-		}
-
-		button.addEventListener('click', function (e) {
-			var rect = button.getBoundingClientRect()
-			var x = rect.left
-			var y = rect.bottom + 10
-
-			toggleDialog()
-
-			dialog.style.top = y + 'px'
-			dialog.style.left = x + 'px'
-		})
-
-		close.addEventListener('click', function (e) {
-			toggleDialog()
-		})
-	</script>
+	<script src="b7.js"></script>
 </body>
 
 </html>

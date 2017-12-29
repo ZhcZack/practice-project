@@ -80,18 +80,54 @@
 	<div class="container">
 		<div class="months">
 			<ul>
-				<li data-index="0" class="current"><span>1</span><span>JAN</span></li>
-				<li data-index="1"><span>2</span><span>FER</span></li>
-				<li data-index="2"><span>3</span><span>MAR</span></li>
-				<li data-index="3"><span>4</span><span>APR</span></li>
-				<li data-index="4"><span>5</span><span>MAY</span></li>
-				<li data-index="5"><span>6</span><span>JUN</span></li>
-				<li data-index="6"><span>7</span><span>JUL</span></li>
-				<li data-index="7"><span>8</span><span>AUG</span></li>
-				<li data-index="8"><span>9</span><span>SEP</span></li>
-				<li data-index="9"><span>10</span><span>OCT</span></li>
-				<li data-index="10"><span>11</span><span>NOV</span></li>
-				<li data-index="11"><span>12</span><span>DEC</span></li>
+				<li data-index="0" class="current">
+					<span>1</span>
+					<span>JAN</span>
+				</li>
+				<li data-index="1">
+					<span>2</span>
+					<span>FER</span>
+				</li>
+				<li data-index="2">
+					<span>3</span>
+					<span>MAR</span>
+				</li>
+				<li data-index="3">
+					<span>4</span>
+					<span>APR</span>
+				</li>
+				<li data-index="4">
+					<span>5</span>
+					<span>MAY</span>
+				</li>
+				<li data-index="5">
+					<span>6</span>
+					<span>JUN</span>
+				</li>
+				<li data-index="6">
+					<span>7</span>
+					<span>JUL</span>
+				</li>
+				<li data-index="7">
+					<span>8</span>
+					<span>AUG</span>
+				</li>
+				<li data-index="8">
+					<span>9</span>
+					<span>SEP</span>
+				</li>
+				<li data-index="9">
+					<span>10</span>
+					<span>OCT</span>
+				</li>
+				<li data-index="10">
+					<span>11</span>
+					<span>NOV</span>
+				</li>
+				<li data-index="11">
+					<span>12</span>
+					<span>DEC</span>
+				</li>
 			</ul>
 		</div>
 		<div class="show">
@@ -148,24 +184,7 @@
 			</ul>
 		</div>
 	</div>
-	<script>
-		var uls = document.querySelectorAll('.show li')
-		var navs = document.querySelectorAll('.months li')
-
-		for (var i = 0; i < navs.length; i++) {
-			navs[i].addEventListener('mouseover', function (e) {
-				navs.forEach(function (nav) {
-					nav.classList.remove('current')
-				})
-				var index = this.dataset.index
-				this.classList.add('current')
-				uls.forEach(function (ul) {
-					ul.classList.remove('display')
-				})
-				uls[index].classList.add('display')
-			})
-		}
-	</script>
+	<script src="b8.js"></script>
 </body>
 
 </html>

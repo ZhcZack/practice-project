@@ -67,32 +67,46 @@
 <body>
 	<!-- 实际情况需要考虑图片缓冲的问题 -->
 	<div class="container">
-		<div class="main"><img src="http://www.fgm.cc/learn/lesson2/img/big_1.jpg" alt="main image"></div>
+		<div class="main">
+			<img src="http://www.fgm.cc/learn/lesson2/img/big_1.jpg" alt="main image">
+		</div>
 		<ul class="imglist">
-			<li><img src="http://www.fgm.cc/learn/lesson2/img/small_1.jpg" alt=""></li>
-			<li><img src="http://www.fgm.cc/learn/lesson2/img/small_2.jpg" alt=""></li>
-			<li><img src="http://www.fgm.cc/learn/lesson2/img/small_3.jpg" alt=""></li>
-			<li><img src="http://www.fgm.cc/learn/lesson2/img/small_4.jpg" alt=""></li>
-			<li><img src="http://www.fgm.cc/learn/lesson2/img/small_5.jpg" alt=""></li>
-			<li><img src="http://www.fgm.cc/learn/lesson2/img/small_6.jpg" alt=""></li>
-			<li><img src="http://www.fgm.cc/learn/lesson2/img/small_7.jpg" alt=""></li>
-			<li><img src="http://www.fgm.cc/learn/lesson2/img/small_8.jpg" alt=""></li>
-			<li><img src="http://www.fgm.cc/learn/lesson2/img/small_9.jpg" alt=""></li>
-			<li><img src="http://www.fgm.cc/learn/lesson2/img/small_10.jpg" alt=""></li>
-			<li><img src="http://www.fgm.cc/learn/lesson2/img/small_11.jpg" alt=""></li>
+			<li>
+				<img src="http://www.fgm.cc/learn/lesson2/img/small_1.jpg" alt="">
+			</li>
+			<li>
+				<img src="http://www.fgm.cc/learn/lesson2/img/small_2.jpg" alt="">
+			</li>
+			<li>
+				<img src="http://www.fgm.cc/learn/lesson2/img/small_3.jpg" alt="">
+			</li>
+			<li>
+				<img src="http://www.fgm.cc/learn/lesson2/img/small_4.jpg" alt="">
+			</li>
+			<li>
+				<img src="http://www.fgm.cc/learn/lesson2/img/small_5.jpg" alt="">
+			</li>
+			<li>
+				<img src="http://www.fgm.cc/learn/lesson2/img/small_6.jpg" alt="">
+			</li>
+			<li>
+				<img src="http://www.fgm.cc/learn/lesson2/img/small_7.jpg" alt="">
+			</li>
+			<li>
+				<img src="http://www.fgm.cc/learn/lesson2/img/small_8.jpg" alt="">
+			</li>
+			<li>
+				<img src="http://www.fgm.cc/learn/lesson2/img/small_9.jpg" alt="">
+			</li>
+			<li>
+				<img src="http://www.fgm.cc/learn/lesson2/img/small_10.jpg" alt="">
+			</li>
+			<li>
+				<img src="http://www.fgm.cc/learn/lesson2/img/small_11.jpg" alt="">
+			</li>
 		</ul>
 	</div>
-	<script>
-		var imgs = document.querySelectorAll('.imglist img')
-		var main = document.querySelector('.main img')
-
-		imgs.forEach(function (img) {
-			img.addEventListener('mouseover', function (e) {
-				var link = this.getAttribute('src')
-				main.setAttribute('src', link.replace(/small/, 'big'))
-			})
-		})
-	</script>
+	<script src="b10.js"></script>
 </body>
 
 </html>

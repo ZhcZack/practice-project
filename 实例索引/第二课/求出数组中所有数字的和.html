@@ -26,32 +26,12 @@
 
 <body>
 	<div id="input-area">
-		<input type="text"><span>输入数字求和，数字之间用半角","号分隔</span>
+		<input type="text">
+		<span>输入数字求和，数字之间用半角","号分隔</span>
 	</div>
 	<button>求和</button>
 	<div id="result"></div>
-	<script>
-		var input = document.querySelector('input')
-		var button = document.querySelector('button')
-		var result = document.querySelector('#result')
-		input.addEventListener('keyup', function (e) {
-			var key = e.key
-			var v = this.value.split('')
-			if (['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ','].indexOf(key) === -1) {
-				v.pop()
-				this.value = v.join('')
-			}
-		})
-		button.addEventListener('click', function (e) {
-			var value = input.value
-			var nums = value.split(',')
-			var sum = 0
-			nums.forEach(function (num) {
-				sum += Number(num)
-			})
-			result.textContent = sum
-		})
-	</script>
+	<script src="b5.js"></script>
 </body>
 
 </html>
