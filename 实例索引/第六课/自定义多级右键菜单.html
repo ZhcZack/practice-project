@@ -8,7 +8,7 @@
 	<title>自定义多级右键菜单</title>
 	<style>
 		#rightMenu {
-			/* display: none; */
+			display: none;
 			position: absolute;
 		}
 
@@ -105,98 +105,7 @@
 			</li>
 		</ul>
 	</div>
-	<script>
-		function get(selector) {
-			return document.querySelector(selector)
-		}
-		function getAll(selector) {
-			return document.querySelectorAll(selector)
-		}
-		function log(msg) {
-			console.log(msg)
-		}
-
-		function main() {
-			customRightMenu()
-		}
-
-		function customRightMenu() {
-			var m = get('#rightMenu')
-			var lis = getAll('#rightMenu li')
-			var rightArrow = false
-			var showTimer = hideTimer = null
-			window.addEventListener('contextmenu', function (e) {
-				var x = e.clientX
-				var y = e.clientY
-
-				m.style.display = 'block'
-				m.style.left = x + 'px'
-				m.style.top = y + 'px'
-
-				// right arrow
-				if (!rightArrow) {
-					lis.forEach(function (li) {
-						if (li.querySelector('ul')) {
-							li.classList.add('right-arrow')
-						}
-					})
-					rightArrow = true
-				}
-
-				// li actions
-				lis.forEach(function (li) {
-					li.addEventListener('mouseover', function (e) {
-						var self = this
-						self.classList.add('current')
-						var ul = self.firstElementChild
-						if (ul) {
-							clearTimeout(hideTimer)
-							showTimer = setTimeout(function () {
-								for (var i = 0; i < self.parentNode.children.length; i++) {
-									var ch = self.parentNode.children[i]
-									if (ch.querySelector('ul')) {
-										ch.querySelector('ul').style.display = 'none'
-									}
-								}
-								ul.style.display = 'block'
-								ul.style.left = self.offsetWidth + 'px'
-								ul.style.top = 0
-								var maxWidth = 0
-								for (var i = 0; i < ul.children.length; i++) {
-									var l = ul.children[i]
-									var lw = l.clientWidth + parseInt(window.getComputedStyle(l)['padding-left'], 10)
-									if (lw > maxWidth) {
-										maxWidth = lw
-									}
-								}
-								ul.style.width = maxWidth + 'px'
-							}, 500)
-						}
-					})
-					li.addEventListener('mouseout', function (e) {
-						var self = this
-						self.classList.remove('current')
-						clearTimeout(showTimer)
-						hideTimer = setTimeout(function () {
-							for (var i = 0; i < self.parentNode.children.length; i++) {
-								var ch = self.parentNode.children[i]
-								if (ch.querySelector('ul')) {
-									ch.querySelector('ul').style.display = 'none'
-								}
-							}
-						}, 500)
-						// e.stopPropagation()
-					})
-					li.addEventListener('click', function (e) {
-						m.style.display = 'none'
-					})
-				})
-				e.preventDefault()
-			})
-		}
-
-		// main()
-	</script>
+	<script src="c6.js"></script>
 </body>
 
 </html>
