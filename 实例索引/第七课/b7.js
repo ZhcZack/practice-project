@@ -1,5 +1,5 @@
-var a8;
-(function (a8) {
+var b7;
+(function (b7) {
     var get = function (sel) { return document.querySelector(sel); };
     var getAll = function (sel) { return document.querySelectorAll(sel); };
     var log = console.log.bind(console);
@@ -98,5 +98,5 @@ var a8;
         clearInterval(info.timer.indexTimer);
     }
     main();
-})(a8 || (a8 = {}));
-//# sourceMappingURL=a8.js.map
+})(b7 || (b7 = {}));
+//# sourceMappingURL=b7.js.map

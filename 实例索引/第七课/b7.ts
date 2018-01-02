@@ -1,4 +1,4 @@
-namespace a8 {
+namespace b7 {
     const get = (sel: string): HTMLElement | null => document.querySelector(sel)
     const getAll = (sel: string): NodeListOf<HTMLElement> => document.querySelectorAll(sel)
     const log = console.log.bind(console)

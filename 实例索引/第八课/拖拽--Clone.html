@@ -30,61 +30,7 @@
 <body>
     <div class="item"></div>
     <div class="item"></div>
-    <script>
-        window.addEventListener('load', function (e) {
-            main()
-        })
-
-        var get = document.querySelector.bind(document)
-        var getAll = document.querySelectorAll.bind(document)
-        var log = console.log.bind(console)
-
-        function main() {
-            var items = getAll('.item')
-            dragAndDrop(items[0])
-            dragAndDrop(items[1])
-            setup()
-        }
-
-        function setup() {
-            var items = getAll('.item')
-            items[0].style.left = '50px'
-            items[1].style.left = '200px'
-        }
-
-        function dragAndDrop(item) {
-            var isDrag = false
-            var dx = 0
-            var dy = 0
-            var clone = null
-            item.addEventListener('mousedown', function (e) {
-                isDrag = true
-                dx = e.clientX - this.offsetLeft
-                dy = e.clientY - this.offsetTop
-                clone = this.cloneNode(true)
-                clone.classList.add('item-clone')
-                document.body.appendChild(clone)
-                // log('dx: ' + dx + ', dy: ' + dy)
-                this.setCapture()
-            })
-            window.addEventListener('mousemove', function (e) {
-                if (!isDrag) {
-                    return
-                }
-                clone.style.left = e.clientX - dx + 'px'
-                clone.style.top = e.clientY - dy + 'px'
-            })
-            item.addEventListener('mouseup', function (e) {
-                isDrag = false
-                var index = this.style.zIndex ? parseInt(this.style.zIndex) : 0
-                this.style.left = clone.offsetLeft + 'px'
-                this.style.top = clone.offsetTop + 'px'
-                this.style.zIndex = index + 1
-                clone.parentNode.removeChild(clone)
-                this.releaseCapture()
-            })
-        }
-    </script>
+    <script src="b8.js"></script>
 </body>
 
 </html>
