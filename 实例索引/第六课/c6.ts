@@ -8,82 +8,73 @@ namespace c6 {
     }
 
     function customRightMenu() {
-        const m = get('#rightMenu')
-        const lis = getAll('#rightMenu li')
-        if (!m || lis.length < 1) {
+        const menu = get('#rightMenu')
+        if (!menu) {
             return
         }
-        let rightArrow = false
-        let showTimer = 0
-        let hideTimer = 0
         window.addEventListener('contextmenu', e => {
-            const x = e.clientX
-            const y = e.clientY
-
-            m.style.display = 'block'
-            m.style.left = x + 'px'
-            m.style.top = y + 'px'
-
-            // right arrow
-            if (!rightArrow) {
-                for (let i = 0; i < lis.length; i++) {
-                    const element = lis[i]
-                    if (element.querySelector('ul')) {
-                        element.classList.add('right-arrow')
-                    }
-                }
-                rightArrow = true
-            }
-
-            // li actions
-            for (let i = 0; i < lis.length; i++) {
-                const element = lis[i]
-                element.addEventListener('mouseover', e => {
-                    element.classList.add('current')
-                    const ul = element.firstElementChild as HTMLElement
-                    if (ul) {
-                        clearTimeout(hideTimer)
-                        showTimer = setTimeout(() => {
-                            for (let i = 0; i < element.parentElement!.children.length; i++) {
-                                const ch = element.parentElement!.children[i]
-                                if (ch.querySelector('ul')) {
-                                    ch.querySelector('ul')!.style.display = 'none'
-                                }
-                            }
-                            ul.style.display = 'block'
-                            ul.style.left = element.offsetWidth + 'px'
-                            ul.style.top = '0'
-                            let maxWidth = 0
-                            for (let i = 0; i < ul.children.length; i++) {
-                                const l = ul.children[i]
-                                const lw = l.clientWidth + parseInt(window.getComputedStyle(l).paddingLeft!, 10)
-                                if (lw > maxWidth) {
-                                    maxWidth = lw
-                                }
-                            }
-                            ul.style.width = maxWidth + 'px'
-                        }, 500)
-                    }
-                })
-                element.addEventListener('mouseout', e => {
-                    element.classList.remove('current')
-                    clearTimeout(showTimer)
-                    hideTimer = setTimeout(() => {
-                        for (var i = 0; i < element.parentElement!.children.length; i++) {
-                            var ch = element.parentElement!.children[i]
-                            if (ch.querySelector('ul')) {
-                                ch.querySelector('ul')!.style.display = 'none'
-                            }
-                        }
-                    }, 500)
-                    // e.stopPropagation()
-                })
-                element.addEventListener('click', e => {
-                    m.style.display = 'none'
-                })
-            }
+            // log(e)
+            menu.style.display = 'block'
+            menu.style.left = e.clientX + 'px'
+            menu.style.top = e.clientY + 'px'
             e.preventDefault()
         })
+        window.addEventListener('click', e => {
+            const menu = get('#rightMenu')
+            if (menu) {
+                menu.style.display = 'none'
+            }
+        })
+        menuEvents()
+        ckeckRightArrow()
+    }
+
+    function menuEvents() {
+        const menu = get('#rightMenu')
+        if (!menu) { return }
+        menu.addEventListener('click', e => {
+            e.stopPropagation()
+        })
+    }
+
+    function ckeckRightArrow() {
+        const uls = document.querySelectorAll('#rightMenu > ul ul') as NodeListOf<HTMLUListElement>
+        if (uls.length < 1) { return }
+        for (let i = 0; i < uls.length; i++) {
+            const element = uls[i]
+            element.parentElement!.classList.add('right-arrow')
+        }
+        rightArrowEvents()
+    }
+
+    function rightArrowEvents() {
+        const arrows = document.querySelectorAll('.right-arrow') as NodeListOf<HTMLLIElement>
+        for (let i = 0; i < arrows.length; i++) {
+            const element = arrows[i]
+            element.addEventListener('mouseover', e => {
+                // 在鼠标移入下一级菜单时让父级菜单保持显示
+                element.parentElement!.style.display = 'block'
+
+                const children = element.parentElement!.children
+                const num = children.length
+                for (let j = 0; j < num; j++) {
+                    if (children[j].querySelector('ul')) {
+                        children[j].querySelector('ul')!.style.display = 'none'
+                    }
+                }
+                const child = element.querySelector('ul')!
+                const style = element.getBoundingClientRect()
+                child.style.display = 'block'
+                child.style.left = style.width + 'px'
+                child.style.top = '0'
+
+                e.stopPropagation()
+            })
+            element.addEventListener('mouseout', e => {
+                element.querySelector('ul')!.style.display = 'none'
+                e.stopPropagation()
+            })
+        }
     }
 
     main()

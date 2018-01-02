@@ -1,2 +1,5 @@
 # js map file
 *.js.map
+
+# macOS DS_Store
+*.DS_Store
