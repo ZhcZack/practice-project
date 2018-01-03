@@ -1,3 +1,4 @@
+"use strict";
 var b2;
 (function (b2) {
     var btn = document.querySelector('h2');

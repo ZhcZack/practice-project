@@ -1,3 +1,4 @@
+"use strict";
 var inputs = document.querySelectorAll('input');
 var in1 = inputs[0];
 var in2 = inputs[1];

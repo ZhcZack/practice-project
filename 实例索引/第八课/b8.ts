@@ -21,39 +21,42 @@ namespace b8 {
     }
 
     function dragAndDrop(item: HTMLElement) {
-        let isDrag = false
         let dx = 0
         let dy = 0
-        let clone: HTMLElement | null = null
-        item.addEventListener('mousedown', e => {
-            log('hello')
-            isDrag = true
+        item.addEventListener('mousedown', mousedown)
+
+        function mousedown(e: MouseEvent) {
             dx = e.clientX - item.offsetLeft
             dy = e.clientY - item.offsetTop
-            clone = item.cloneNode() as HTMLElement
-            clone.classList.add('item-clone')
-            item.insertAdjacentElement('afterend', clone)
-            e.stopPropagation()
-        })
-        item.addEventListener('mouseup', e => {
-            log('hi')
-            isDrag = false
-            if (!clone) { return }
-            const index = item.style.zIndex ? parseInt(item.style.zIndex) : 0
-            log(`index: ${index}`)
-            item.style.left = clone.offsetLeft + 'px'
-            item.style.top = clone.offsetTop + 'px'
-            item.style.zIndex = index + 1 + ''
-            clone.parentNode!.removeChild(clone)
-            e.stopPropagation()
-        })
-        window.addEventListener('mousemove', e => {
-            if (!clone || !isDrag) {
-                return
-            }
-            clone.style.left = e.clientX - dx + 'px'
-            clone.style.top = e.clientY - dy + 'px'
-        })
 
+            let temp = document.createElement('div')
+            temp.classList.add('item-clone', 'item')
+            temp.style.left = window.getComputedStyle(item)["left"]
+            temp.style.top = window.getComputedStyle(item)["top"]
+            temp.style.zIndex = String(temp.style.zIndex! + 1)
+            document.body.appendChild(temp)
+
+            document.addEventListener('mousemove', mousemove)
+
+            function mousemove(e: MouseEvent) {
+                temp.style.left = e.clientX - dx + 'px'
+                temp.style.top = e.clientY - dy + 'px'
+                e.stopPropagation()
+            }
+
+            document.addEventListener('mouseup', mouseup)
+
+            function mouseup(e: MouseEvent) {
+                document.removeEventListener('mousemove', mousemove)
+                document.removeEventListener('mouseup', mouseup)
+
+                item.style.left = temp.style.left
+                item.style.top = temp.style.top
+                item.style.zIndex = temp.style.zIndex
+                document.body.removeChild(temp)
+            }
+            e.stopPropagation()
+        }
     }
+
 }

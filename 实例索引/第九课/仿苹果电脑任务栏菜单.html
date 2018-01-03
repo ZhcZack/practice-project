@@ -11,7 +11,7 @@
             width: 100%;
             position: absolute;
             left: 0;
-            bottom: 0;
+            bottom: 10px;
             text-align: center;
         }
 
@@ -32,37 +32,7 @@
         <img src="http://www.fgm.cc/learn/lesson9/img/7.png">
         <img src="http://www.fgm.cc/learn/lesson9/img/8.png">
     </div>
-    <script>
-        window.addEventListener('load', function () {
-            main()
-        })
-
-        var get = document.querySelector.bind(document)
-        var getAll = document.querySelectorAll.bind(document)
-        var log = console.log.bind(console)
-
-        function main() {
-            var menu = get('.menu')
-            var imgs = getAll('.menu img')
-            var ws = []
-
-            for (var i = 0; i < imgs.length; i++) {
-                ws.push(imgs[i].offsetWidth * 2)
-            }
-
-            menu.addEventListener('mousemove', function (e) {
-                for (i = 0; i < imgs.length; i++) {
-                    var a = e.clientX - imgs[i].offsetLeft - imgs[i].offsetWidth / 2
-                    var b = e.clientY - imgs[i].offsetTop - menu.offsetTop - imgs[i].offsetHeight / 2
-                    var scale = 1 - Math.sqrt(a * a + b * b) / 300
-                    if (scale < 0.5) {
-                        scale = 0.5
-                    }
-                    imgs[i].style.width = ws[i] * scale + 'px'
-                }
-            })
-        }
-    </script>
+    <script src="a9.js"></script>
 </body>
 
 </html>

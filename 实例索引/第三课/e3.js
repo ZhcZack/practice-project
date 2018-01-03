@@ -1,3 +1,4 @@
+"use strict";
 var e3;
 (function (e3) {
     function main() {

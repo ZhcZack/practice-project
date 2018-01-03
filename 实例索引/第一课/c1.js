@@ -1,3 +1,4 @@
+"use strict";
 var c1;
 (function (c1) {
     var btn = document.querySelector('button');

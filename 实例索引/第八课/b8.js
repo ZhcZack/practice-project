@@ -1,3 +1,4 @@
+"use strict";
 var b8;
 (function (b8) {
     window.addEventListener('load', function (e) {
@@ -20,41 +21,35 @@ var b8;
         items[1].style.left = '200px';
     }
     function dragAndDrop(item) {
-        var isDrag = false;
         var dx = 0;
         var dy = 0;
-        var clone = null;
-        item.addEventListener('mousedown', function (e) {
-            log('hello');
-            isDrag = true;
+        item.addEventListener('mousedown', mousedown);
+        function mousedown(e) {
             dx = e.clientX - item.offsetLeft;
             dy = e.clientY - item.offsetTop;
-            clone = item.cloneNode();
-            clone.classList.add('item-clone');
-            item.insertAdjacentElement('afterend', clone);
-            e.stopPropagation();
-        });
-        item.addEventListener('mouseup', function (e) {
-            log('hi');
-            isDrag = false;
-            if (!clone) {
-                return;
+            var temp = document.createElement('div');
+            temp.classList.add('item-clone', 'item');
+            temp.style.left = window.getComputedStyle(item)["left"];
+            temp.style.top = window.getComputedStyle(item)["top"];
+            temp.style.zIndex = String(temp.style.zIndex + 1);
+            document.body.appendChild(temp);
+            document.addEventListener('mousemove', mousemove);
+            function mousemove(e) {
+                temp.style.left = e.clientX - dx + 'px';
+                temp.style.top = e.clientY - dy + 'px';
+                e.stopPropagation();
             }
-            var index = item.style.zIndex ? parseInt(item.style.zIndex) : 0;
-            log("index: " + index);
-            item.style.left = clone.offsetLeft + 'px';
-            item.style.top = clone.offsetTop + 'px';
-            item.style.zIndex = index + 1 + '';
-            clone.parentNode.removeChild(clone);
-            e.stopPropagation();
-        });
-        window.addEventListener('mousemove', function (e) {
-            if (!clone || !isDrag) {
-                return;
+            document.addEventListener('mouseup', mouseup);
+            function mouseup(e) {
+                document.removeEventListener('mousemove', mousemove);
+                document.removeEventListener('mouseup', mouseup);
+                item.style.left = temp.style.left;
+                item.style.top = temp.style.top;
+                item.style.zIndex = temp.style.zIndex;
+                document.body.removeChild(temp);
             }
-            clone.style.left = e.clientX - dx + 'px';
-            clone.style.top = e.clientY - dy + 'px';
-        });
+            e.stopPropagation();
+        }
     }
 })(b8 || (b8 = {}));
 //# sourceMappingURL=b8.js.map

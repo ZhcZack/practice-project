@@ -1,3 +1,4 @@
+"use strict";
 var h3;
 (function (h3) {
     function main() {

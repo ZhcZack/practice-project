@@ -1,3 +1,4 @@
+"use strict";
 var b6;
 (function (b6) {
     var get = function (sel) { return document.querySelector(sel); };

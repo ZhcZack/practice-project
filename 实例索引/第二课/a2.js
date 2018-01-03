@@ -1,3 +1,4 @@
+"use strict";
 var a2;
 (function (a2) {
     var attr = document.querySelector('#attr');

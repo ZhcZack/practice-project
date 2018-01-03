@@ -1,3 +1,4 @@
+"use strict";
 var btns = document.querySelectorAll('button');
 var div = document.querySelector("#div");
 if (div !== null) {

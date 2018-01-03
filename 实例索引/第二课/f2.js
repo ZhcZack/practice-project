@@ -1,3 +1,4 @@
+"use strict";
 var f2;
 (function (f2) {
     var divs = document.querySelectorAll('div');

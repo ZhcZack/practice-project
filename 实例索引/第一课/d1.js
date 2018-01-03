@@ -1,3 +1,4 @@
+"use strict";
 var d1;
 (function (d1) {
     var colors = document.querySelectorAll('#skins span');

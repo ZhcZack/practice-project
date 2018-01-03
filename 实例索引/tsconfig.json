@@ -1,8 +1,8 @@
 {
     "compilerOptions": {
+        "strict": true,
         "target": "es5",
         "module": "commonjs",
-        "strictNullChecks": true,
         "noImplicitAny": true,
         "noImplicitReturns": true,
         "noImplicitThis": true,

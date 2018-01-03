@@ -1,3 +1,4 @@
+"use strict";
 var h2;
 (function (h2) {
     var uls = document.querySelectorAll('.show li');

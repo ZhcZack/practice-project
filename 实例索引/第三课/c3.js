@@ -1,3 +1,4 @@
+"use strict";
 var c3;
 (function (c3) {
     function __main() {

@@ -1,3 +1,4 @@
+"use strict";
 var c4;
 (function (c4) {
     var get = function (sel) {

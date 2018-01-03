@@ -1,3 +1,4 @@
+"use strict";
 var a8;
 (function (a8) {
     window.addEventListener('load', function () {
