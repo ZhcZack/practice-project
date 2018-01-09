@@ -32,7 +32,7 @@ class Game {
     }
 }
 
-class GameScene {
+class GameScene implements FireBloomDelegate {
     game: Game
 
     private canvas: HTMLCanvasElement
@@ -51,6 +51,9 @@ class GameScene {
     private setup() {
         const ball = new Ball(0, 0, 10, 10)
         this.addElement(ball)
+        const fire = new Fire(0, 0, 10, 10)
+        fire.setPosition(10, 50)
+        this.addElement(fire)
     }
 
     private addElement(element: GameElement) {
@@ -59,6 +62,7 @@ class GameScene {
             sceneHeight: this.canvas.height,
             context: this.context,
         }
+        element.delegate = this
         this.elements.push(element)
     }
 
@@ -74,6 +78,29 @@ class GameScene {
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height)
     }
 
+    private removeElement(element: GameElement): boolean {
+        let index = -1
+        for (let i = 0; i < this.elements.length; i++) {
+            if (this.elements[i] === element) {
+                index = i
+                break
+            }
+        }
+        if (index > -1) {
+            this.elements.splice(index, 1)
+            return true
+        }
+        return false
+    }
+
+    // fire bloom delegate methods
+    fireShouldBloom(fire: Fire) {
+        console.log('should remove')
+        const x = fire.x
+        const y = fire.y
+        this.removeElement(fire)
+    }
+
 }
 
 interface GameElement {
@@ -81,6 +108,7 @@ interface GameElement {
     y: number
     width: number
     height: number
+    delegate?: GameScene
     sceneInfo?: SceneInfo
     draw(): void
     update(): void
@@ -98,6 +126,7 @@ class Ball implements GameElement {
     width: number
     height: number
     sceneInfo: SceneInfo
+    delegate?: GameScene
     private speed: number
 
     constructor(x: number = 0, y: number = 0, width: number = 0, height: number = 0, sceneInfo?: SceneInfo) {
@@ -123,6 +152,61 @@ class Ball implements GameElement {
             this.speed *= -1
         }
     }
+}
+
+class Fire implements GameElement {
+    private targetY: number
+    private speed: number
+    private info: SceneInfo
+    delegate?: GameScene
+
+    constructor(public x: number = 0, public y: number = 0, public width: number = 0, public height: number = 0) {
+        this.setup()
+    }
+
+    private setup() {
+        this.speed = 2
+        // if (this.sceneInfo) {
+        //     this.y = this.sceneInfo.sceneHeight
+        // }
+    }
+
+    get sceneInfo(): SceneInfo {
+        return this.info
+    }
+
+    set sceneInfo(info: SceneInfo) {
+        this.info = info
+        this.y = this.sceneInfo.sceneHeight
+    }
+
+    setPosition(x: number, y: number) {
+        this.x = x
+        if (this.sceneInfo) {
+            this.y = this.sceneInfo.sceneHeight
+        }
+        this.targetY = y
+    }
+
+    draw() {
+        if (this.sceneInfo) {
+            this.sceneInfo.context.fillRect(this.x, this.y, this.width, this.height)
+        }
+    }
+
+    update() {
+        this.y -= this.speed
+        if (this.y <= this.targetY) {
+            if (this.delegate) {
+                this.delegate.fireShouldBloom(this)
+            }
+        }
+    }
+
+}
+
+interface FireBloomDelegate {
+    fireShouldBloom(fire: Fire): void
 }
 
 window.addEventListener('load', main)
