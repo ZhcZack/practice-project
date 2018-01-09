@@ -126,7 +126,12 @@
     color: gray; }
   #areaview #areaview-head {
     height: 200px;
-    border-bottom: 1px solid rgba(206, 197, 197, 0.5); }
+    padding: 10px;
+    border-bottom: 1px solid rgba(206, 197, 197, 0.5);
+    display: flex;
+    flex-direction: column-reverse; }
+    #areaview #areaview-head .name {
+      font-size: 2rem; }
   #areaview #areaview-content ul {
     margin: 0 20px; }
 

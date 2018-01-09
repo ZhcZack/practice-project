@@ -156,6 +156,11 @@ namespace CustomView {
             this.element.classList.add('checked')
         }
 
+        switchUnchecked() {
+            this.isChecked = false
+            this.element.classList.remove('checked')
+        }
+
         private toggleStatus() {
             if (this.isChecked) {
                 this.element.classList.add('checked')

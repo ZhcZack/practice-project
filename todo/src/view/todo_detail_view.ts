@@ -66,6 +66,8 @@ export class TodoDetailView implements CustomView.CustomCheckboxDelegate {
 
         if (this.todoItem.done) {
             this.checkbox.switchChecked()
+        } else {
+            this.checkbox.switchUnchecked()
         }
     }
 

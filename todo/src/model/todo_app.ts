@@ -15,26 +15,26 @@
  * 考虑把关于model的操作从view里拆出来，弄一个类似于server的类来处理
  */
 
-import TodoListView from '../view/todo_list_view';
-import TodoAreaView from '../view/todo_area_view';
-import TodoServer from './todo_server';
+import TodoListView from '../view/todo_list_view'
+import TodoAreaView from '../view/todo_area_view'
+import TodoServer from './todo_server'
 
 class TodoApp {
-    private listView: TodoListView;
-    private areaView: TodoAreaView;
-    private dataServer: TodoServer;
+    private listView: TodoListView
+    private areaView: TodoAreaView
+    private dataServer: TodoServer
     // private listModel: TodoListModel
     // private itemModel: TodoItemModel
 
     constructor() {
-        this.dataServer = new TodoServer();
+        this.dataServer = new TodoServer()
 
-        this.listView = new TodoListView();
-        this.listView.delegate = this;
-        this.listView.dataServer = this.dataServer;
-        this.listView.lists = this.dataServer.modelLists;
+        this.listView = new TodoListView()
+        this.listView.delegate = this
+        this.listView.dataServer = this.dataServer
+        this.listView.lists = this.dataServer.modelLists
 
     }
 }
 
-export default TodoApp;
+export default TodoApp

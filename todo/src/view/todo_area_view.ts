@@ -1,9 +1,9 @@
-import TodoListView from './todo_list_view';
-import TodoServer from '../model/todo_server';
-import { TodoDetailView, TodoDetailViewDelegate } from './todo_detail_view';
-import CustomView from './custom_view';
-import { TodoItemInterface } from '../model/todo_item';
-import { get, getAll, log } from '../util/util';
+import TodoListView from './todo_list_view'
+import TodoServer from '../model/todo_server'
+import { TodoDetailView, TodoDetailViewDelegate } from './todo_detail_view'
+import CustomView from './custom_view'
+import { TodoItemInterface } from '../model/todo_item'
+import { get, getAll, log } from '../util/util'
 
 class TodoAreaView implements TodoDetailViewDelegate, CustomView.CustomNewItemDelegate {
     private element: HTMLElement
@@ -13,9 +13,9 @@ class TodoAreaView implements TodoDetailViewDelegate, CustomView.CustomNewItemDe
     private customNewItem: CustomView.CustomNewItem
     private checkboxList: CustomView.CustomCheckbox[]
     delegate: TodoListView | null
-    dataServer: TodoServer;
+    dataServer: TodoServer
 
-    private detailView: TodoDetailView;
+    private detailView: TodoDetailView
 
     constructor() {
         this.element = get('#areaview')
@@ -25,16 +25,16 @@ class TodoAreaView implements TodoDetailViewDelegate, CustomView.CustomNewItemDe
         this.customNewItem.delegate = this
         this.checkboxList = []
 
-        this.detailView = new TodoDetailView();
-        this.detailView.delegate = this;
+        this.detailView = new TodoDetailView()
+        this.detailView.delegate = this
 
         this.setup()
     }
 
     set name(value: string) {
-        this.listName = value;
-        this.detailView.closeView();
-        this.updateUI();
+        this.listName = value
+        this.detailView.closeView()
+        this.updateUI()
     }
 
     // private methods
@@ -64,14 +64,14 @@ class TodoAreaView implements TodoDetailViewDelegate, CustomView.CustomNewItemDe
     }
 
     private toggleItemStatus(title: string) {
-        this.dataServer.toggleItemInList(title, this.listName);
+        this.dataServer.toggleItemInList(title, this.listName)
     }
 
     private updateUI() {
         this.nameLabel.textContent = this.listName
         this.contentView.innerHTML = ''
         this.checkboxList = []
-        const items = this.dataServer.itemsInList(this.listName);
+        const items = this.dataServer.itemsInList(this.listName)
         for (let item of items) {
             // log(item)
             let li = document.createElement('li')
@@ -96,12 +96,17 @@ class TodoAreaView implements TodoDetailViewDelegate, CustomView.CustomNewItemDe
 
     // custom checkbox delegate methods
     checkboxClicked(checkbox: CustomView.CustomCheckbox) {
-        const item = checkbox.elem.nextElementSibling
-        if (item) {
-            const title = item.textContent
+        const checkItem = checkbox.elem.nextElementSibling
+        if (checkItem) {
+            const title = checkItem.textContent
             if (title) {
-                item.classList.toggle('done')
+                checkItem.classList.toggle('done')
                 this.toggleItemStatus(title)
+                const item = this.dataServer.getItemInList(title, this.listName)
+                if (item) {
+                    this.detailView.item = item
+                    this.shrinkView()
+                }
             }
         }
     }
@@ -126,14 +131,14 @@ class TodoAreaView implements TodoDetailViewDelegate, CustomView.CustomNewItemDe
     }
 
     private addNewItem(title: string) {
-        this.dataServer.addItemInList(title, this.listName);
+        this.dataServer.addItemInList(title, this.listName)
         this.updateUI()
     }
 
     private deleteItem(title: string) {
-        const result = this.dataServer.removeItemInList(title, this.listName);
+        const result = this.dataServer.removeItemInList(title, this.listName)
         if (result) {
-            this.updateUI();
+            this.updateUI()
         }
     }
 
@@ -145,4 +150,4 @@ class TodoAreaView implements TodoDetailViewDelegate, CustomView.CustomNewItemDe
     }
 }
 
-export default TodoAreaView;
+export default TodoAreaView

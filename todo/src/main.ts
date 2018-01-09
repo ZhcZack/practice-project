@@ -1,7 +1,7 @@
-import TodoApp from './model/todo_app';
+import TodoApp from './model/todo_app'
 
-const main = (event: Event) => {
-    let app = new TodoApp();
+window.addEventListener('load', main)
+
+function main(e: Event) {
+    const app = new TodoApp()
 }
-
-window.addEventListener('load', main);
