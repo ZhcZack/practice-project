@@ -36,9 +36,8 @@ class TodoListView implements CustomView.CustomNewListDelegate, CustomView.Custo
 
     set lists(lists: string[]) {
         this.itemList = lists
-        this.updateUI()
         this.areaView.dataServer = this.dataServer
-        this.areaView.name = this.latestModelList
+        this.updateUI()
     }
 
     get cssProperties(): { width: number; height: number } {
@@ -88,6 +87,7 @@ class TodoListView implements CustomView.CustomNewListDelegate, CustomView.Custo
             li.appendChild(number)
             this.listView.appendChild(li)
         }
+        this.areaView.name = this.latestModelList
     }
 
     private bindEvents() {
