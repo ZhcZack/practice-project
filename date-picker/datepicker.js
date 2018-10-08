@@ -182,6 +182,7 @@ function Datepicker(id) {
 		})
 		ySel.addEventListener('change', function (event) {
 			self.nowYear = event.target.value
+			self.months = monthsOfYear(self.nowYear)
 			self.refresh()
 			event.stopPropagation()
 		})
