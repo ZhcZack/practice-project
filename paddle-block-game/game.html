@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>game 1</title>
+    <style>
+        #canvas {
+            border: 1px solid #000;
+        }
+
+        .log-area {
+            display: flex;
+        }
+
+        #clear-log {
+            align-self: start;
+        }
+    </style>
+</head>
+<body>
+<canvas id="canvas" width="400" height="300"></canvas>
+<hr>
+<p>
+    <label for="fps-range">fps: </label><input type="range" id="fps-range" min="1" max="60" value="30">
+</p>
+<p class="log-area">
+    <label for="text-log">logs: </label><textarea name="text-log" id="text-log" cols="50" rows="20"></textarea>
+    <br>
+    <button id="clear-log">clear logs</button>
+</p>
+
+<!--关卡数据-->
+<script src="lib/game/level.js"></script>
+<!--游戏内容-->
+<script src="lib/game/game-event-listener.js"></script>
+<script src="lib/game/util.js"></script>
+<script src="lib/game/game.js"></script>
+<script src="lib/game/game-scene.js"></script>
+<script src="lib/game/game-element.js"></script>
+<!--游戏主场景-->
+<script src="lib/scene/main/scene-main.js"></script>
+<script src="lib/scene/main/paddle.js"></script>
+<script src="lib/scene/main/ball.js"></script>
+<script src="lib/scene/main/block.js"></script>
+<!--游戏开始场景-->
+<script src="lib/scene/title/scene-title.js"></script>
+<!--游戏结束场景-->
+<script src="lib/scene/end/scene-end.js"></script>
+<!--关卡编辑器-->
+<script src="lib/scene/edit/scene-edit.js"></script>
+<script src="lib/scene/edit/edit-add-button.js"></script>
+<script src="lib/scene/edit/edit-save-button.js"></script>
+<script src="lib/main.js"></script>
+</body>
+</html>
